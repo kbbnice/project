@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/daterangepicker.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/moment.min.js"></script> <!-- 时间控件 -->
+    <script src="bootstrap/js/daterangepicker.min.js"></script>
+    <script src=""></script>
+    <title>导航搜索栏</title>
+    <style>
+        .info-bar {
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        form {
+            overflow: hidden;
+        }
+
+        .form-inline .form-control {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .form-inline .form-group {
+            display: -webkit-flex;
+            display: flex;
+            flex-flow: row;
+
+        }
+
+        .form-inline .form-group label {
+            width: 70px;
+            line-height: 34px;
+            text-align: right;
+            font-weight: 400;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .form-inline .form-group input {
+            /* flex-glow: 1; */
+            flex: 1 1 auto;
+        }
+
+        .form-inline .form-group .form-control.form-date {
+            /* width: 65%; */
+        }
+
+        .btns {
+            position: absolute;
+            right: 0;
+            top: 10px;
+
+        }
+
+        .btn {
+            font-size: 12px;
+
+        }
+
+        .funBtn {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+
+        .ifshow {
+            line-height: 39px;
+            cursor: pointer;
+            color: blue;
+            white-space: nowrap;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .ifshow:hover {
+            color: rgb(48, 137, 214);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="info-bar">
+        <form class="form-inline  col-lg-10 col-md-10 col-sm-9 col-xs-8">
+
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label for="account">护士账号：</label>
+                <input id="account" class="form-control" type="text">
+            </div>
+            <div class="col-lg-2 col-md-4  col-sm-6 form-group">
+                <label for="fname">护士姓名：</label>
+                <input id="fname" class="form-control" type="text">
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label for="phone"><span>&nbsp;&nbsp;</span> 手机号：</label>
+                <input id="phone" class="form-control" type="text">
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label for="status">护士状态：</label>
+                <select name="" id="status" class="form-control">
+                    <option>全部</option>
+                    <option>111</option>
+                    <option>111</option>
+                    <option>111</option>
+                </select>
+            </div>
+
+
+            <!-- test start -->
+
+            <div class="col-lg-4 col-md-4 col-sm-6 form-group" style="font-size: 12px;">
+
+                <!-- 开始 -->
+                <label for="">注册日期：</label>
+                <input type="text" name="date2" id="date2" class="form-control">
+                <input type="hidden" id="startTime" name="startTime" class="form-control">
+                <input type="hidden" id="endTime" name="endTime" class="form-control">
+
+
+                <!-- 结束 -->
+            </div>
+
+            <!-- test end -->
+        </form>
+
+        <form class="form-inline col-lg-10 col-md-10 col-sm-9 col-xs-8 info-detail">
+
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label for="licenseNum">执业证号：</label>
+                <input id="licenseNum" class="form-control" type="text">
+            </div>
+            <div class="col-lg-2 col-md-4  col-sm-6 form-group">
+                <label for="organization">执业机构：</label>
+                <select name="" id="organization" class="form-control">
+                    <option selected>全部</option>
+                    <option>111</option>
+                    <option>111</option>
+                    <option>111</option>
+                </select> </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label for="department">所属科室：</label>
+                <select name="" id="department" class="form-control">
+                    <option>全部</option>
+                    <option>111</option>
+                    <option>111</option>
+                    <option>111</option>
+                </select> </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 form-group">
+                <label for="nurseTitle">护士状态：</label>
+                <select name="" id="nurseTitle" class="form-control">
+                    <option>全部</option>
+                    <option>111</option>
+                    <option>111</option>
+                    <option>111</option>
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 form-group">
+                <label style="width: 90px;" for="identTime">认证成功时间：</label>
+                <input type="text" name="date3" id="date3" class="form-control">
+                <input type="hidden" id="startTime2" name="startTime2" class="form-control">
+                <input type="hidden" id="endTime2" name="endTime2" class="form-control">
+            </div>
+        </form>
+        <div class="btns col-lg-2 col-md-2 col-sm-3 col-xs-4">
+            <div class="funBtn col-lg-8">
+                <button type="button" class="btn btn-primary searchBtn">查询</button>
+                <button type="button" class="btn btn-danger resetBtn">重置</button>
+            </div>
+            <div class="col-lg-4 ifshow">
+                <p style="display: none">收起</p>
+                <p>展开</p>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        $(function () {
+            $(".info-detail").hide();
+
+            // 限制输入数字：
+            function kbbCheckNum(obj) {
+                function changeNum() {
+                    var fval = $(this).val();
+                    var reg = /[^0-9]+/;
+                    $(this).val(fval.replace(reg, ''));
+                }
+                $(obj).bind("input propertychange", changeNum);
+            }
+            kbbCheckNum("#phone");
+
+            function setDateRange(nameStr, idStr, startId, endId) {
+                $(nameStr).daterangepicker(
+                    {
+                        autoUpdateInput: false,
+                        ranges: {
+
+                        },
+                        locale: {
+                            format: 'YYYY/MM/DD/ HH:MM:SS',
+                            seperator: ' - ',
+                            applyLabel: '确认',
+                            cancelLabel: '清空',
+                            fromLabel: '开始时间',
+                            toLabel: '结束时间',
+                            customRangeLabel: '自定义',
+                            daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
+                            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+                        }
+                    }
+                ).on('cancel.daterangepicker', function (ev, picker) {
+                    $(idStr).val("请选择日期范围");
+                    $(startId).val("");
+                    $(endId).val("");
+                }).on('apply.daterangepicker', function (ev, picker) {
+                    $(startId).val(picker.startDate.format('YYYY-MM-DD'));
+                    $(endId).val(picker.endDate.format('YYYY-MM-DD'));
+                    $(idStr).val(picker.startDate.format('YYYY-MM-DD') + " - " + picker.endDate.format('YYYY-MM-DD'));
+                });
+            }
+
+            setDateRange("input[name = 'date2']", '#date2', "#startTime", "#endTime");
+            setDateRange("input[name = 'date3']", '#date3', "#startTime2", "#endTime2");
+
+
+
+
+
+            //重置：
+            $("body").on('click', ".resetBtn", function () {
+
+                $("select").find("option").attr("selected", false);
+                $("select").find("option:first-child").attr("selected", true);
+                $(".info-bar input").val("");
+            });
+
+            //获取查询的数据：
+            $("body").on("click", ".searchBtn", function () {
+
+                var data = {
+                    account: $("#account").val(),
+                    fname: $("#fname").val(),
+                    phone: $("#phone").val(),
+                    status: $("#status").val(),
+                    regDate: $("#regDate").val(),
+                    licenseNum: $("#licenseNum").val(),
+                    organization: $("#organization").val(),
+                    department: $("#department").val(),
+                    nurseTitle: $("#nurseTitle").val(),
+                    identTime: $("#identTime").val()
+                };
+
+                //ajax：
+                $.ajax({
+                    type: "POST",
+                    url: "一段url",
+                    data: data,
+                    dataType: JSON,
+                    success: function (data) {
+
+                        console.log(data);
+                        // some code;
+
+                    }
+                })
+
+                // 重置：
+                $('.resetBtn').click();                                 //查询后是否重置。
+            });
+
+            //收起展开：
+            $("body").on('click', ".ifshow p", function () {
+                $(this).hide().siblings().show();
+                $(".info-detail").fadeToggle();
+
+                //解决展开收起清空问题：~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            })
+
+        })
+    </script>
+</body>
+
+</html>

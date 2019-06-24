@@ -1,0 +1,29 @@
+<div class="details show">
+        <div>
+            <!-- license 证件 -->
+            <label for="licenseNum">执业证号</label>
+            <input id="licenseNum" type="text">
+        </div>
+        <div>
+
+            <!-- organization 机构 -->
+            <label for="organization">执业机构</label>
+            <input id="organization" type="text">
+        </div>
+        <div>
+
+            <!-- department 科室 -->
+            <label for="department">所在科室</label>
+            <input id="department" type="text">
+        </div>
+        <div>
+            <!-- 护士职称 -->
+            <label for="nurseTitle">护士职称</label>
+            <input id="nurseTitle" type="text">
+        </div>
+        <div>
+            <!-- identify 注册成功时间 -->
+            <label for="identTime">认证成功时间</label>
+            <input id="itentTime" type="text">
+        </div>
+    </div>
