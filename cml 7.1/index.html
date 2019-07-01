@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="js/jquery-1.12.4.js"></script>
+
+    <title>报告查询</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+
+        body {
+            background: url('imgs/bg.png') no-repeat;
+            background-size: cover;
+        }
+
+        .app {
+            position: relative;
+            width: 100%;
+        }
+
+        .app .pass-form {
+            width: 90%;
+            background-color: #fff;
+            margin: 0 auto;
+            border-radius: 10px;
+            /* height: 100px; */
+        }
+
+        .app .pass-form .form-group {
+            position: relative;
+            height: 45px;
+            padding-left: 20px;
+            padding-top: 15px;
+        }
+
+        .app .pass-form .form-group:first-child {
+            border-bottom: 1px solid rgb(242, 242, 242);
+        }
+
+        /* 表单内部 */
+        .app .pass-form .form-group label {
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            margin: 0 10px 0 0;
+            vertical-align: middle;
+
+        }
+
+        .app .pass-form .form-group input {
+            vertical-align: middle;
+            font-size: 15px;
+            line-height: 20px;
+            height: 80%;
+            outline: none;
+        }
+        .app .pass-form .form-group input::-webkit-input-placeholder {
+            color: #e0dfdf;
+        }
+        .app .pass-form .form-group input:-moz-placeholder {
+            color: #e0dfdf;
+        }
+        .app .pass-form .form-group input::-moz-placeholder {
+            color: #e0dfdf;
+        }
+        .app .pass-form .form-group input:-ms-input-placeholder {
+            color: #e0dfdf;
+        }
+
+        .app .pass-form .form-group label img {
+            width: 90%;
+        }
+        .app .pass-form .form-group .clearInput {
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .app .pass-form .form-group .clearInput img {
+            width: 100%; 
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+
+        /* 按钮 */
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn button {
+            width: 90%;
+            height: 45px;
+            border-radius: 10px;
+            margin-top: 50px;
+            color: #fff;
+            font-family: "黑体";
+            font-size: 17px;
+            background: -webkit-linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            /* 标准的语法 */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="app">
+        <div class="pass-form">
+            <form action="">
+                <div class='form-group'>
+                    <label for="fname">
+                        <img src="imgs/admin.png" alt="">
+                    </label>
+                    <input type="text" placeholder="请输入姓名">
+                    <span class="clearInput">
+                        <img src="imgs/cancel.png" alt="">
+                    </span>
+                </div>
+                <div class='form-group'>
+                    <label for="idNum">
+                        <img src="imgs/lock.png" alt="">
+                    </label>
+                    <input type="text" placeholder="请输入身份证/手机号/检查号">
+                    <span class="clearInput">
+                        <img src="imgs/cancel.png" alt="">
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="btn">
+            <button>立即查询</button>
+
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+
+            // 设置 输入框高度:
+            function resizeSets() {
+                var $winH = $(window).height();
+                $('.app').css("top", 0.28 * $winH);
+            }
+            resizeSets();
+            $(window).resize(function () {
+                resizeSets();
+            })
+
+            // 点击x清空input: 
+            $('body').on('click', '.clearInput', function() {
+                $(this).siblings('input').val('');
+            })
+
+            // 判断输入框为何种类型数据:
+            var $fname = $("#fname").val();
+            
+
+        })
+    </script>
+</body>
+
+</html>

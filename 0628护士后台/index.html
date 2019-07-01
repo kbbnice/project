@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <title>孜然是英格兰小乳猪</title>
+    <style>
+        body {
+            background-color: rgb(245, 245, 245);
+        }
+        header {
+            width: 100%;
+        }
+
+        .head {
+            background-color: #fff;
+            width: 100%;
+            height: 70px;
+            padding-top: 20px;
+            border-bottom: 1px solid rgb(189, 189, 189);
+        }
+
+        .head form {
+            width: 100%;
+        }
+
+        .head form .form-group {
+            display: flex;
+            display: -webkit-flex;
+            flex-flow: row;
+            font-size: 12px;
+
+        }
+
+        .form-inline .form-control {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .head form .form-group label {
+            font-weight: normal;
+            width: 85px;
+            white-space: nowrap;
+            line-height: 34px;
+        }
+
+        .head form .form-group .form-control {
+            flex: 1 1 auto;
+            /* flex 布局左固定,右自适应 */
+        }
+
+        .head .btn-area {
+            text-align: center;
+
+        }
+
+        .head .btn-area button {
+            font-size: 12px;
+        }
+
+        .head .btn-area .ifshow {
+            display: inline-block;
+            width: 52px;
+            text-align: center;
+            color: blue;
+        }
+
+        .head .btn-area .ifshow p:first-child {
+            display: none;
+        }
+
+        /* 如果要显示展开隐藏按钮请将下面三行代码隐藏 */
+        .head .btn-area .ifshow p:last-child {
+            display: none;
+        }
+
+        /* 隐藏结束 */
+        @media screen and (max-width: 992px) {
+            .head {
+                height: 140px;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            .head {
+                height: 170px;
+            }
+            .head .btn-area button:first-child {
+                margin-left: 72px;
+            }
+        }
+
+
+
+        /* 表格部分 */
+
+        .add-depart {
+            height: 50px;
+            background-color: #fff;
+        }
+        .add-depart button {
+            position: relative;
+            top: 8px;
+            left: 20px;
+        }
+        .table * {
+            text-align: center;
+        }
+        .table {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="head">
+            <form action="">
+                <div class="form-inline">
+                    <!-- department 科室 -->
+                    <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                        <label for="departmentID">科室编号：</label>
+                        <input type="text" id="departmentID" class="form-control" placeholder="请输入">
+                    </div>
+                    <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                        <label for="departmentTitle">科室名称：</label>
+                        <input type="text" id="departmentTitle" class="form-control" placeholder="请输入">
+                    </div>
+                    <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                        <label for="departmentStatus">科室状态：</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">全部</option>
+                            <option value="">222</option>
+                            <option value="">222</option>
+                            <option value="">222</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <label for="deparCreatDate">创建时间：</label>
+                        <input type="text" id="deparCreatDate" class="form-control">
+                    </div>
+                </div>
+            </form>
+            <div class="btn-area col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <button type="button" class="btn btn-primary">查询</button>
+                <button type="button" class="btn btn-default">重置</button>
+                <div class="ifshow">
+                    <p>隐藏</p>
+                    <p>展开</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="form-body">
+        <div class="add-depart">
+            <button type="button" class="btn btn-primary">新增科室</button>
+        </div>
+        <table class="table">
+            <tr>
+                <th>xxx</th>
+                <th>xxx</th>
+                <th>xxx</th>
+                <th>xxx</th>
+                <th>xxx</th>
+            </tr>
+            <tr>
+                <td>111</td>
+                <td>111</td>
+                <td>111</td>
+                <td>111</td>
+                <td>111</td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
