@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-1.12.4.js"></script>
+    <title>我的报告</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            outline: none;
+        }
+
+
+        .c-grey {
+            color: grey;
+            font-size: 0.7rem;
+        }
+
+        body {
+            background-color: rgb(248, 248, 251);
+            font-size: 0.8rem;
+        }
+
+        /* 标题 */
+        .check-list {
+            margin: 0.5rem;
+            background-color: #fff;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .check-title {
+            padding: 0.8rem;
+            border-bottom: 0.05rem solid rgb(242, 242, 242);
+        }
+
+        .check-title>div {
+            display: inline-block;
+        }
+
+        .check-title>div:first-child {
+            width: 45%;
+        }
+
+        .check-title>div:last-child {
+            width: 53%;
+            text-align: right;
+        }
+
+        /* 患者信息 */
+        .check-info {
+            padding: 0.8rem;
+        }
+
+        .nameArea {
+            vertical-align: top;
+            display: inline-block;
+            width: 57%;
+        }
+
+        .itemArea {
+            display: inline-block;
+            width: 40%;
+        }
+
+        .resultArea {
+            width: 100%;
+            display: flex;
+            display: -webkit-flex;
+            flex-flow: row;
+            margin: 0.8rem 0 0.2rem;
+        }
+
+        .ftitle {
+            min-width: 4rem;
+            white-space: nowrap;
+        }
+
+        .check-result {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1 1 auto;
+        }
+
+
+        /* 按鈕 */
+        .btnArea {
+            text-align: right;
+            padding-right: 0.4rem;
+        }
+
+        .btn {
+            border: none;
+            background-color: #fff;
+            min-width: 3rem;
+            margin-bottom: 0.9rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.4rem;
+            color: #fff;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: rgb(0, 153, 255);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myReport" class="my-report">
+        <div class="check-list">
+            <!-- 标题 -->
+            <div class="check-title">
+                <div>
+                    <span>检查号:</span>
+                    <span id="checkNum">13544</span>
+                </div>
+                <div id="checkTime" class="check-time c-grey">2019-7-1 16:51:48</div>
+            </div>
+            <div class="check-info">
+                <tr>
+                    <td>
+                        <div class="nameArea">
+
+                            <span>患者姓名:</span>
+                            <span id="patientName">林拉拉</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="itemArea">
+                            <span>检查类型:</span>
+                            <span id="checkItem">CT/拍一堆/AT/BT/ET</span>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <div class="resultArea c-grey">
+                    <span class="ftitle">诊断结果:</span>
+                    <span id="checkResult" class="check-result">
+                        省份市大杀四方实发分所发生的发送防守打法是非得失发送到发送到发发送到发斯蒂芬
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- 按钮 -->
+            <div class="btnArea">
+                <button type="button" class="btn btn-primary toReport">报告</button>
+                <button type="button" class="btn btn-primary toImages">阅片</button>
+                <button type="button" class="btn btn-primary toQRcode">二维码</button>
+                <button type="button" class="btn btn-primary toSave">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+
+            // 定rem单位:
+            function resetSize() {
+                var $winW = $(window).width();
+                $('html').css('fontSize', $winW / 20);
+
+            }
+
+            resetSize();
+            $(window).resize(function () {
+                resetSize();
+            })
+
+            // checkNum, 检查号
+            // checkTime, 检查时间
+            // patientName, 患者姓名
+            // checkItem, 检查项目
+            // checkResult, 检查结果
+            function addListItem(checkNum, checkTime, patientName, checkItem, checkResult) {
+                // 模板字符串添加到列表
+                var reportStr = `
+                    <div class="check-list">
+                    <div class="check-title">
+                        <div>
+                            <span>检查号:</span>
+                            <span id="checkNum">${ checkNum}</span>
+                        </div>
+                        <div id="checkTime" class="check-time c-grey">${ checkTime}</div>
+                    </div>
+                    <div class="check-info">
+                        <tr>
+                            <td>
+                                <div class="nameArea">
+
+                                    <span>患者姓名:</span>
+                                    <span id="patientName"> ${patientName} </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="itemArea">
+                                    <span>检查类型:</span>
+                                    <span id="checkItem">${checkItem}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <div class="resultArea c-grey">
+                            <span class="ftitle">诊断结果:</span>
+                            <span id="checkResult" class="check-result">
+                                ${ checkResult}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="btnArea">
+                        <button type="button" class="btn btn-primary toReport">报告</button>
+                        <button type="button" class="btn btn-primary toImages">阅片</button>
+                        <button type="button" class="btn btn-primary toQRcode">二维码</button>
+                        <button type="button" class="btn btn-primary toSave">保存</button>
+                    </div>
+                </div>
+            `;
+
+                $('#myReport').append(reportStr);
+            }
+
+            // 添加数据: 
+            addListItem(11, 11, 11, 11, 11);
+
+          
+
+            // 按钮点击: 
+            function btnFun(btnClassName) {
+
+                $('body').on('click', btnClassName, function getCheckNum() {
+                    console.log(1);
+
+                    // 
+                    var dataAttr = '';
+
+                    // 获得点击按钮对应的检查号
+                    var $checkNum = $(this).parent().siblings('.check-title').find('#checkNum').html();
+                    if(btnClassName === '.toReport') {
+                        dataAttr = '';          // 这里填获取到的ajax数据里关于报告的数据获取方式.
+                    }
+                    $.ajax({
+
+                        // ajax代码
+                    })
+
+                })
+            }
+            btnFun('.toReport');
+        })
+    </script>
+</body>
+
+</html>
