@@ -229,32 +229,54 @@
             }
 
             // 添加数据: 
-            addListItem(11, 11, 11, 11, 11);
-
-          
-
-            // 按钮点击: 
-            function btnFun(btnClassName) {
-
-                $('body').on('click', btnClassName, function getCheckNum() {
-                    console.log(1);
-
-                    // 
-                    var dataAttr = '';
-
-                    // 获得点击按钮对应的检查号
-                    var $checkNum = $(this).parent().siblings('.check-title').find('#checkNum').html();
-                    if(btnClassName === '.toReport') {
-                        dataAttr = '';          // 这里填获取到的ajax数据里关于报告的数据获取方式.
-                    }
-                    $.ajax({
-
-                        // ajax代码
+            $.ajax({
+                type: "GET",
+                url: 'arr.json',
+                data: '',
+                dataType: 'json',
+                success: function (data) {
+                    // 遍历数组渲染dom:
+                    data.info.forEach(element => {
+                        console.log(this);
+                    });
+                    data.info.forEach(function(){
+                        console.log(data.info);
+                // addListItem(data.name, data['name'], data['name'], data['name'], data['name'])
+                        
                     })
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
 
+            // 点击按钮获取对应数据： 
+            $('body').on('click', '.btn', function getCheckNum() {
+                var dataAttr = '';      // 传到后端的需要获取的何种类型的数据：
+                if ($(this).html() === '报告') {
+                    dataAttr = '';
+                    console.log('报告')
+                } else if ($(this).html() === '阅片') {
+                    dataAttr = '';
+                    console.log('阅片')
+                } else if ($(this).html() === '二维码') {
+                    dataAttr = '';
+                    console.log('二维码')
+                } else if ($(this).html() === '保存') {
+                    dataAttr = '';
+                    console.log('保存')
+                }
+
+                var $checkNum = $(this).parent().siblings('.check-title').find('#checkNum').html();
+                console.log($checkNum);
+
+                $.ajax({
+
+                    // ajax 代码
                 })
-            }
-            btnFun('.toReport');
+            })
+
+
         })
     </script>
 </body>

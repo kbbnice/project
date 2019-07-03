@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <script src="js/jquery-1.12.4.js"></script>
@@ -16,10 +16,18 @@
             border: none;
         }
 
+        input,
+        button {
+            outline: none;
+        }
+
+        html {}
 
         body {
             background: url('imgs/bg.png') no-repeat;
             background-size: cover;
+            position: relative;
+            overflow: hidden;
         }
 
         .app {
@@ -40,6 +48,8 @@
             height: 45px;
             padding-left: 20px;
             padding-top: 15px;
+            display: flex;
+            flex-flow: row;
         }
 
         .app .pass-form .form-group:first-child {
@@ -62,16 +72,21 @@
             line-height: 20px;
             height: 80%;
             outline: none;
+            flex: 1 1 auto;
         }
+
         .app .pass-form .form-group input::-webkit-input-placeholder {
             color: #e0dfdf;
         }
+
         .app .pass-form .form-group input:-moz-placeholder {
             color: #e0dfdf;
         }
+
         .app .pass-form .form-group input::-moz-placeholder {
             color: #e0dfdf;
         }
+
         .app .pass-form .form-group input:-ms-input-placeholder {
             color: #e0dfdf;
         }
@@ -79,6 +94,7 @@
         .app .pass-form .form-group label img {
             width: 90%;
         }
+
         .app .pass-form .form-group .clearInput {
             position: absolute;
             top: 20px;
@@ -88,8 +104,9 @@
             height: 20px;
             cursor: pointer;
         }
+
         .app .pass-form .form-group .clearInput img {
-            width: 100%; 
+            width: 100%;
             max-width: 100%;
             max-height: 100%;
         }
@@ -109,14 +126,38 @@
             color: #fff;
             font-family: "黑体";
             font-size: 17px;
-            background: -webkit-linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            background: -webkit-linear-gradient(left, rgb(111, 82, 220), rgb(31, 209, 254));
             /* Safari 5.1 - 6.0 */
-            background: -o-linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            background: -o-linear-gradient(left, rgb(111, 82, 220), rgb(31, 209, 254));
             /* Opera 11.1 - 12.0 */
-            background: -moz-linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            background: -moz-linear-gradient(left, rgb(111, 82, 220), rgb(31, 209, 254));
             /* Firefox 3.6 - 15 */
-            background: linear-gradient(left, rgb(111, 82,220), rgb(31, 209, 254));
+            background: linear-gradient(left, rgb(111, 82, 220), rgb(31, 209, 254));
             /* 标准的语法 */
+        }
+
+        .btn button:active {
+            background: -webkit-linear-gradient(left, rgb(116, 95, 190), rgb(29, 195, 236));
+            /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(left, rgb(116, 95, 190), rgb(29, 195, 236));
+            /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(left, rgb(116, 95, 190), rgb(29, 195, 236));
+            /* Firefox 3.6 - 15 */
+            background: linear-gradient(left, rgb(116, 95, 190), rgb(29, 195, 236));
+            /* 标准的语法 */
+        }
+
+        /* 弹出层 */
+        .kbbAlert {
+            width: 250px;
+            position: absolute;
+            top: 60px;
+            border-radius: 10px;
+            height: 80px;
+            background-color: rgba(124, 124, 124, 0.7);
+            line-height: 80px;
+            text-align: center;
+            color: white;
         }
     </style>
 </head>
@@ -129,7 +170,7 @@
                     <label for="fname">
                         <img src="imgs/admin.png" alt="">
                     </label>
-                    <input type="text" placeholder="请输入姓名">
+                    <input id="fname" type="text" placeholder="请输入姓名">
                     <span class="clearInput">
                         <img src="imgs/cancel.png" alt="">
                     </span>
@@ -138,7 +179,7 @@
                     <label for="idNum">
                         <img src="imgs/lock.png" alt="">
                     </label>
-                    <input type="text" placeholder="请输入身份证/手机号/检查号">
+                    <input id="idNum" type="text" placeholder="请输入身份证/手机号/检查号">
                     <span class="clearInput">
                         <img src="imgs/cancel.png" alt="">
                     </span>
@@ -146,18 +187,28 @@
             </form>
         </div>
         <div class="btn">
-            <button>立即查询</button>
+            <button id="searchBtn">立即查询</button>
 
+        </div>
+        <div style="" id='kbbAlert' class="kbbAlert">
+            &times;&nbsp;输入有误请重新输入
         </div>
     </div>
 
     <script>
         $(function () {
-
+            var timer;
+            $("#kbbAlert").hide();
             // 设置 输入框高度:
             function resizeSets() {
+                var $winW = $(window).width();
                 var $winH = $(window).height();
+                $('body').height($winH);
                 $('.app').css("top", 0.28 * $winH);
+
+
+                // 提示层位置：
+                $('#kbbAlert').css('left', ($winW - $('#kbbAlert').width()) / 2)
             }
             resizeSets();
             $(window).resize(function () {
@@ -165,16 +216,65 @@
             })
 
             // 点击x清空input: 
-            $('body').on('click', '.clearInput', function() {
+            $('body').on('click', '.clearInput', function () {
                 $(this).siblings('input').val('');
             })
 
-            // 判断输入框为何种类型数据:
-            var $fname = $("#fname").val();
-            
+            // 获取数据；
+            $('body').on('click', '#searchBtn', function () {
+
+                var $fname = $("#fname").val();
+                var $idNum = $("#idNum").val();
+
+
+                $.ajax({
+
+                    // ajax 传入urlData参数： 
+                    type: 'GET',
+                    url: 'obj.json',
+                    dataType: 'json',
+                    data: "{'name': " + $fname + ", 'idNum':" + $idNum + "}",
+                    success: function (data) {
+                        console.log(data);
+
+                        // 如果查到数据，就跳转：
+                        if ($('#fname').val() == 1) {
+                            window.location.href = 'myReport.html';
+                            // 清空记录：
+                            $("#fname").val('');
+                            $("#idNum").val('');
+                        } else {
+                            $("#kbbAlert").html('我是更改过的弹窗内容');
+                            $("#kbbAlert").show();
+                            clearTimeout(timer);
+                            timer = setTimeout(function () {
+                                $("#kbbAlert").hide();
+                            }, 1500);
+
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+
+                })
+            })
+
+            // 监听键盘：
+            var ifBlur = true;
+
+            $("body").on('blur', 'input', function () {
+                if (ifBlur == true) {
+                    document.body.scrollTop = 0;
+                }
+            })
+
+
 
         })
     </script>
+
+
 </body>
 
 </html>
