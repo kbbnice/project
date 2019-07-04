@@ -116,8 +116,7 @@
 
 <body>
     <div id="myReport" class="my-report">
-        <div class="check-list">
-            <!-- 标题 -->
+        <!-- <div class="check-list">
             <div class="check-title">
                 <div>
                     <span>检查号:</span>
@@ -152,14 +151,13 @@
             </div>
 
 
-            <!-- 按钮 -->
             <div class="btnArea">
                 <button type="button" class="btn btn-primary toReport">报告</button>
                 <button type="button" class="btn btn-primary toImages">阅片</button>
                 <button type="button" class="btn btn-primary toQRcode">二维码</button>
                 <button type="button" class="btn btn-primary toSave">保存</button>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script>
@@ -236,13 +234,8 @@
                 dataType: 'json',
                 success: function (data) {
                     // 遍历数组渲染dom:
-                    data.info.forEach(element => {
-                        console.log(this);
-                    });
-                    data.info.forEach(function(){
-                        console.log(data.info);
-                // addListItem(data.name, data['name'], data['name'], data['name'], data['name'])
-                        
+                    data.info.forEach(item => {
+                        addListItem(item.name, item['name'], item['name'], item['name'], item['content'])
                     })
                 },
                 error: function (error) {
