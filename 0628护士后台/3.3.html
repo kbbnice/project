@@ -37,6 +37,11 @@
             color: #EBEBEB;
         }
 
+        .kbb-color-red {
+            padding: 0 3px;
+            color: red;
+        }
+
         .blue-btn {
             color: #108de9;
             cursor: pointer;
@@ -61,7 +66,7 @@
         .form-group label {
             font-weight: normal;
             font-size: 12px;
-            width: 60px;
+            width: 72px;
             line-height: 30px;
             white-space: nowrap;
 
@@ -72,6 +77,7 @@
             /* 宽度改变时，这句可让input自适应宽度而不错位 */
             height: 30px;
             flex: 1 1 auto;
+            font-size: 12px;
         }
 
         .form-group select {
@@ -170,8 +176,8 @@
 
         /* 弹出层 */
         .modal-dialog {
-            margin-top: 130px;
-            width: 50%;
+            margin-top: 30px;
+            width: 60%;
             overflow: hidden;
         }
 
@@ -194,6 +200,10 @@
         /* 模板详情 */
         .modal-body .form-group {
             margin-bottom: 5px;
+        }
+
+        .modal-body .form-group>label input {
+            margin-top: 6px;
         }
 
         .modal-body .form-group input {
@@ -245,6 +255,7 @@
             margin: 0;
             padding: 0;
             line-height: 30px;
+            height: 30px;
             color: #333333;
         }
 
@@ -274,6 +285,20 @@
             word-spacing: 50px;
         }
 
+        /* 新增模板模块 特殊值设置 */
+        #addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:not(:first-child) input {
+            width: 66%;
+            border: 1px solid #cccccc;
+            height: 26px;
+            margin-top: 3px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        /* 护士格子特殊宽度 */
+        #addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:nth-child(3) input {
+            width: 33%;
+        }
+
         /* 尾巴很简单 */
         .footer {
             height: 54px;
@@ -298,7 +323,7 @@
             }
 
             .modal-dialog {
-                width: 60%;
+                width: 70%;
             }
         }
 
@@ -308,7 +333,7 @@
             }
 
             .modal-dialog {
-                width: 60%;
+                width: 70%;
             }
         }
 
@@ -335,26 +360,26 @@
                         <input id="modelNum" type="text" class="form-control" placeholder="请输入">
                     </div>
                     <div class="form-group  col-lg-2 col-md-2 col-sm-4 col-xs-6">
-                        <label for="">模板名称：</label>
-                        <input type="text" class="form-control" placeholder="请输入">
+                        <label for="modelName">模板名称：</label>
+                        <input id="modelName" type="text" class="form-control" placeholder="请输入">
                     </div>
                     <div class="form-group  col-lg-2 col-md-2 col-sm-4 col-xs-6">
-                        <label for="">分账模式：</label>
-                        <select name="" id="">
-                            <option value="">全部</option>
+                        <label for="modelType">分账模式：</label>
+                        <select id="modelType" name="" id="">
+                            <option value="" selected="true">全部</option>
                             <option value="">11</option>
                             <option value="">22</option>
                             <option value="">33</option>
                         </select>
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-sm-8 col-xs-6">
-                        <label for="">创建时间：</label>
-                        <input type="text" class="form-control" placeholder="请输入">
+                        <label for="SelectCreatTime">创建时间：</label>
+                        <input type="text" id="SelectCreatTime" class="form-control" placeholder="请输入">
                     </div>
 
                     <div class="btnArea col-lg-2  col-md-2 col-sm-4 col-xs-12">
-                        <button class="btn btn-primary">查询</button>
-                        <button class="btn btn-default">重置</button>
+                        <button id="searchBtn" class="btn btn-primary">查询</button>
+                        <button id="resetBtn" class="btn btn-default">重置</button>
                         <span class="showMore" onselectstart='return false'>
                             <span>展开</span>
                             <span class="hide">收起</span>
@@ -368,7 +393,7 @@
                 <form class="form-inline">
                     <!-- 这个btn必须放在form里样式才正常- - 可恶的bootstrap， 该弃坑了 -->
                     <buttontype="button" id="addMoreBtn" class="btn btn-primary" data-toggle="modal"
-                        data-target="#myModal">新增科室</buttontype="button">
+                        data-target="#addDepartModel">新增科室</buttontype="button">
                 </form>
             </div>
             <table class="table">
@@ -436,8 +461,8 @@
         </div>
 
 
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!-- 新增可是弹出层 -->
+        <div class="modal fade" id="addDepartModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -446,7 +471,66 @@
                         <h4 class="modal-title" id="myModalLabel">新增模板</h4>
                     </div>
                     <div class="modal-body">
-                        我是一堆内容
+                        <form action="">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="enterModelName"><span class="kbb-color-red">*</span>模式名称：</label>
+                                    <input type="text" id="enterModelName" class="form-control" placeholder="请输入">
+                                </div>
+                                <div class="form-group">
+                                    <label for=""><span class="kbb-color-red">*</span>分账模式：</label>
+                                    <input type="radio" checked>
+                                    <span id="accountType">按比例</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for=""><span class="kbb-color-red">*</span>分账角色：</label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkReferee" value="option1">
+                                        <span>推荐人</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkNurse" value="option2">
+                                        <span>护士</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkDoc" value="option3">
+                                        <span>医生</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkSaleman" value="option3">
+                                        <span>业务员</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkOrg" value="option3">
+                                        <span>机构</span>
+                                    </label>
+                                </div>
+                                <div class="show-item-details">
+                                    <p><span class="kbb-color-red">*</span>分账项目分成比例：</p>
+                                    <table class="table">
+                                        <tr>
+                                            <th class="kbb-w8-1">分账项目</th>
+                                            <th class="kbb-w8-1">推荐人</th>
+                                            <th class="kbb-w8-2">护士<br>全职/兼职 </th>
+                                            <th class="kbb-w8-1">医生</th>
+                                            <th class="kbb-w8-1">业务员</th>
+                                            <th class="kbb-w8-1">机构</th>
+                                            <th class="kbb-w8-1">平台</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="itemTitle">项目标价</td>
+                                            <td class="item-referee"><input type="text"> %</td>
+                                            <td class="item-nurse"><input type="text">% / <input type="text">%</td>
+                                            <td class="item-doctor"><input type="text">%</td>
+                                            <td class="item-saleman"><input type="text">%</td>
+                                            <td class="item-org"><input type="text">%</td>
+                                            <td class="item-platform"><span>100</span> %</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
 
                     </div>
                     <div class="modal-footer">
@@ -480,6 +564,8 @@
                 </div>
             </div>
         </div> -->
+
+        <!-- 详情弹出层 -->
         <div class="modal fade" id="showDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -503,26 +589,26 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">分账模式：</label>
-                                    <span class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox1" value="option1">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkReferee" value="option1">
                                         <span>推荐人</span>
-                                    </span>
-                                    <span class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox2" value="option2">
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkNurse" value="option2">
                                         <span>护士</span>
-                                    </span>
-                                    <span class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox3" value="option3">
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkDoc" value="option3">
                                         <span>医生</span>
-                                    </span>
-                                    <span class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox3" value="option3">
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkSaleman" value="option3">
                                         <span>业务员</span>
-                                    </span>
-                                    <span class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox3" value="option3">
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkOrg" value="option3">
                                         <span>机构</span>
-                                    </span>
+                                    </label>
                                 </div>
                                 <div class="show-item-details">
                                     <p for="">分账项目分成比例：</p>
@@ -559,7 +645,7 @@
                             </div>
                             <div>
                                 <div class="kbb-width48">最后修改时间：<span id="lastAlterTime">2019-6-24 10:20:41</span></div>
-                                <div class="kbb-width48">修改人：<span id="alterPerson">沙雕宝宝</span></div>
+                                <div class="kbb-width48">修改人：<span id="alterPerson">admin</span></div>
                             </div>
                         </div>
                     </div>
@@ -591,16 +677,59 @@
                 resizeSets();
             })
 
+            // 重置按钮：不用谢直接默认就是清空：？？？
+
+            // $('body').on("click", "#resetBtn", function(){
+            //     $("#modelNum").val('');
+            //     $("#modelName").val('');
+            //     $("#modelType>option").attr("selected", "false");
+            //     // $("#SelectCreatTimed").val('');
+            // })
+
+            // 查询按钮： 
+
+            $('body').on("click", "#resetBtn", function () {
+                return false;   // 如果查询后不需要保留记录则将本语句注释。
+                $.ajax({
+
+                    // ajax 请求代码查询： 
+                })
+
+            })
+
+            // 新增部分：
+            // 设置新增部分表格可编辑：
+            $("#addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:not(:first-child) span").attr('contenteditable', 'true');
+
+            // 点击checkbox 展示对应列表：否则为不可选中状态（或者删除）；
+            var ifshow = true;
+
+            // 新增模板-->新增数据：
+            var enterItemStr = `
+                <tr>
+                    <td class="itemTitle">项目标价</td>
+                    <td class="item-referee"><input type="text"> %</td>
+                    <td class="item-nurse"><input type="text">% / <input type="text">%</td>
+                    <td class="item-doctor"><input type="text">%</td>
+                    <td class="item-saleman"><input type="text">%</td>
+                    <td class="item-org"><input type="text">%</td>
+                    <td class="item-platform"><span>100</span> %</td>
+                </tr>
+            `;
+
+            
+
+
 
             // 添加表格数据： 
             function addSearchItem(item) {
-                // item.title  :11111,    项目名称
-                // item.referee:11111,    推荐人
-                // item.nurse  :11111,    护士
-                // item.doctor :11111,    医生
-                // item.saleman:11111,    业务员
-                // item.org    :11111,    机构
-                // item.platform:11111,    平台
+                // item.title       项目名称
+                // item.referee     推荐人
+                // item.nurse       护士
+                // item.doctor      医生
+                // item.saleman     业务员
+                // item.org         机构F
+                // item.platform    平台
                 var itemStr = `
                 <tr>
                     <td class="itemTitle">${ item.title}</td>
@@ -619,11 +748,11 @@
             $("body").on("click", ".detailBtn", function () {
                 console.log(1);
                 $.ajax({
-                    
+
                 })
 
                 //*****  模拟ajax数据 start：*****
-               
+
                 var obj = {
                     title: 11111,
                     referee: 11111,
@@ -646,15 +775,15 @@
                 var dataArr = [obj, obj1, obj, obj1];
                 //*****  模拟ajax数据 end：*****
 
-                // 移除表格多余数据项：
+                // ----success时，调用start-----
+                // 渲染前，移除多余表格：
                 $(".show-item-details table>tbody tr:not(:first-child)").remove();
+                // 渲染详情表格：
+                dataArr.forEach(item => {
 
-                    // 渲染详情表格：
-                    dataArr.forEach(item => {
-                        
-                        addSearchItem(item);
-                    });
-                
+                    addSearchItem(item);
+                });
+                // ----success时，调用end -----
 
             })
 
