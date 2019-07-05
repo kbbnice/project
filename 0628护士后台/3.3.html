@@ -20,6 +20,23 @@
         body {
             background-color: #f4f4f4;
         }
+
+        .kbb-w8-1 {
+            width: 12.5%;
+        }
+
+        .kbb-w8-2 {
+            width: 25%;
+        }
+
+        .kbb-marginT-15 {
+            margin-top: 15px;
+        }
+
+        .kbb-color-eb {
+            color: #EBEBEB;
+        }
+
         .blue-btn {
             color: #108de9;
             cursor: pointer;
@@ -109,29 +126,32 @@
         }
 
         /* 新增模板页面 */
-        
+
         .table {
             background-color: #fff;
             width: 99%;
-            
+
             margin: 0 auto;
             text-align: center;
             font-size: 12px;
             color: #666666;
-            
+
             border-color: rgba(235, 235, 235);
         }
 
         .table>tbody>tr>td {
             line-height: 27px;
         }
+
         .table tr:first-child {
             color: #333333;
             font-size: 13px;
         }
+
         .table tr:last-child {
             border-bottom: 1px solid rgba(235, 235, 235);
         }
+
         .table tr:first-child td {
             line-height: 39px;
         }
@@ -142,7 +162,7 @@
             padding: 0 7px;
             margin: 0 7px;
         }
-        
+
         /* 分页 */
         .page-part {
             text-align: center;
@@ -152,16 +172,106 @@
         .modal-dialog {
             margin-top: 130px;
             width: 50%;
+            overflow: hidden;
         }
+
         .modal-content {
             border-radius: 5px;
             overflow: hidden;
         }
+
         .modal-header {
             background-color: #e4e4e4;
+            color: #666666;
         }
+
         .modal-body {
             padding: 30px;
+            font-size: 13px;
+            color: #666666;
+        }
+
+        /* 模板详情 */
+        .modal-body .form-group {
+            margin-bottom: 5px;
+        }
+
+        .modal-body .form-group input {
+            margin-top: 0;
+            vertical-align: text-bottom;
+        }
+
+        .modal-body .form-group span {
+            vertical-align: baseline;
+        }
+
+        .checkbox-inline {
+            width: 100px;
+        }
+
+        .checkbox-inline input {
+
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            height: 16px;
+        }
+
+        /* 表格部分 */
+        .modal-body .table>tbody>tr>th {
+            font-weight: normal;
+            border: none;
+            border-collapse: collapse;
+            border: 1px solid rgb(121, 121, 121);
+            text-align: center;
+            color: #fff;
+            background-color: rgb(102, 102, 102);
+            margin: 0;
+            padding: 0;
+            padding-top: 4px;
+            line-height: 30px;
+        }
+
+        .modal-body .table>tbody>tr>th:nth-child(3) {
+            line-height: 15px;
+        }
+
+
+        .modal-body .table>tbody>tr>td {
+            border: none;
+            border-collapse: collapse;
+            border: 1px solid rgb(121, 121, 121);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            line-height: 30px;
+            color: #333333;
+        }
+
+        .modal-body .table>tbody>tr:not(:first-child) td:first-child {
+            background-color: rgb(204, 204, 204);
+        }
+
+        .model-body-foot {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .model-body-foot>div {
+            height: 25px;
+            line-height: 25px;
+            margin-bottom: 5px;
+        }
+
+        .kbb-width48 {
+            display: inline-block;
+            width: 48%;
+        }
+
+        /* 弹出层按钮 */
+        .modal-footer {
+            text-align: center;
+            word-spacing: 50px;
         }
 
         /* 尾巴很简单 */
@@ -172,7 +282,10 @@
             text-align: center;
             color: rgba(0, 0, 0, 0.45);
             border-top: 1px solid #e4e4e4;
+            border-bottom: 1px solid #e4e4e4;
         }
+
+
 
         /* 自适应部分 */
         @media screen and (max-width: 1200px) {
@@ -183,6 +296,7 @@
             .showMore {
                 margin-left: 5px;
             }
+
             .modal-dialog {
                 width: 60%;
             }
@@ -192,6 +306,7 @@
             .head {
                 height: 90px;
             }
+
             .modal-dialog {
                 width: 60%;
             }
@@ -201,6 +316,7 @@
             .head {
                 height: 150px;
             }
+
             .modal-dialog {
                 width: 80%;
             }
@@ -256,69 +372,69 @@
                 </form>
             </div>
             <table class="table">
-                    <tr style="background-color: #f3f3f3">
-                        <td class="col-lg-2">模板编号</td>
-                        <td class="col-lg-2">模板名称</td>
-                        <td class="col-lg-2">分账模式</td>
-                        <td class="col-lg-2">关联次数</td>
-                        <td class="col-lg-2">创建时间</td>
-                        <td class="col-lg-2">操&nbsp;&nbsp;作</td>
-                    </tr>
-                    <tr>
-                        <td>18200000001</td>
-                        <td>第一医院</td>
-                        <td>比例分账</td>
-                        <td>22</td>
-                        <td>2018-1-16 21:37:18</td>
-                        <td class="table-btns">
-                                <span id=" detailBtn" class="blue-btn" data-toggle="modal"
-                                data-target="#showDetail">详情</span>
+                <tr style="background-color: #f3f3f3">
+                    <td class="col-lg-2">模板编号</td>
+                    <td class="col-lg-2">模板名称</td>
+                    <td class="col-lg-2">分账模式</td>
+                    <td class="col-lg-2">关联次数</td>
+                    <td class="col-lg-2">创建时间</td>
+                    <td class="col-lg-2">操&nbsp;&nbsp;作</td>
+                </tr>
+                <tr>
+                    <td>18200000001</td>
+                    <td>第一医院</td>
+                    <td>比例分账</td>
+                    <td>22</td>
+                    <td>2018-1-16 21:37:18</td>
+                    <td class="table-btns">
+                        <span class="blue-btn detailBtn" data-toggle="modal" data-target="#showDetail">详情</span>
 
-                                <span style="color:#EBEBEB;"> |</span>
-                            <span id="editBtn" class="blue-btn">编辑</span>
+                        <span class="kbb-color-eb"> |</span>
+                        <span class="blue-btn editBtn">编辑</span>
 
-                                <span style="color:#EBEBEB;"> |</span>
-                            <span id="delBtn" class="blue-btn">删除</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>18200000001</td>
-                        <td>第一医院</td>
-                        <td>比例分账</td>
-                        <td>22</td>
-                        <td>2018-1-16 21:37:18</td>
-                        <td class="table-btns">
-                                <span id=" detailBtn" class="blue-btn" >详情</span>
+                        <span class="kbb-color-eb"> |</span>
+                        <span class="blue-btn delBtn">删除</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>18200000001</td>
+                    <td>第一医院</td>
+                    <td>比例分账</td>
+                    <td>22</td>
+                    <td>2018-1-16 21:37:18</td>
+                    <td class="table-btns">
+                        <span class="blue-btn detailBtn" data-toggle="modal" data-target="#showDetail">详情</span>
 
-                                <span style="color:#EBEBEB;"> |</span>
-                            <span id="editBtn" class="blue-btn">编辑</span>
+                        <span class="kbb-color-eb"> |</span>
+                        <span class="blue-btn editBtn">编辑</span>
 
-                                <span style="color:#EBEBEB;"> |</span>
-                            <span id="delBtn" class="blue-btn">删除</span>
-                        </td>
-                    </tr>
-                    
-                </table>
-                <div class="page-part">
-                        <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li>
-                                            <a href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                </ul>
-                              </nav>
-                </div>
+                        <span class="kbb-color-eb"> |</span>
+                        <span class="blue-btn delBtn">删除</span>
+                    </td>
+                </tr>
+
+            </table>
+            <div class="page-part">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#" aria-label="Previous"><span
+                                    aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-        
+
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -334,15 +450,15 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-                copyright&nbsp;&copy;&nbsp;2019 福建智康云医疗科技有限公司                
+            copyright&nbsp;&copy;&nbsp;2019 福建智康云医疗科技有限公司
         </div>
         <!-- 第二层 弹出层 -->
         <!-- <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -373,26 +489,177 @@
                         <h4 class="modal-title" id="myModalLabel">模板详情</h4>
                     </div>
                     <div class="modal-body">
-                        我是详情页面
+                        <form action="">
+                            <div>
+                                <div class="form-group">
+                                    <label for="">模式名称：</label>
+                                    <span id="">护士上门分账模板</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">分账模式：</label>
+                                    <input type="radio" checked>
+                                    <span id="accountType">按比例</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">分账模式：</label>
+                                    <span class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <span>推荐人</span>
+                                    </span>
+                                    <span class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox2" value="option2">
+                                        <span>护士</span>
+                                    </span>
+                                    <span class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox3" value="option3">
+                                        <span>医生</span>
+                                    </span>
+                                    <span class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox3" value="option3">
+                                        <span>业务员</span>
+                                    </span>
+                                    <span class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox3" value="option3">
+                                        <span>机构</span>
+                                    </span>
+                                </div>
+                                <div class="show-item-details">
+                                    <p for="">分账项目分成比例：</p>
+                                    <table class="table">
+                                        <tr>
+                                            <th class="kbb-w8-1">分账项目</th>
+                                            <th class="kbb-w8-1">推荐人</th>
+                                            <th class="kbb-w8-2">护士<br>全职/兼职 </th>
+                                            <th class="kbb-w8-1">医生</th>
+                                            <th class="kbb-w8-1">业务员</th>
+                                            <th class="kbb-w8-1">机构</th>
+                                            <th class="kbb-w8-1">平台</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="itemTitle">项目标价</td>
+                                            <td class="item-referee">30%</td>
+                                            <td class="item-nurse">30% / 50%</td>
+                                            <td class="item-doctor">30%</td>
+                                            <td class="item-saleman">30%</td>
+                                            <td class="item-org">30%</td>
+                                            <td class="item-platform">30%</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="model-body-foot">
+                            <div>
+                                关联次数：<span id="associationTimes">66</span>次
+                            </div>
+                            <div>
+                                <div class="kbb-width48">创建时间：<span id="creatTime">2019-6-24 10:20:41</span> </div>
+                                <div class="kbb-width48">创建人：<span id="creatPerson">admin</span></div>
+                            </div>
+                            <div>
+                                <div class="kbb-width48">最后修改时间：<span id="lastAlterTime">2019-6-24 10:20:41</span></div>
+                                <div class="kbb-width48">修改人：<span id="alterPerson">沙雕宝宝</span></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
 
     <script>
         $(function () {
 
             // tabel 最小高度: 
-            var $winH = $(window).height();
-            $tableH = $winH - $('.head').height() - $('.footer').height() - 150;
-            console.log($winH, $tableH);
-            $('.form-part').css('minHeight', $tableH);
-            
+            function resizeSets() {
+                var $winH = $(window).height();
+                if ($winH > $('body').height()) {
+                    $tableH = $winH - $('.head').height() - $('.footer').height() - 150;
+                    $('.form-part').css('minHeight', $tableH);
+                }
+
+            }
+            resizeSets();
+            $(window).resize(function () {
+                resizeSets();
+            })
+
+
+            // 添加表格数据： 
+            function addSearchItem(item) {
+                // item.title  :11111,    项目名称
+                // item.referee:11111,    推荐人
+                // item.nurse  :11111,    护士
+                // item.doctor :11111,    医生
+                // item.saleman:11111,    业务员
+                // item.org    :11111,    机构
+                // item.platform:11111,    平台
+                var itemStr = `
+                <tr>
+                    <td class="itemTitle">${ item.title}</td>
+                    <td class="item-referee">${ item.referee}</td>
+                    <td class="item-nurse">${ item.nurse}</td>
+                    <td class="item-doctor">${ item.doctor}</td>
+                    <td class="item-saleman">${ item.saleman}</td>
+                    <td class="item-org">${ item.org}</td>
+                    <td class="item-platform">${ item.platform}</td>
+                </tr>
+            `;
+                $(".show-item-details table>tbody").append(itemStr);
+            }
+
+            // 点击详情时渲染页面（表格、input选项、操作信息）：
+            $("body").on("click", ".detailBtn", function () {
+                console.log(1);
+                $.ajax({
+                    
+                })
+
+                //*****  模拟ajax数据 start：*****
+               
+                var obj = {
+                    title: 11111,
+                    referee: 11111,
+                    nurse: 11111,
+                    doctor: 11111,
+                    saleman: 11111,
+                    org: 11111,
+                    platform: 11111
+                }
+                var obj1 = {
+                    title: 1232321,
+                    referee: 1232321111,
+                    nurse: 11123211,
+                    doctor: 12321111,
+                    saleman: 12321111,
+                    org: 11112321,
+                    platform: 11123211
+                }
+                // 
+                var dataArr = [obj, obj1, obj, obj1];
+                //*****  模拟ajax数据 end：*****
+
+                // 移除表格多余数据项：
+                $(".show-item-details table>tbody tr:not(:first-child)").remove();
+
+                    // 渲染详情表格：
+                    dataArr.forEach(item => {
+                        
+                        addSearchItem(item);
+                    });
+                
+
+            })
+
+            // 访问弹出层代码 data-toggle="modal"  data-target="#showDetail"
+
 
         })
     </script>

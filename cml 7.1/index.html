@@ -28,11 +28,20 @@
             background-size: cover;
             position: relative;
             overflow: hidden;
+            height: 100vh;
         }
 
         .app {
-            position: relative;
-            width: 100%;
+            /* position: relative;
+            width: 100%; */
+            display: flex;
+             align-items: center;
+             justify-content: center;
+             height: 100vh;
+        }
+
+        .wrap {
+            width: 100vw;
         }
 
         .app .pass-form {
@@ -164,34 +173,36 @@
 
 <body>
     <div id="app" class="app">
-        <div class="pass-form">
-            <form action="">
-                <div class='form-group'>
-                    <label for="fname">
-                        <img src="imgs/admin.png" alt="">
-                    </label>
-                    <input id="fname" type="text" placeholder="请输入姓名">
-                    <span class="clearInput">
-                        <img src="imgs/cancel.png" alt="">
-                    </span>
-                </div>
-                <div class='form-group'>
-                    <label for="idNum">
-                        <img src="imgs/lock.png" alt="">
-                    </label>
-                    <input id="idNum" type="text" placeholder="请输入身份证/手机号/检查号">
-                    <span class="clearInput">
-                        <img src="imgs/cancel.png" alt="">
-                    </span>
-                </div>
-            </form>
-        </div>
-        <div class="btn">
-            <button id="searchBtn">立即查询</button>
-
-        </div>
-        <div style="" id='kbbAlert' class="kbbAlert">
-            &times;&nbsp;输入有误请重新输入
+        <div class="wrap">
+            <div class="pass-form">
+                <form action="">
+                    <div class='form-group'>
+                        <label for="fname">
+                            <img src="imgs/admin.png" alt="">
+                        </label>
+                        <input id="fname" type="text" data-state-focus="false" placeholder="请输入姓名">
+                        <span class="clearInput">
+                            <img src="imgs/cancel.png" alt="">
+                        </span>
+                    </div>
+                    <div class='form-group'>
+                        <label for="idNum">
+                            <img src="imgs/lock.png" alt="">
+                        </label>
+                        <input id="idNum" type="text" data-state-focus="false" placeholder="请输入身份证/手机号/检查号">
+                        <span class="clearInput">
+                            <img src="imgs/cancel.png" alt="">
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="btn">
+                <button id="searchBtn">立即查询</button>
+    
+            </div>
+            <div style="" id='kbbAlert' class="kbbAlert">
+                &times;&nbsp;输入有误请重新输入
+            </div>
         </div>
     </div>
 
@@ -203,10 +214,6 @@
             function resizeSets() {
                 var $winW = $(window).width();
                 var $winH = $(window).height();
-                $('body').height($winH);
-                $('.app').css("top", 0.28 * $winH);
-
-
                 // 提示层位置：
                 $('#kbbAlert').css('left', ($winW - $('#kbbAlert').width()) / 2)
             }
@@ -265,12 +272,31 @@
 
             $("body").on('blur', 'input', function () {
                 if (ifBlur == true) {
-                    document.body.scrollTop = 0;
+                    // document.body.scrollTop = 0;
                 }
             })
 
+            $('#fname, #idNum').focus(function(){
+                $(this).attr('data-state-focus', true);
+                judgeFocusLeng();
+            });
+            $('#fname, #idNum').blur(function(){
+                $(this).attr('data-state-focus', false);
+                judgeFocusLeng();
+            });
 
-
+            function judgeFocusLeng() {
+                var timer = null;
+                timer = setTimeout(function() {
+                    if ($('#fname').attr('data-state-focus') == 'true') {
+                        return;
+                    }
+                    if ($('#idNum').attr('data-state-focus') == 'true') {
+                        return;
+                    }
+                    document.body.scrollTop = 0;
+                }, 200);
+            }
         })
     </script>
 
