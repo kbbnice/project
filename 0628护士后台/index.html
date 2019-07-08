@@ -12,6 +12,15 @@
     <script src="js/vue.js"></script>
     <title>孜然是英格兰小乳猪</title>
     <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        .kbb-w7-1 {
+            width: 14.2857%;
+        }
+
         body {
             background-color: rgb(245, 245, 245);
         }
@@ -114,12 +123,21 @@
             left: 20px;
         }
 
+        /* 表格数据部分 */
+
         .table * {
             text-align: center;
         }
 
         .table {
             background-color: #fff;
+            font-size: 12px;
+        }
+        .table th {
+            font-weight: normal;
+        }
+        .table td.op-btns .op-btn {
+            cursor: pointer;
         }
 
         .btn-primary {
@@ -130,6 +148,35 @@
         .btn-primary:focus {
             background-color: rgba(16, 142, 233, 1);
         }
+
+        /* 模态框 */
+
+        /* 弹出层 */
+        .modal-dialog {
+            margin-top: 30px;
+            width: 60%;
+            overflow: hidden;
+        }
+
+        .modal-content {
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background-color: #e4e4e4;
+            color: #666666;
+        }
+
+        .modal-body {
+            padding: 30px;
+            font-size: 13px;
+            color: #666666;
+        }
+        .modal-footer {
+            text-align: center;
+        }
+    
     </style>
 </head>
 
@@ -138,18 +185,18 @@
         <div class="head">
             <form action="">
                 <div class="form-inline">
-                    <!-- department 科室 -->
+                    <!-- dept 科室 -->
                     <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
-                        <label for="departmentID">科室编号：</label>
-                        <input type="text" id="departmentID" class="form-control" placeholder="请输入">
+                        <label for="deptID">科室编号：</label>
+                        <input type="text" id="deptID" class="form-control" placeholder="请输入">
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
-                        <label for="departmentTitle">科室名称：</label>
-                        <input type="text" id="departmentTitle" class="form-control" placeholder="请输入">
+                        <label for="deptTitle">科室名称：</label>
+                        <input type="text" id="deptTitle" class="form-control" placeholder="请输入">
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
-                        <label for="departmentStatus">科室状态：</label>
-                        <select name="" id="departmentStatus" class="form-control">
+                        <label for="deptStatus">科室状态：</label>
+                        <select name="" id="deptStatus" class="form-control">
                             <option value="全部">全部</option>
                             <option value="222">222</option>
                             <option value="222">222</option>
@@ -180,18 +227,28 @@
         </div>
         <table class="table">
             <tr>
-                <th>xxx</th>
-                <th>xxx</th>
-                <th>xxx</th>
-                <th>xxx</th>
-                <th>xxx</th>
+                <th class="kbb-w7-1">科室编号</th>
+                <th class="kbb-w7-1">科室名称</th>
+                <th class="kbb-w7-1">是否为常见科室</th>
+                <th class="kbb-w7-1">科室状态</th>
+                <th class="kbb-w7-1">排序</th>
+                <th class="kbb-w7-1">创建时间</th>
+                <th class="kbb-w7-1">操作</th>
             </tr>
             <tr>
-                <td>111</td>
-                <td>111</td>
-                <td>111</td>
-                <td>111</td>
-                <td>111</td>
+                <td>我是数据</td>
+                <td>我是数据</td>
+                <td>我是数据</td>
+                <td>我是数据</td>
+                <td>我是数据</td>
+                <td>我是数据</td>
+                <td class="op-btns">
+                    <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
+                    <span style="color:#EBEBEB;"> | </span>
+                    <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
+                    <span style="color:#EBEBEB;">|</span>
+                    <span class="op-btn del-btn" style="color:#108DE9;"> 删除</span>
+                </td>
             </tr>
         </table>
     </div>
@@ -201,14 +258,19 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">新增科室</h4>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="add-dept-details">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <input type="text" placeholder="请输入">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
         </div>
@@ -231,10 +293,10 @@
 
             // 重置查询框
             function resetHeadForm() {
-                $("#departmentID").val('');
-                $("#departmentTitle").val('');
-                $("#departmentStatus>option").removeAttr('selected');
-                $("#departmentStatus>option:first-child").attr('selected', 'selected')
+                $("#deptID").val('');
+                $("#deptTitle").val('');
+                $("#deptStatus>option").removeAttr('selected');
+                $("#deptStatus>option:first-child").attr('selected', 'selected')
                 $("#deparCreatDate").val('');
             }
 
@@ -250,15 +312,23 @@
             $('body').on("click", "#searchBtn", function () {
 
                 // 获取表单数据：
-                var $departmentID = $('#departmentID').val();                               // 科室编号
-                var $departmentTitle = $('#departmentTitle').val();                         // 科室名称
-                var $departmentStatus = $('#departmentStatus option:selected').text();      // 科室状态
+                var $deptID = $('#deptID').val();                               // 科室编号
+                var $deptTitle = $('#deptTitle').val();                         // 科室名称
+                var $deptStatus = $('#deptStatus option:selected').text();      // 科室状态
                 var $deparCreatDate = $('#deparCreatDate').val();                           // 创建时间
 
+                // 数据对象：
+                var $searchItemData = {
+                    deptID: $deptID,
+                    deptTitle: $deptTitle,
+                    deptStatus: $deptStatus,
+                    deparCreatDate: $deparCreatDate
+                }
                 // resetHeadForm();                                                         // 如果查询后需要清空则打开此行
                 return false;
             })
 
+            // 
 
 
 
