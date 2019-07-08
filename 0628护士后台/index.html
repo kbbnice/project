@@ -12,13 +12,28 @@
     <script src="js/vue.js"></script>
     <title>孜然是英格兰小乳猪</title>
     <style>
-        *{
+        * {
             padding: 0;
             margin: 0;
         }
 
+        .clear {
+            content: ' ';
+            display: block;
+            clear: both;
+        }
+
+        .kbb-w4-1 {
+            width: 24.5%;
+        }
+
         .kbb-w7-1 {
             width: 14.2857%;
+        }
+
+        .kbb-red {
+            color: red;
+            line-height: 34px;
         }
 
         body {
@@ -133,9 +148,11 @@
             background-color: #fff;
             font-size: 12px;
         }
+
         .table th {
             font-weight: normal;
         }
+
         .table td.op-btns .op-btn {
             cursor: pointer;
         }
@@ -173,10 +190,140 @@
             font-size: 13px;
             color: #666666;
         }
+
+        /* 弹出层内容 */
+
+        .modal .add-dept-details .form-group {
+            display: flex;
+
+        }
+
+        .modal .add-dept-details .form-group label {
+            width: 80px;
+            font-size: 12px;
+            line-height: 34px;
+            font-weight: normal;
+
+
+        }
+
+        .modal .add-dept-details .form-group:nth-child(3) label {
+            width: 120px;
+        }
+
+        .modal .add-dept-details .form-group input {
+            width: 100%;
+            font-size: 12px;
+            flex: 1 1 auto;
+        }
+
+        /* 详情弹出层 */
+        .show-item-details {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .show-item-details>div {
+            height: 40px;
+        }
+
+        /* 弹出层尾部按钮 */
+
         .modal-footer {
             text-align: center;
+            word-spacing: 50px;
         }
-    
+
+        /* kbb switch 按钮 start */
+
+        .kbb-form-switch {
+            position: relative;
+            width: 55px;
+            height: 24px;
+            border: 1px solid grey;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .kbb-form-switch i {
+            display: inline-block;
+            width: 22px;
+            height: 20px;
+            margin: 1px 2px;
+            background-color: grey;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            animation: moveOffSwitch 0.1s 1;
+            -moz-animation: moveOffSwitch 0.1s 1;
+            /* Firefox */
+            -webkit-animation: moveOffSwitch 0.1s 1;
+            /* Safari 和 Chrome */
+            -o-animation: moveOffSwitch 0.1s 1;
+            /* Opera */
+        }
+
+        .kbb-form-switch em {
+            width: 30px;
+            position: absolute;
+            right: 3px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 25px;
+            color: grey;
+        }
+
+        .kbb-form-switch {
+            position: relative;
+            top: 5px;
+        }
+
+        .kbb-form-onswitch {
+            background-color: #87d068;
+            border-color: #87d068;
+        }
+
+        .kbb-form-onswitch i {
+            background-color: #fff;
+            left: 28px;
+            animation: moveOnSwitch 0.1s 1;
+            -moz-animation: moveOnSwitch 0.1s 1;
+            /* Firefox */
+            -webkit-animation: moveOnSwitch 0.1s 1;
+            /* Safari 和 Chrome */
+            -o-animation: moveOnSwitch 0.1s 1;
+            /* Opera */
+        }
+
+        .kbb-form-onswitch em {
+            width: 30px;
+            position: absolute;
+            right: 22px;
+            text-align: center;
+            color: #fff;
+        }
+
+        @keyframes moveOnSwitch {
+            0% {
+                left: 0;
+            }
+
+            100% {
+                left: 28px;
+            }
+        }
+
+        @keyframes moveOffSwitch {
+            0% {
+                left: 28px;
+            }
+
+            100% {
+                left: 0;
+            }
+        }
+
+        /* kbb 按钮 end  */
     </style>
 </head>
 
@@ -235,7 +382,7 @@
                 <th class="kbb-w7-1">创建时间</th>
                 <th class="kbb-w7-1">操作</th>
             </tr>
-            <tr>
+            <tr class="data-item">
                 <td>我是数据</td>
                 <td>我是数据</td>
                 <td>我是数据</td>
@@ -243,7 +390,8 @@
                 <td>我是数据</td>
                 <td>我是数据</td>
                 <td class="op-btns">
-                    <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
+                    <span class="op-btn detail-btn" style="color:#108DE9;" data-toggle="modal"
+                        data-target="#itemDetails">详情</span>
                     <span style="color:#EBEBEB;"> | </span>
                     <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
                     <span style="color:#EBEBEB;">|</span>
@@ -258,18 +406,121 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">新增科室</h4>
+                    <h4 class="modal-title" id="myModalLabel">新增科室：</h4>
                 </div>
                 <div class="modal-body">
                     <div class="add-dept-details">
                         <div class="form-group">
-                            <label for=""></label>
-                            <input type="text" placeholder="请输入">
+                            <label for=""><span class="kbb-red">*</span>科室封面</label>
+                            <span class="add-img-part">
+                                <div class="add-image">
+                                    <span></span>
+                                    <p>上传</p>
+                                </div>
+                                <div>
+                                    <span>1. 封面必须上传示；</span>
+                                    <span>2. 只支持png，jpg，jpeg三种格式的图片；</span>
+                                    <span>3. 建议上传3:2的图片，图片大小不超过1M。</span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for=""><span class="kbb-red">*</span>科室名称</label>
+                            <input class="form-control dept-name" type="text" placeholder="请输入">
+                        </div>
+                        <div class="form-group col-lg-5">
+                            <label for=""><span class="kbb-red is-common">*</span>是否为常见科室</label>
+                            <div class="kbb-form-switch  kbb-form-onswitch col-lg-2">
+                                <em>ON</em>
+                                <i></i>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-7">
+                            <label for=""><span class="kbb-red">*</span>是否启用</label>
+                            <div class="kbb-form-switch kbb-form-onswitch is-use col-lg-2 kbb-w5-1">
+                                <em>ON</em>
+                                <i></i>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="form-group">
+                            <label for=""><span class="kbb-red">*</span>科室简介</label>
+                            <input class="form-control dept-info" type="text" placeholder="请输入">
+                        </div>
+                        <div class="form-group">
+                            <label for=""><span class="kbb-red">*</span>科室排序</label>
+                            <input class="form-control dept-order" type="text" placeholder="请输入">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">保存</button>
+                    <button id="addDeptSaveBtn" type="button" class="btn btn-primary">保存</button>
+                    <button id="closeAddDept" type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情弹出层 -->
+    <div class="modal fade" id="itemDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">科室详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="show-item-details">
+
+                        <div class="col-lg-6">
+                            <span>科室封面：</span>
+                            <span>
+                                <span class="dept-images">
+                                    <img src="" alt="一堆封面">
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>科室状态：</span>
+                            <span style="color: #87d068;">正常</span>
+                            <span class="hide" style="color: red;">异常</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <span>科室名称：</span>
+                            <span>
+                                xx市第一医院
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>是否为常见科室：</span>
+                            <span>
+                                是
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>是否启用：</span>
+                            <span>
+                                启用
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>科室排序：</span>
+                            <span>
+                                排序嗯嗯嗯
+                            </span>
+                        </div>
+                        <div class="col-lg-12">
+                            <span>科室简介：</span>
+                            <span>
+                                很厉害近段时间士大夫举案说法
+                            </span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
@@ -277,6 +528,38 @@
     </div>
     <script>
         $(function () {
+            // kbb switch 按钮开关 start
+            function kbbSwitchBtn() {
+                var ifCommon = true;
+                function isCommonDepart() {
+
+                    // 开关 switch
+                    $('body').on('click', '.kbb-form-switch', function () {
+                        $(this).toggleClass('kbb-form-onswitch');
+                        if ($(this).hasClass('kbb-form-onswitch')) {
+                            $(this).find('em').html('ON');
+                            ifCommon = true;
+                        } else {
+                            $(this).find('em').html('OFF');
+                            ifCommon = false;
+                        }
+                    })
+
+                    // 读取时判断是否为常见科室:
+                    if (ifCommon === true) {
+                        $('.kbb-form-switch').addClass('.kbb-form-onswitch');
+                    }
+
+                    // 文字不可选中:
+                    $('body').on('selectstart', '.kbb-form-switch', function () {
+                        return false;
+                    })
+                }
+
+                isCommonDepart();
+            }
+            kbbSwitchBtn();
+
             function resizeSets() {
                 var $winH = $(window).height();
                 if ($winH > $('body').height()) {
@@ -315,7 +598,7 @@
                 var $deptID = $('#deptID').val();                               // 科室编号
                 var $deptTitle = $('#deptTitle').val();                         // 科室名称
                 var $deptStatus = $('#deptStatus option:selected').text();      // 科室状态
-                var $deparCreatDate = $('#deparCreatDate').val();                           // 创建时间
+                var $deparCreatDate = $('#deparCreatDate').val();               // 创建时间
 
                 // 数据对象：
                 var $searchItemData = {
@@ -324,13 +607,119 @@
                     deptStatus: $deptStatus,
                     deparCreatDate: $deparCreatDate
                 }
-                // resetHeadForm();                                                         // 如果查询后需要清空则打开此行
+                // resetHeadForm();                                             // 如果查询后需要清空则打开此行
                 return false;
             })
 
-            // 
+            // 新增科室 --保存按钮：
+            $('body').on('click', '#addDeptSaveBtn', function () {
 
 
+
+                var deptName = $('.add-dept-details .dept-name').val();         // 科室名称
+                var isCommon = false;                                           // 常见科室 布尔值
+                var isUse = false;                                              // 是否启用 布尔值
+                var deptInfo = $('.add-dept-details .dept-info').val();         // 科室简介
+                var deptOrder = $('.add-dept-details .dept-order').val();       // 科室排序
+
+                // 传递的数据对象：
+                var newDeptData = {};
+                // newDeptData[src] = '图片链接';  // 图片地址
+                // newDeptData[late]
+
+                // 获取是否常见科室
+                if ($('.is-common').hasClass('.kbb-form-onswitch')) {
+                    isCommon = true;
+                } else {
+                    isCommon = false;
+                }
+
+                // 获取是否启用的值：
+                if ($('.is-use').hasClass('.kbb-form-onswitch')) {
+                    isUse = true;
+                } else {
+                    isUse = false;
+                }
+
+                // 提交的数据：
+                newDeptData = {
+                    deptName,
+                    isCommon,
+                    isUse,
+                    deptInfo,
+                    deptOrder
+
+                }
+
+                $.ajax({
+
+
+                    // ajax代码 ！！！！尽情玩耍！！老子 不 ！写 ！了！！！！！
+                    success: function (data) {
+
+                        // kbb的思路如下：
+
+                        // array.forEach(item => {
+
+                        //     // 循环数据渲染模板
+                        //     var itemStr = `
+                        //         <tr class="data-item">
+                        //             <td>${ item.val}</td>
+                        //             <td>${ item.val}</td>
+                        //             <td>${ item.val}</td>
+                        //             <td>${ item.val}</td>
+                        //             <td>${ item.val}</td>
+                        //             <td>${ item.val}</td>
+                        //             <td class="op-btns">
+                        //                 <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
+                        //                 <span style="color:#EBEBEB;"> | </span>
+                        //                 <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
+                        //                 <span style="color:#EBEBEB;">|</span>
+                        //                 <span class="op-btn del-btn" style="color:#108DE9;"> 删除</span>
+                        //             </td>
+                        //         </tr>
+                        //         `;
+                        //     $('table>tbody').append(itemStr);
+                        // });
+                    }
+                })
+
+            })
+
+            // 详情按钮
+            $('body').on('click', '.detail-btn', function () {
+
+
+            })
+
+            // 编辑按钮
+            // ？？？？？？
+
+            // 删除按钮
+            $('body').on('click', 'table .del-btn', function () {
+                console.log($(this).parents('.data-item'))
+                $(this).parents('.data-item').remove();
+            })
+
+            // 清空新增科室表： 
+            function resetAddDeptData() {
+                $('.add-dept-details .dept-name').val('');         // 科室名称
+                $('.add-dept-details .dept-info').val('');         // 科室简介
+                $('.add-dept-details .dept-order').val('');       // 科室排序
+                $('.add-dept-details .kbb-form-switch').removeClass('kbb-form-onswitch');
+                $('.add-dept-details .kbb-form-switch').find('em').html('OFF');
+
+            }
+
+            // 点击新增科室的关闭按钮：
+            // $('body').on('click', '#closeAddDept', function () {
+            //     resetAddDeptData();   
+            // })
+
+            // 模态框关闭之后： 
+            $('#addDept').on('hidden.bs.modal', function () {
+                resetAddDeptData();   
+            })
 
         })
     </script>
