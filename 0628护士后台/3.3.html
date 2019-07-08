@@ -294,6 +294,7 @@
             border-radius: 4px;
             text-align: center;
         }
+
         /* 护士格子特殊宽度 */
         #addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:nth-child(3) input {
             width: 33%;
@@ -346,9 +347,7 @@
                 width: 80%;
             }
         }
-        
-        
-        </style>
+    </style>
 </head>
 
 <body>
@@ -383,7 +382,8 @@
                         <button id="searchBtn" class="btn btn-primary">查询</button>
                         <button id="resetBtn" class="btn btn-default">重置</button>
                         <span class="showMore" onselectstart='return false'>
-                            <span>展开</span>
+                            <!-- 添加  hide  类即可隐藏 -->
+                            <span class="hide">展开</span>
                             <span class="hide">收起</span>
                         </span>
                     </div>
@@ -486,11 +486,11 @@
                                     </label>
                                     <label for="onMonny" class="radio-inline">
 
-                                        <input id="onMonny" type="radio"  name="inlineRadioOptions">按金额
+                                        <input id="onMonny" type="radio" name="inlineRadioOptions">按金额
                                     </label>
                                 </div>
-                                <div class="form-group">
-                                    <label for=""><span class="kbb-color-red">*</span>分账角色：</label>
+                                <div class="form-group add-account-role">
+                                    <span><span class="kbb-color-red">*</span>分账角色：</span>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkReferee" value="option1">
                                         <span>推荐人</span>
@@ -513,7 +513,41 @@
                                     </label>
                                 </div>
                                 <div class="show-item-details">
-                                    <p><span class="kbb-color-red">*</span>分账项目分成比例：</p>
+                                    <p><span class="kbb-color-red">*</span>分账项目及比例：</p>
+                                    <table class="table">
+                                        <tr>
+                                            <th class="kbb-w9-1">分账项目</th>
+                                            <th class="kbb-w9-1 item-referee">推荐人</th>
+                                            <th class="kbb-w9-2 item-nurse">护士<br>全职/兼职 </th>
+                                            <th class="kbb-w9-1 item-doctor">医生</th>
+                                            <th class="kbb-w9-1 item-saleman">业务员</th>
+                                            <th class="kbb-w9-1 item-org">机构</th>
+                                            <th class="kbb-w9-2">平台<br>全职/兼职</th>
+                                        </tr>
+                                        <tr class="add-item-list">
+                                            <td class="itemTitle">项目标价</td>
+                                            <td class="item-referee"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-nurse"><input class="nurse-qz" type="text"><span class="pct">%</span><span class="yuan">元</span> / <input class="nurse-jz" type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-doctor"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-saleman"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-org"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-platform"><span class="pf-qz">30</span><span class="pct">%</span><span class="yuan">元</span>&nbsp;/&nbsp;<span class='pf-jz'>30</span><span class="pct">%</span><span class="yuan">元</span></td>
+                                        </tr>
+                                        <tr class="add-item-list">
+                                            <td class="itemTitle">项目标价</td>
+                                            <td class="item-referee"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-nurse"><input class="nurse-qz" type="text"><span class="pct">%</span><span class="yuan">元</span> / <input class="nurse-jz" type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-doctor"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-saleman"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-org"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-platform"><span class="pf-qz">30</span><span class="pct">%</span><span class="yuan">元</span>&nbsp;/&nbsp;<span class='pf-jz'>30</span><span class="pct">%</span><span class="yuan">元</span></td>
+                                        </tr>
+                                        
+                        
+                                    </table>
+                                </div>
+                                <div class="show-account-details hide">
+                                    <p><span class="kbb-color-red">*</span>分账项目及金额：</p>
                                     <table class="table">
                                         <tr>
                                             <th class="kbb-w9-1">分账项目</th>
@@ -535,12 +569,13 @@
                                         </tr>
                                     </table>
                                 </div>
+
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">保存</button>
+                        <button id='addDeptSaveBtn' type="button" class="btn btn-primary">保存</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -550,26 +585,6 @@
         <div class="footer">
             copyright&nbsp;&copy;&nbsp;2019 福建智康云医疗科技有限公司
         </div>
-        <!-- 第二层 弹出层 -->
-        <!-- <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button typ1·e="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                    </div>
-                    <div class="modal-body">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#myModal1">ssss</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <!-- 详情弹出层 -->
         <div class="modal fade" id="showDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -594,7 +609,7 @@
                                     </label>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">分账模式：</label>
+                                    <span for="">分账模式：</span>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkReferee" value="option1">
                                         <span>推荐人</span>
@@ -664,23 +679,12 @@
 
     <script>
         $(function () {
-
-            // tabel 最小高度: 
-            function resizeSets() {
-                var $winH = $(window).height();
-                if ($winH > $('body').height()) {
-                    $tableH = $winH - $('.head').height() - $('.footer').height() - 150;
-                    $('.form-part').css('minHeight', $tableH);
-                }
-
-            }
-            resizeSets();
-            $(window).resize(function () {
-                resizeSets();
-            })
-
-            
-            // 
+            // --------- 公共函数模块 -----------
+ 
+            /**
+            * 检查输入数据是否为100以内整数：
+            * @param Object obj 传入标签
+            */
             function kbbCheckNum(obj) {
                 function changeNum() {
                     var fval = $(this).val();
@@ -690,77 +694,195 @@
                         "max": "100",
                         "maxlength": "3"
                     });
-                    if(parseInt($(this).val())) {
-                        // $(this).val(100);
+
+                    // 超出100 默认100，并选中；
+                    if (parseInt($(this).val()) > 100) {
+                        $(this).val(100).select();
                     }
+                    if ($(this).val() == '') {
+                        $(this).val(0).select();
+                    } 
                 }
                 $(obj).bind("input propertychange", changeNum);
             }
-            kbbCheckNum("#addDepartModel .show-item-details table>tbody tr:not(:first-child) input");
+
+            // --------- 整体页面模块 -----------
+
+            // 页面 table 最小高度: 
+            function resizeSets() {
+                var $winH = $(window).height();
+                if ($winH > $('body').height()) {
+                    $tableH = $winH - $('.head').height() - $('.footer').height() - 150;
+                    $('.form-part').css('minHeight', $tableH);
+                }
+            }
+            resizeSets();
+
+            // 改变窗口大小自适应
+            $(window).resize(function () {
+                resizeSets();
+            })
 
 
-
-            // 重置按钮：不用xie直接默认就是清空：？？？
-
-            $('body').on("click", "#resetBtn", function(){
-               
+            // 页面重置按钮
+            $('body').on("click", "#resetBtn", function () {
                 $("#modelNum").val('');
                 $("#modelName").val('');
                 $("#modelType>option").removeAttr('selected');
                 $("#modelType>option:first-child").attr('selected', 'selected')
-
                 $("#SelectCreatTime").val('');
-                $("#modelNum").val('');
+
+                // 清空bootstrap默认事件
                 return false;
             })
 
-            // 查询按钮： 
-
+            // 页面查询按钮： 
             $('body').on("click", "#searchBtn", function () {
                 return false;   // 如果查询后不需要保留记录则将本语句注释。
                 $.ajax({
 
                     // ajax 请求代码查询： 
                 })
-
             })
 
-            // 每次重新打开刷新弹出层： 
-            function ModelDefaultSet() {
+            // ----------新增模板模块--------------
 
-                
-            }
-
-            // body.model-open 中， model-open是弹出层弹出时，添加的class. ,在body元素上添加。
-            $('#addDepartModel').on('hide.bs.modal', function() {
-                console.log(1222);
-
-            })
-
-            // $(".modal-backdrop").click(function(){
-            //     console.log(1);
-            // });
-
-            // 新增部分：
-            // 设置新增部分表格可编辑：
-            $("#addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:not(:first-child) span").attr('contenteditable', 'true');
-            
-            // 设置点击对应选框隐藏：
-            function setCheckedItem() {
-
-                if(!($(body).hasClass('body-open'))) {
-                    console.log(1)
+            // 重置平台计算值（通用）
+            function resetPlatform(num){
+                    $('.add-item-list').each(function(){
+                    $(this).find('td:last-child').find('.pf-qz').html(num);
+                    $(this).find('td:last-child').find('.pf-jz').html(num);
+                })
                 }
-               
 
+            // 默认设置： 
+            function addDeptDefautSets(){
+                var $input = $('.add-item-list td').find('input');
+                // 禁用表格所有输入框
+                $input.prop('disabled', true);
+                
+                // 设置为百分比：
+                $('.add-item-list td').find('.pct').show();
+                $('.add-item-list td').find('.yuan').hide();
+
+                // 设置平台初始值
+                resetPlatform(100);
+            }
+            addDeptDefautSets();
+            
+            // 
+
+            // 清空新增模板弹出层数据（通用）；
+            function resetAddDepartModel() {
+                $("#enterModelName").val("");
+                $("#onProp").prop('checked', 'checked');
+                $('#onMonny').removeProp('checked');
+                $('.account-role label input').removeProp('checked');
+                $(".add-item-list td input").val('');
+                $('.add-item-list td').find('input').prop('disabled', true);
             }
 
-            // 点击checkbox 展示对应列表：否则为不可选中状态（或者删除）；
-            var ifshow = true;
+            // 表格百分比输入限制100以内整数：
+            kbbCheckNum("#addDepartModel .show-item-details table>tbody tr:not(:first-child) input");
+
+            // 禁止新增模板点击空白处关闭模态框：
+            $('#addDepartModel').modal({
+                backdrop: 'static',
+                show: false
+            })
+
+            // 打开新增模板模态框后 
+            $('#addDepartModel').on('show.bs.modal', function () {
+
+                // 执行代码：
+
+            })
+
+            // 根据分账角色 选择展示的表格数据： 
+            function selectFormItem() {
+
+                // 获取分账角色：
+                var $accountRole = $('.add-account-role label');
+                $accountRole.click(function () {
+                    var $label = $(this);
+                    var $index = $label.index() + 1;
+    
+                    // 操作表格
+                    var $td = $('.add-item-list td:nth-child('+ $index + ')');
+                    // $('.add-item-list').each(function(){
+                        
+                    // })
+                    // console.log($(this).is(':checked')) 
+                    $td.each(function () {
+
+                        if (!$label.children('input').eq(0).prop('checked')) {
+                            $(this).find('input').prop('disabled', true).val('');
+                        } else {
+                            $(this).find('input').removeProp('disabled');
+                        }
+                    })
+
+                })
+            }
+            selectFormItem();
+
+            // 监听表格变化改变平台分成：
+            $('.add-item-list input').bind("input propertychange", function(){
+
+                // var valuelist = $(this).parents('.add-item-list').find('input').val()
+                var valuelist = $(this).parents('.add-item-list').find('input');
+                var total = 0;
+                var totalQz = 0;
+                var totalJz = 0;
+                valuelist.each(function(){
+                    if ($(this).val() !== ''){
+                        total += parseInt($(this).val());
+                        var nurseJz = $(this).parents('.add-item-list').find('.nurse-jz').val(),
+                        nurseQz = $(this).parents('.add-item-list').find('.nurse-qz').val()
+                        // console.log(nurseJz, nurseQz)
+                        if(nurseJz == '' || nurseJz == undefined) nurseJz = 0
+                        if(nurseQz == '' || nurseQz == undefined) nurseQz = 0
+                        if(total - nurseJz + parseInt($(this).val()) <= 100 && nurseJz < 100) {
+                            totalQz = total - nurseJz;
+                        } else {
+                            $(this).val(100 + nurseJz - total).select();
+                        }
+                        if(total - nurseQz + parseInt($(this).val()) <= 100 && nurseQz < 100) {
+                            totalJz = total - nurseQz;
+                        } else {
+                            $(this).val(100 + nurseQz - total).select();
+                        }
+                        
+                console.log('' + totalJz, '' + totalQz)
+                    }
+                })
+                
+                console.log(totalJz, totalQz)
+                $(this).parent().siblings('.item-platform').children('.pf-qz').text(100 - totalQz);
+                $(this).parent().siblings('.item-platform').children('.pf-jz').text(100 - totalJz);
+            })
+
+            // 关闭新增模板弹出层时清空数据：
+            $('#addDepartModel').on('hidden.bs.modal', function () {
+                resetAddDepartModel();
+            })
+
+            // 点击新增模板保存按钮
+            $(document).on('click', '#addDeptSaveBtn', function () {
+
+                // 保存后执行代码
+                // some code;
+
+                // 完成后清空模态框
+                resetAddDepartModel();
+
+                // 关闭模态框
+                $('#addDepartModel').modal('hide');
+            })
 
             // 新增模板-->新增数据：
             var enterItemStr = `
-                <tr>
+                <tr class="addItemList">
                     <td class="itemTitle">项目标价</td>
                     <td class="item-referee"><input type="text"> %</td>
                     <td class="item-nurse"><input type="text">%&nbsp;/&nbsp;<input type="text">%</td>
@@ -771,8 +893,8 @@
                 </tr>
             `;
 
-            
 
+            // ------------详情模块 ---------------
 
             // 添加表格数据： 
             function addSearchItem(item) {
@@ -787,11 +909,11 @@
                 <tr>
                     <td class="itemTitle">${ item.title} %</td>
                     <td class="item-referee">${ item.referee}%</td>
-                    <td class="item-nurse">${ item.nurse } %&nbsp;/&nbsp; ${ item.nurse }%</td>
-                    <td class="item-doctor">${ item.doctor }%</td>
-                    <td class="item-saleman">${ item.saleman }%</td>
-                    <td class="item-org">${ item.org }</td>
-                    <td class="item-platform">${ item.platform }% &nbsp;/&nbsp; ${ item.platform }%</td>
+                    <td class="item-nurse">${ item.nurse} %&nbsp;/&nbsp; ${item.nurse}%</td>
+                    <td class="item-doctor">${ item.doctor}%</td>
+                    <td class="item-saleman">${ item.saleman}%</td>
+                    <td class="item-org">${ item.org}</td>
+                    <td class="item-platform">${ item.platform}% &nbsp;/&nbsp; ${item.platform}%</td>
                 </tr>
             `;
                 $("#showDetail .show-item-details table>tbody").append(itemStr);
