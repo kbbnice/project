@@ -15,6 +15,7 @@
         body {
             background-color: rgb(245, 245, 245);
         }
+
         header {
             width: 100%;
         }
@@ -87,10 +88,12 @@
                 height: 140px;
             }
         }
+
         @media screen and (max-width: 768px) {
             .head {
                 height: 170px;
             }
+
             .head .btn-area button:first-child {
                 margin-left: 72px;
             }
@@ -104,19 +107,27 @@
             height: 50px;
             background-color: #fff;
         }
+
         .add-depart button {
             position: relative;
             top: 8px;
             left: 20px;
         }
+
         .table * {
             text-align: center;
         }
+
         .table {
             background-color: #fff;
         }
 
         .btn-primary {
+            background-color: rgba(16, 142, 233, 1);
+            font-size: 12px;
+        }
+
+        .btn-primary:focus {
             background-color: rgba(16, 142, 233, 1);
         }
     </style>
@@ -138,11 +149,11 @@
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-6">
                         <label for="departmentStatus">科室状态：</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">全部</option>
-                            <option value="">222</option>
-                            <option value="">222</option>
-                            <option value="">222</option>
+                        <select name="" id="departmentStatus" class="form-control">
+                            <option value="全部">全部</option>
+                            <option value="222">222</option>
+                            <option value="222">222</option>
+                            <option value="222">222</option>
                         </select>
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-6">
@@ -152,8 +163,8 @@
                 </div>
             </form>
             <div class="btn-area col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                <button type="button" class="btn btn-primary">查询</button>
-                <button type="button" class="btn btn-default">重置</button>
+                <button id="searchBtn" type="button" class="btn btn-primary">查询</button>
+                <button id="resetBtn" type="button" class="btn btn-default">重置</button>
                 <div class="ifshow">
                     <p>隐藏</p>
                     <p>展开</p>
@@ -162,9 +173,10 @@
         </div>
     </header>
 
-    <div class="form-body">
+    <div class="form-body form-part">
         <div class="add-depart">
-            <button type="button" class="btn btn-primary">新增科室</button>
+            <button id="addDeptBtn" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#addDept">新增科室</button>
         </div>
         <table class="table">
             <tr>
@@ -183,6 +195,75 @@
             </tr>
         </table>
     </div>
+    <div class="modal fade" id="addDept" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            function resizeSets() {
+                var $winH = $(window).height();
+                if ($winH > $('body').height()) {
+                    $tableH = $winH - $('.head').height() - $('.footer').height() - 150;
+                    $('.form-part').css('minHeight', $tableH);
+                }
+            }
+            resizeSets();
+
+            // 改变窗口大小自适应
+            $(window).resize(function () {
+                resizeSets();
+            })
+
+            // 重置查询框
+            function resetHeadForm() {
+                $("#departmentID").val('');
+                $("#departmentTitle").val('');
+                $("#departmentStatus>option").removeAttr('selected');
+                $("#departmentStatus>option:first-child").attr('selected', 'selected')
+                $("#deparCreatDate").val('');
+            }
+
+            // 页面重置按钮
+            $('body').on("click", "#resetBtn", function () {
+                resetHeadForm();
+
+                // 清空bootstrap默认事件
+                return false;
+            })
+
+            // 查询按钮
+            $('body').on("click", "#searchBtn", function () {
+
+                // 获取表单数据：
+                var $departmentID = $('#departmentID').val();                               // 科室编号
+                var $departmentTitle = $('#departmentTitle').val();                         // 科室名称
+                var $departmentStatus = $('#departmentStatus option:selected').text();      // 科室状态
+                var $deparCreatDate = $('#deparCreatDate').val();                           // 创建时间
+
+                // resetHeadForm();                                                         // 如果查询后需要清空则打开此行
+                return false;
+            })
+
+
+
+
+        })
+    </script>
 </body>
 
 </html>

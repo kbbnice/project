@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <root-link></root-link>
+    <router-view class="red"></router-view>
+
+    <link rel="stylesheet" href="">
   </div>
 </template>
 

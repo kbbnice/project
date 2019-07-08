@@ -526,22 +526,23 @@
                                         </tr>
                                         <tr class="add-item-list">
                                             <td class="itemTitle">项目标价</td>
-                                            <td class="item-referee"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-referee item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
                                             <td class="item-nurse"><input class="nurse-qz" type="text"><span class="pct">%</span><span class="yuan">元</span> / <input class="nurse-jz" type="text"><span class="pct">%</span><span class="yuan">元</span></td>
-                                            <td class="item-doctor"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
-                                            <td class="item-saleman"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
-                                            <td class="item-org"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-doctor item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-saleman item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-org item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
                                             <td class="item-platform"><span class="pf-qz">30</span><span class="pct">%</span><span class="yuan">元</span>&nbsp;/&nbsp;<span class='pf-jz'>30</span><span class="pct">%</span><span class="yuan">元</span></td>
                                         </tr>
                                         <tr class="add-item-list">
                                             <td class="itemTitle">项目标价</td>
-                                            <td class="item-referee"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-referee item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
                                             <td class="item-nurse"><input class="nurse-qz" type="text"><span class="pct">%</span><span class="yuan">元</span> / <input class="nurse-jz" type="text"><span class="pct">%</span><span class="yuan">元</span></td>
-                                            <td class="item-doctor"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
-                                            <td class="item-saleman"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
-                                            <td class="item-org"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-doctor item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-saleman item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
+                                            <td class="item-org item-other"><input type="text"><span class="pct">%</span><span class="yuan">元</span></td>
                                             <td class="item-platform"><span class="pf-qz">30</span><span class="pct">%</span><span class="yuan">元</span>&nbsp;/&nbsp;<span class='pf-jz'>30</span><span class="pct">%</span><span class="yuan">元</span></td>
                                         </tr>
+            
                                         
                         
                                     </table>
@@ -815,16 +816,25 @@
                     // console.log($(this).is(':checked')) 
                     $td.each(function () {
 
+                        //未选中角色禁用 input
                         if (!$label.children('input').eq(0).prop('checked')) {
                             $(this).find('input').prop('disabled', true).val('');
                         } else {
+
+                            // 打开 input 并置零
                             $(this).find('input').removeProp('disabled');
+                            $(this).find('input').val(0).select();
                         }
                     })
 
                 })
             }
             selectFormItem();
+
+            // 输入框获取焦点选中
+            $('body').on('focus', '.add-item-list input', function(){
+                $(this).select();
+            })
 
             // 监听表格变化改变平台分成：
             $('.add-item-list input').bind("input propertychange", function(){
@@ -834,34 +844,26 @@
                 var total = 0;
                 var totalQz = 0;
                 var totalJz = 0;
-                valuelist.each(function(){
-                    if ($(this).val() !== ''){
-                        total += parseInt($(this).val());
-                        var nurseJz = $(this).parents('.add-item-list').find('.nurse-jz').val(),
-                        nurseQz = $(this).parents('.add-item-list').find('.nurse-qz').val()
-                        // console.log(nurseJz, nurseQz)
-                        if(nurseJz == '' || nurseJz == undefined) nurseJz = 0
-                        if(nurseQz == '' || nurseQz == undefined) nurseQz = 0
-                        if(total - nurseJz + parseInt($(this).val()) <= 100 && nurseJz < 100) {
-                            totalQz = total - nurseJz;
-                        } else {
-                            $(this).val(100 + nurseJz - total).select();
-                        }
-                        if(total - nurseQz + parseInt($(this).val()) <= 100 && nurseQz < 100) {
-                            totalJz = total - nurseQz;
-                        } else {
-                            $(this).val(100 + nurseQz - total).select();
-                        }
-                        
-                console.log('' + totalJz, '' + totalQz)
-                    }
-                })
-                
-                console.log(totalJz, totalQz)
-                $(this).parent().siblings('.item-platform').children('.pf-qz').text(100 - totalQz);
-                $(this).parent().siblings('.item-platform').children('.pf-jz').text(100 - totalJz);
-            })
+                var $nurseJz = parseInt($(this).parents('.add-item-list').find('.nurse-jz').val()) || 0;
+                var $nurseQz = parseInt($(this).parents('.add-item-list').find('.nurse-qz').val()) || 0;
+                var $itemOther = $(this).parents('.add-item-list').find('.item-other input');
+                    
+                    console.log($itemOther);
+                $itemOther.each(function(){
 
+                        // 分别计算全、兼职的结果值：
+                      
+                            if($(this).val()){
+                                total += parseInt($(this).val());
+                            }
+                        })
+                        
+                        totalQz = $nurseQz + total;
+                        totaljz = $nurseJz + total;
+                        console.log(totalQz);
+                    $(this).parent().siblings('.item-platform').children('.pf-qz').text(100 - totalQz);
+                    $(this).parent().siblings('.item-platform').children('.pf-jz').text(100 - totalJz);
+                })
             // 关闭新增模板弹出层时清空数据：
             $('#addDepartModel').on('hidden.bs.modal', function () {
                 resetAddDepartModel();
