@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="js/jquery-1.12.4.js"></script>
+  <title>Document</title>
+  <style>
+    input {
+      position: absolute;
+      height: 100px;
+      width: 100px;
+      opacity: 0;
+    }
+
+    div {
+      background-color: pink;
+      width: 100px;
+      height: 100px;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="file" id="fileItem" accept="image/png, image/jpeg, image/gif, image/jpg">
+  <div>
+    <img id="show" src="" alt="">
+  </div>
+
+
+  <script type="text/javascript">
+
+    function selectFiles() {
+      var fileInput = document.getElementById('fileItem');
+
+      // 获取文件对象
+      var files = fileInput.files;
+      var file = files.item(0);
+
+      // FileReader 构造函数：
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.addEventListener('loadend', function (e) {
+
+        // 渲染图片src:
+        document.getElementById('show').src = e.target.result;
+      })
+    }
+
+    document.querySelector("#fileItem").onchange = selectFiles;
+  </script>
+
+
+</body>
+
+</html>

@@ -23,6 +23,12 @@
             clear: both;
         }
 
+        em,
+        i {
+            font-style: normal;
+            font-weight: normal;
+        }
+
         .kbb-w4-1 {
             width: 24.5%;
         }
@@ -217,6 +223,54 @@
             flex: 1 1 auto;
         }
 
+        .add-dept-details .add-img-part>div {
+            display: inline-block;
+        }
+
+        .add-dept-details .add-image {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border: 1px solid grey;
+            vertical-align: top;
+            text-align: center;
+            background-color: rgb(242, 242, 242);
+            color: rgb(139, 139, 139);
+            cursor: pointer;
+        }
+
+        .add-dept-details .add-image:hover {
+            background-color: rgb(206, 206, 206);
+            color: rgb(121, 121, 121);
+        }
+
+        .add-dept-details .add-image #fileItem {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .add-dept-details .add-image .show-img {
+            position: absolute;
+            display: block;
+            width: 58px;
+            height: 58px;
+            margin: 0 auto;
+            pointer-events: none;
+        }
+
+        .add-dept-details .add-image span {
+            line-height: 35px;
+            pointer-events: none;
+        }
+
+        .add-dept-details .add-image p {
+            line-height: 20px;
+            pointer-events: none;
+        }
+
         /* 详情弹出层 */
         .show-item-details {
             width: 90%;
@@ -232,6 +286,10 @@
         .modal-footer {
             text-align: center;
             word-spacing: 50px;
+        }
+
+        .modal-footer button {
+            height: 30px;
         }
 
         /* kbb switch 按钮 start */
@@ -414,13 +472,23 @@
                             <label for=""><span class="kbb-red">*</span>科室封面</label>
                             <span class="add-img-part">
                                 <div class="add-image">
-                                    <span></span>
-                                    <p>上传</p>
+                                    <input id="fileItem" type="file" accept="image/png, image/jpeg, image/jpg">
+                                    <span>
+                                        <img style="position: absolute; z-index: 1000;" id="showImg" src="" alt=""
+                                            class="show show-img">
+                                        <span>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            <p>上传</p>
+                                        </span>
+                                    </span>
                                 </div>
                                 <div>
                                     <span>1. 封面必须上传示；</span>
+                                    <br />
                                     <span>2. 只支持png，jpg，jpeg三种格式的图片；</span>
+                                    <br />
                                     <span>3. 建议上传3:2的图片，图片大小不超过1M。</span>
+                                    <br />
                                 </div>
                             </span>
                         </div>
@@ -430,27 +498,29 @@
                         </div>
                         <div class="form-group col-lg-5">
                             <label for=""><span class="kbb-red is-common">*</span>是否为常见科室</label>
-                            <div class="kbb-form-switch  kbb-form-onswitch col-lg-2">
-                                <em>ON</em>
+                            <div class="kbb-form-switch col-lg-2">
+                                <em>否</em>
                                 <i></i>
                             </div>
                         </div>
                         <div class="form-group col-lg-7">
                             <label for=""><span class="kbb-red">*</span>是否启用</label>
-                            <div class="kbb-form-switch kbb-form-onswitch is-use col-lg-2 kbb-w5-1">
-                                <em>ON</em>
+                            <div class="kbb-form-switch is-use col-lg-2 kbb-w5-1">
+                                <em>否</em>
                                 <i></i>
                             </div>
                         </div>
                         <div class="clear"></div>
                         <div class="form-group">
-                            <label for=""><span class="kbb-red">*</span>科室简介</label>
-                            <input class="form-control dept-info" type="text" placeholder="请输入">
+                            <label for="enderDeptInfo">科室简介</label>
+                            <input id="enderDeptInfo" class="form-control dept-info" type="text" placeholder="请输入">
                         </div>
                         <div class="form-group">
                             <label for=""><span class="kbb-red">*</span>科室排序</label>
                             <input class="form-control dept-order" type="text" placeholder="请输入">
                         </div>
+
+                        <div id="warnMsg" class="kbb-red"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -537,10 +607,10 @@
                     $('body').on('click', '.kbb-form-switch', function () {
                         $(this).toggleClass('kbb-form-onswitch');
                         if ($(this).hasClass('kbb-form-onswitch')) {
-                            $(this).find('em').html('ON');
+                            $(this).find('em').html('是');
                             ifCommon = true;
                         } else {
-                            $(this).find('em').html('OFF');
+                            $(this).find('em').html('否');
                             ifCommon = false;
                         }
                     })
@@ -611,11 +681,44 @@
                 return false;
             })
 
+
+            // 清空新增科室表： 
+            function resetAddDeptData() {
+                $('.add-dept-details #fileItem').val('');           // 封面图片 
+                $('.add-dept-details .show-img').attr('src', '');
+                $('.add-dept-details .dept-name').val('');          // 科室名称
+                $('.add-dept-details .dept-info').val('');          // 科室简介
+                $('.add-dept-details .dept-order').val('');         // 科室排序
+                $('.add-dept-details .kbb-form-switch').removeClass('kbb-form-onswitch');
+                $('.add-dept-details .kbb-form-switch').find('em').html('否');
+                $('#warnMsg').html('');
+
+            }
+
+            // 添加科室封面
+
+            function selectFiles() {
+                var fileInput = document.getElementById('fileItem');
+
+                // 获取文件对象
+                var files = fileInput.files;
+                var file = files.item(0);
+
+                // FileReader 构造函数：
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.addEventListener('loadend', function (e) {
+
+                    // 渲染图片src:
+                    document.getElementById('showImg').src = e.target.result;
+                })
+            }
+            document.querySelector("#fileItem").onchange = selectFiles;
+
             // 新增科室 --保存按钮：
             $('body').on('click', '#addDeptSaveBtn', function () {
 
-
-
+                var deptImage = document.getElementById('fileItem').files.item(0);   // 获取科室封面               
                 var deptName = $('.add-dept-details .dept-name').val();         // 科室名称
                 var isCommon = false;                                           // 常见科室 布尔值
                 var isUse = false;                                              // 是否启用 布尔值
@@ -641,48 +744,59 @@
                     isUse = false;
                 }
 
-                // 提交的数据：
-                newDeptData = {
-                    deptName,
-                    isCommon,
-                    isUse,
-                    deptInfo,
-                    deptOrder
-
-                }
-
-                $.ajax({
+                // 判断是否为空：
 
 
-                    // ajax代码 ！！！！尽情玩耍！！老子 不 ！写 ！了！！！！！
-                    success: function (data) {
+                if (deptImage === null || deptName   === '' ||isCommon   === '' ||isUse  === '' ||deptInfo   === '' ||deptOrder  === '') {
+                    $('#warnMsg').html('打 * 号为必填项');
+                } else {
 
-                        // kbb的思路如下：
-
-                        // array.forEach(item => {
-
-                        //     // 循环数据渲染模板
-                        //     var itemStr = `
-                        //         <tr class="data-item">
-                        //             <td>${ item.val}</td>
-                        //             <td>${ item.val}</td>
-                        //             <td>${ item.val}</td>
-                        //             <td>${ item.val}</td>
-                        //             <td>${ item.val}</td>
-                        //             <td>${ item.val}</td>
-                        //             <td class="op-btns">
-                        //                 <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
-                        //                 <span style="color:#EBEBEB;"> | </span>
-                        //                 <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
-                        //                 <span style="color:#EBEBEB;">|</span>
-                        //                 <span class="op-btn del-btn" style="color:#108DE9;"> 删除</span>
-                        //             </td>
-                        //         </tr>
-                        //         `;
-                        //     $('table>tbody').append(itemStr);
-                        // });
+                    console.log(deptImage)
+                    // 都不为空提交的数据：
+                    newDeptData = {
+                        deptImage,
+                        deptName,
+                        isCommon,
+                        isUse,
+                        deptInfo,
+                        deptOrder
                     }
-                })
+
+                    $.ajax({
+
+
+                        // ajax代码 ！！！！尽情玩耍！！老子 不 ！写 ！了！！！！！
+                        success: function (data) {
+
+                            // kbb的思路如下：
+
+                            // array.forEach(item => {
+
+                            //     // 循环数据渲染模板
+                            //     var itemStr = `
+                            //         <tr class="data-item">
+                            //             <td>${ item.val}</td>
+                            //             <td>${ item.val}</td>
+                            //             <td>${ item.val}</td>
+                            //             <td>${ item.val}</td>
+                            //             <td>${ item.val}</td>
+                            //             <td>${ item.val}</td>
+                            //             <td class="op-btns">
+                            //                 <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
+                            //                 <span style="color:#EBEBEB;"> | </span>
+                            //                 <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
+                            //                 <span style="color:#EBEBEB;">|</span>
+                            //                 <span class="op-btn del-btn" style="color:#108DE9;"> 删除</span>
+                            //             </td>
+                            //         </tr>
+                            //         `;
+                            //     $('table>tbody').append(itemStr);
+                            // });
+
+                            resetAddDeptData();
+                        }
+                    })
+                }
 
             })
 
@@ -701,24 +815,15 @@
                 $(this).parents('.data-item').remove();
             })
 
-            // 清空新增科室表： 
-            function resetAddDeptData() {
-                $('.add-dept-details .dept-name').val('');         // 科室名称
-                $('.add-dept-details .dept-info').val('');         // 科室简介
-                $('.add-dept-details .dept-order').val('');       // 科室排序
-                $('.add-dept-details .kbb-form-switch').removeClass('kbb-form-onswitch');
-                $('.add-dept-details .kbb-form-switch').find('em').html('OFF');
-
-            }
 
             // 点击新增科室的关闭按钮：
             // $('body').on('click', '#closeAddDept', function () {
-            //     resetAddDeptData();   
+            //     resetAddDeptData();
             // })
 
-            // 模态框关闭之后： 
+            // 模态框关闭之后：
             $('#addDept').on('hidden.bs.modal', function () {
-                resetAddDeptData();   
+                resetAddDeptData();
             })
 
         })
