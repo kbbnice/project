@@ -40,6 +40,7 @@
         .kbb-red {
             color: red;
             line-height: 34px;
+            padding-right: 5px;
         }
 
         body {
@@ -209,6 +210,7 @@
             font-size: 12px;
             line-height: 34px;
             font-weight: normal;
+            text-align: right;
 
 
         }
@@ -222,7 +224,10 @@
             font-size: 12px;
             flex: 1 1 auto;
         }
-
+        .add-dept-details .add-img-part {
+            width: 100%;
+            flex: 1 1 auto;
+        }
         .add-dept-details .add-img-part>div {
             display: inline-block;
         }
@@ -280,7 +285,9 @@
         .show-item-details>div {
             height: 40px;
         }
-
+        .add-dept-details #warnMsg {
+            height: 20px;
+        }
         /* 弹出层尾部按钮 */
 
         .modal-footer {
@@ -297,7 +304,7 @@
         .kbb-form-switch {
             position: relative;
             width: 55px;
-            height: 24px;
+            height: 25px;
             border: 1px solid grey;
             border-radius: 25px;
             cursor: pointer;
@@ -343,7 +350,7 @@
 
         .kbb-form-onswitch i {
             background-color: #fff;
-            left: 28px;
+            left: 27px;
             animation: moveOnSwitch 0.1s 1;
             -moz-animation: moveOnSwitch 0.1s 1;
             /* Firefox */
@@ -469,7 +476,7 @@
                 <div class="modal-body">
                     <div class="add-dept-details">
                         <div class="form-group">
-                            <label for=""><span class="kbb-red">*</span>科室封面</label>
+                            <label for=""><span class="kbb-red">*</span>科室封面：</label>
                             <span class="add-img-part">
                                 <div class="add-image">
                                     <input id="fileItem" type="file" accept="image/png, image/jpeg, image/jpg">
@@ -493,18 +500,18 @@
                             </span>
                         </div>
                         <div class="form-group">
-                            <label for=""><span class="kbb-red">*</span>科室名称</label>
+                            <label for=""><span class="kbb-red">*</span>科室名称：</label>
                             <input class="form-control dept-name" type="text" placeholder="请输入">
                         </div>
                         <div class="form-group col-lg-5">
-                            <label for=""><span class="kbb-red is-common">*</span>是否为常见科室</label>
+                            <label for=""><span class="kbb-red is-common">*</span>是否为常见科室：</label>
                             <div class="kbb-form-switch col-lg-2">
                                 <em>否</em>
                                 <i></i>
                             </div>
                         </div>
                         <div class="form-group col-lg-7">
-                            <label for=""><span class="kbb-red">*</span>是否启用</label>
+                            <label for=""><span class="kbb-red">*</span>是否启用：</label>
                             <div class="kbb-form-switch is-use col-lg-2 kbb-w5-1">
                                 <em>否</em>
                                 <i></i>
@@ -512,11 +519,11 @@
                         </div>
                         <div class="clear"></div>
                         <div class="form-group">
-                            <label for="enderDeptInfo">科室简介</label>
+                            <label for="enderDeptInfo">科室简介：</label>
                             <input id="enderDeptInfo" class="form-control dept-info" type="text" placeholder="请输入">
                         </div>
                         <div class="form-group">
-                            <label for=""><span class="kbb-red">*</span>科室排序</label>
+                            <label for=""><span class="kbb-red">*</span>科室排序：</label>
                             <input class="form-control dept-order" type="text" placeholder="请输入">
                         </div>
 
@@ -538,7 +545,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">科室详情</h4>
+                    <h4 class="modal-title" id="myModalLabel">科室详情：</h4>
                 </div>
                 <div class="modal-body">
                     <div class="show-item-details">
@@ -727,8 +734,6 @@
 
                 // 传递的数据对象：
                 var newDeptData = {};
-                // newDeptData[src] = '图片链接';  // 图片地址
-                // newDeptData[late]
 
                 // 获取是否常见科室
                 if ($('.is-common').hasClass('.kbb-form-onswitch')) {
@@ -747,7 +752,7 @@
                 // 判断是否为空：
 
 
-                if (deptImage === null || deptName   === '' ||isCommon   === '' ||isUse  === '' ||deptInfo   === '' ||deptOrder  === '') {
+                if (deptImage === null || deptName   === '' ||isCommon   === '' ||isUse  === '' ||deptOrder  === '') {
                     $('#warnMsg').html('打 * 号为必填项');
                 } else {
 
@@ -765,45 +770,45 @@
                     $.ajax({
 
 
-                        // ajax代码 ！！！！尽情玩耍！！老子 不 ！写 ！了！！！！！
+                        // ajax代码
                         success: function (data) {
 
-                            // kbb的思路如下：
+                                var item = {val: 'xxx'};  // 模拟数据
 
+                            // 循环数据渲染模板
                             // array.forEach(item => {
-
-                            //     // 循环数据渲染模板
-                            //     var itemStr = `
-                            //         <tr class="data-item">
-                            //             <td>${ item.val}</td>
-                            //             <td>${ item.val}</td>
-                            //             <td>${ item.val}</td>
-                            //             <td>${ item.val}</td>
-                            //             <td>${ item.val}</td>
-                            //             <td>${ item.val}</td>
-                            //             <td class="op-btns">
-                            //                 <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
-                            //                 <span style="color:#EBEBEB;"> | </span>
-                            //                 <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
-                            //                 <span style="color:#EBEBEB;">|</span>
-                            //                 <span class="op-btn del-btn" style="color:#108DE9;"> 删除</span>
-                            //             </td>
-                            //         </tr>
-                            //         `;
-                            //     $('table>tbody').append(itemStr);
-                            // });
-
+                                var itemStr = `
+                                    <tr class="data-item">
+                                        <td>${ item.val }</td>
+                                        <td>${ item.val }</td>
+                                        <td>${ item.val }</td>
+                                        <td>${ item.val }</td>
+                                        <td>${ item.val }</td>
+                                        <td>${ item.val }</td>
+                                        <td class="op-btns">
+                                            <span class="op-btn detail-btn" style="color:#108DE9;">详情</span>
+                                            <span style="color:#EBEBEB;"> | </span>
+                                            <span class="op-btn edit-btn" style="color:#108DE9;"> 编辑 </span>
+                                            <span style="color:#EBEBEB;">|</span>
+                                            <span class="op-btn del-btn" style="color:#108DE9;"> 删除</span>
+                                        </td>
+                                    </tr>
+                                    `;
+                                $('table>tbody').append(itemStr);
+                            // }
+                            // );
+                                
                             resetAddDeptData();
+                            $("#addDept").modal('hide');
                         }
                     })
                 }
 
             })
 
-            // 详情按钮
+            // 详情部分
             $('body').on('click', '.detail-btn', function () {
-
-
+                
             })
 
             // 编辑按钮
