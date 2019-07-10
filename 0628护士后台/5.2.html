@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="js/jquery-1.12.4.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <title>医生咨询</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .kbb-color-red {
+      padding: 0 3px;
+      color: red;
+    }
+
+    body {
+      background-color: rgba(244, 244, 244, 1);
+      font-size: 12px;
+    }
+
+    input {
+      height: 28px;
+    }
+
+    .btn {
+      width: 57px;
+      height: 28px;
+      font-size: 12px;
+    }
+
+    /* 修改bootstrap 默认样式 */
+    .btn-primary {
+      background-color: rgba(16, 142, 233, 1);
+    }
+
+    .btn-primary:focus {
+      background-color: rgba(16, 142, 233, 1);
+    }
+
+    /* 查询栏 */
+    header {
+      width: 100%;
+      height: 52px;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+      background-color: #fff;
+    }
+
+    header .form-inline {
+      width: 100%;
+    }
+
+    header .form-inline .form-group {
+      display: flex;
+      display: -webkit-flex;
+      flex-flow: row;
+    }
+
+    header .form-group label {
+      width: 80px;
+      font-size: 12px;
+      line-height: 28px;
+      font-weight: normal;
+      white-space: nowrap;
+    }
+
+    header .form-group .form-control {
+      width: 100%;
+      height: 28px;
+      flex: 1 1 auto;
+      font-size: 12px;
+    }
+
+    header .btn-area {
+      color: #108DE9;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .page-table-area {
+      background-color: #fff;
+      border-radius: 5px;
+    }
+
+    /* 按钮 */
+    .revise-btn-area button {
+      width: 105px;
+      margin: 0 20px 10px;
+    }
+
+    .page-table-area {
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .page-table-area .table {
+      border-radius: 5px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .page-table-area .table tr {
+      height: 44px;
+      padding: 0;
+    }
+
+    .page-table-area .table tr td {
+      line-height: 44px;
+      padding: 0;
+    }
+
+    .page-table-area .table .table-head {
+      height: 54px;
+      border-radius: 5px;
+      background-color: rgba(243, 243, 243, 1);
+    }
+
+    .page-table-area .table .table-head th {
+      font-weight: normal;
+      text-align: center;
+      line-height: 54px;
+      padding: 0;
+    }
+
+    .page-table-area .table tr:last-child {
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* 表格修改价格按钮 */
+    .page-table-area .operate-btns {
+      color: #108DE9;
+      cursor: pointer;
+    }
+
+    /* 小尾巴 */
+    .footer {
+      height: 54px;
+      line-height: 54px;
+      font-size: 14px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.45);
+      border-top: 1px solid #e4e4e4;
+      border-bottom: 1px solid #e4e4e4;
+    }
+
+    /* 模态框 */
+    .modal-dialog {
+      position: relative;
+      top: 100px;
+      width: 450px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background-color: #e4e4e4;
+    }
+
+    /* 修改价格 */
+    #reviseSingle .consult-price-item {
+      position: relative;
+      margin-top: 20px;
+    }
+
+    #reviseSingle .consult-price-item label {
+      font-weight: normal;
+      width: 100px;
+
+    }
+
+    #reviseSingle .consult-price-item input {
+      width: 280px;
+    }
+
+    #reviseSingle .consult-price-item .yuan {
+      position: absolute;
+      top: 9px;
+      right: 15px;
+    }
+
+
+    /* 批量修改价格 */
+    #reviseBatch .ftitle {
+      display: inline-block;
+      width: 85px;
+    }
+
+    #reviseBatch .revise-type .radio-inline {
+      width: 125px;
+    }
+
+    #reviseBatch .revise-type input {
+      top: -9px;
+    }
+
+    #reviseBatch .revise-price {
+      position: relative;
+      margin-top: 20px;
+    }
+
+    #reviseBatch .revise-price label {
+      font-weight: normal;
+      width: 85px;
+
+    }
+
+    #reviseBatch .revise-price input {
+      width: 280px;
+    }
+
+    #reviseBatch .revise-price .yuan {
+      position: absolute;
+      top: 9px;
+      right: 15px;
+    }
+
+    /* 确认框 */
+
+    #confirmDialog .remark {
+      width: 80%;
+      height: 100px;
+      border-radius: 10px;
+      margin: 0 auto;
+      border: 1px solid #e4e4e4;
+    }
+
+    .modal-body {
+      padding-bottom: 40px;
+    }
+
+    .modal-footer {
+      text-align: center;
+      word-spacing: 40px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+
+      <!-- 顶部查询栏 -->
+      <form action="">
+        <div class="form-inline">
+          <div class="form-group col-lg-3 col-md-4 col-sm-4 col-xs-4">
+            <label for="docNumber">医生账号：&nbsp;</label>
+            <input id="docNumber" type="text" class="form-control">
+          </div>
+          <div class="form-group col-lg-3 col-md-4 col-sm-4 col-xs-4">
+            <label for="docName">医生姓名：&nbsp;</label>
+            <input id="docName" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="blank col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+        <div class="btn-area col-lg-2">
+          <button id="searchBtn" class="btn btn-primary">查询</button>
+          <button id="searchBtn" class="btn btn-default">重置</button>
+
+          <!-- 展开、收起 -->
+          <span class="show-more">
+            <span class="hide">展开</span>
+            <span class="hide">收起</span>
+          </span>
+        </div>
+      </form>
+    </header>
+
+    <!-- 批量操作按钮 reviseBatch-->
+
+
+    <div class="page-table-area">
+      <div class="revise-btn-area">
+        <button id="batchReviseBtn" class="btn btn-primary" data-toggle="modal"
+          data-target="#reviseBatch">批量修改价格</button>
+      </div>
+      <table class="table">
+        <tr class="table-head">
+          <th>医生账号</th>
+          <th>医生姓名</th>
+          <th>图文咨询价格</th>
+          <th>已咨询次数</th>
+          <th>操作</th>
+        </tr>
+        <tr>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td class="operate-btns">
+            <span id="reviseBtn" data-toggle="modal" data-target="#reviseSingle">修改价格</span>
+          </td>
+        </tr>
+        <tr>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td class="operate-btns">
+            <span id="reviseBtn" data-toggle="modal" data-target="#reviseSingle">修改价格</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <!-- 底部栏 -->
+    <div class="footer">
+      copyright&nbsp;&copy;&nbsp;2019 福建智康云医疗科技有限公司
+    </div>
+  </div>
+
+
+  <!-- 模态框部分 -->
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviseSingle">修改价格</button> -->
+  <!-- 修改单一价格 -->
+  <div class="modal fade" id="reviseSingle" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="">修改价格</h4>
+        </div>
+        <div class="modal-body">
+          <div class="docInfo">
+            <span class="info-item col-lg-6">
+              医生账号： <span class="info-detail">1232133</span>
+            </span>
+            <span class="info-item col-lg-6">
+              医生姓名： <span class="info-detail">林丽丽</span>
+            </span>
+          </div>
+          <div class="form-inline">
+            <div class="consult-price-item form-group">
+              <label for="consultPrice"><span class="kbb-color-red">*</span>图文咨询价格</label>
+              <input type="text" id="consultPrice" class="form-control">
+              <span class="yuan">元</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id=singleSaveBtn" class="btn btn-primary" data-toggle="modal" data-target="#confirmDialog">保存</button>
+          <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 批量修改价格 -->
+  <div class="modal fade" id="reviseBatch" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="">批量修改价格</h4>
+        </div>
+        <div class="modal-body">
+          <div class="revise-type">
+            <span class="ftitle"> <span class="kbb-color-red">*</span> 修改类型：</span>
+            <label class="radio-inline">
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"><span>涨价</span>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"><span>降价</span>
+            </label>
+          </div>
+          <div class="form-inline">
+            <div class="revise-price form-group">
+              <label for="changePrice"><span class="kbb-color-red">*</span>修改价格：</label>
+              <input type="text" id="changePrice" class="form-control">
+              <span class="yuan">元</span>
+
+            </div>
+          </div>
+        </div>
+            <div class="modal-footer">
+              <button id="batchSaveBtn" class="btn btn-primary" data-toggle="modal"
+                data-target="#confirmDialog">保存</button>
+              <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
+            </div>
+      </div>
+    </div>
+
+
+
+    <!-- 确认修改 -->
+    <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="">确认修改咨询价格?</h4>
+          </div>
+          <div class="modal-body">
+            <div class="remark" contenteditable="true">
+              请输入备注
+            </div>
+            <div class="btns">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="confirmBtn" class="btn btn-primary">保存</button>
+            <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- <div class="confirmDialog"></div> -->
+    <!-- <div class="confirmBatch"></div> -->
+</body>
+
+</html>

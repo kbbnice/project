@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="js/jquery-1.12.4.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
     <title>孜然是荷兰烤猪</title>
     <style>
         * {
@@ -27,6 +26,14 @@
 
         .kbb-w9-2 {
             width: 22.222222%;
+        }
+
+        .kbb-w10-1 {
+            width: 10%;
+        }
+
+        .kbb-w10-2 {
+            width: 19.8%;
         }
 
         .kbb-marginT-15 {
@@ -243,7 +250,11 @@
             line-height: 30px;
         }
 
-        .modal-body .table>tbody>tr>th:nth-child(3) {
+        .modal-body .table>tbody>tr>th.item-nurse {
+            line-height: 15px;
+        }
+
+        .modal-body .table>tbody>tr>th.item-platform {
             line-height: 15px;
         }
 
@@ -288,7 +299,7 @@
 
         /* 新增模板模块 特殊值设置 */
 
-        #addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:not(:first-child) input {
+        .modal-body .add-item-list td:not(:first-child) input {
             width: 66%;
             border: 1px solid #cccccc;
             height: 26px;
@@ -299,7 +310,7 @@
 
         /* 护士格子特殊宽度 */
 
-        #addDepartModel .modal-body .table>tbody>tr:not(:first-child) td:nth-child(3) input {
+        .modal-body .table>tbody>tr:not(:first-child) td:nth-child(3) input {
             width: 33%;
         }
 
@@ -367,8 +378,8 @@
                         <input id="modelName" type="text" class="form-control" placeholder="请输入">
                     </div>
                     <div class="form-group  col-lg-2 col-md-2 col-sm-4 col-xs-6">
-                        <label for="modelType">分账模式：</label>
-                        <select id="modelType" name="" id="">
+                        <label for="accountType">分账模式：</label>
+                        <select id="accountType" name="" id="">
                             <option value="" selected="true">全部</option>
                             <option value="">11</option>
                             <option value="">22</option>
@@ -398,7 +409,7 @@
                 <buttontype="button" id="addMoreBtn" class="btn btn-primary" data-toggle="modal"
                     data-target="#addDepartModel">新增科室</buttontype="button">
             </div>
-            <table class="table">
+            <table class="table page-table">
                 <tr style="background-color: #f3f3f3">
                     <td class="col-lg-2">模板编号</td>
                     <td class="col-lg-2">模板名称</td>
@@ -407,7 +418,7 @@
                     <td class="col-lg-2">创建时间</td>
                     <td class="col-lg-2">操&nbsp;&nbsp;作</td>
                 </tr>
-                <tr>
+                <tr class="page-table-list">
                     <td>18200000001</td>
                     <td>第一医院</td>
                     <td>比例分账</td>
@@ -481,67 +492,160 @@
                                     <label for="enterModelName"><span class="kbb-color-red">*</span>模式名称：</label>
                                     <input type="text" id="enterModelName" class="form-control" placeholder="请输入">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group account-type">
                                     <label for=""><span class="kbb-color-red">*</span>分账模式：</label>
                                     <label for="onProp" class="radio-inline">
                                         <input id="onProp" type="radio" name="inlineRadioOptions" checked>按比例
                                     </label>
-                                    <label for="onMonny" class="radio-inline">
-
-                                        <input id="onMonny" type="radio" name="inlineRadioOptions">按金额
+                                    <label for="onMoney" class="radio-inline">
+                                        <input id="onMoney" type="radio" name="inlineRadioOptions">按金额
                                     </label>
                                 </div>
                                 <div class="form-group add-account-role">
                                     <span><span class="kbb-color-red">*</span>分账角色：</span>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkReferee" value="option1">
+                                        <input type="checkbox" class="checkReferee" value="推荐人">
                                         <span>推荐人</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkNurse" value="option2">
+                                        <input type="checkbox" class="checkNurse" value="护士">
                                         <span>护士</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkDoc" value="option3">
-                                        <span>医生</span>
+                                        <input type="checkbox" class="checkConsDoc" value="咨询医生">
+                                        <span>咨询医生</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkSaleman" value="option3">
+                                        <input type="checkbox" class="checkRefDoc" value="推荐医生">
+                                        <span>推荐医生</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkSaleman" value="业务员">
                                         <span>业务员</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkOrg" value="option3">
+                                        <input type="checkbox" class="checkOrg" value="机构">
                                         <span>机构</span>
                                     </label>
                                 </div>
-                                <div class="show-item-details">
+                                <div class="add-item-details">
                                     <p><span class="kbb-color-red">*</span>分账项目及比例：</p>
-                                    <table class="table">
+                                    <table class="table" id="propTable">
                                         <tr>
-                                            <th class="kbb-w9-1">分账项目</th>
-                                            <th class="kbb-w9-1 item-referee">推荐人</th>
-                                            <th class="kbb-w9-2 item-nurse">护士<br>全职/兼职 </th>
-                                            <th class="kbb-w9-1 item-doctor">医生</th>
-                                            <th class="kbb-w9-1 item-saleman">业务员</th>
-                                            <th class="kbb-w9-1 item-org">机构</th>
-                                            <th class="kbb-w9-2">平台<br>全职/兼职</th>
+                                            <th class="kbb-w10-1">分账项目</th>
+                                            <th class="kbb-w10-1 item-referee">推荐人</th>
+                                            <th class="kbb-w10-2 item-nurse">护士<br>全职/兼职 </th>
+                                            <th class="kbb-w10-1 item-cons-doc">咨询医生</th>
+                                            <th class="kbb-w10-1 item-ref-doc">推荐医生</th>
+                                            <th class="kbb-w10-1 item-saleman">业务员</th>
+                                            <th class="kbb-w10-1 item-org">机构</th>
+                                            <th class="kbb-w10-2 item-platform">平台<br>全职/兼职</th>
                                         </tr>
                                         <tr class="add-item-list">
-                                            <td class="itemTitle">项目标价</td>
-                                            <td class="item-referee item-other"><input type="text"><span
-                                                    class="pct">%</span></td>
-                                            <td class="item-nurse"><input class="nurse-qz" type="text"><span
-                                                    class="pct">%</span>/ <input class="nurse-jz" type="text"><span
-                                                    class="pct">%</span></td>
-                                            <td class="item-doctor item-other"><input type="text"><span
-                                                    class="pct">%</span></td>
-                                            <td class="item-saleman item-other"><input type="text"><span
-                                                    class="pct">%</span></td>
-                                            <td class="item-org item-other"><input type="text"><span
-                                                    class="pct">%</span></td>
-                                            <td class="item-platform"><span class="pf-qz">30</span><span
-                                                    class="pct">%</span>&nbsp;/&nbsp;<span class='pf-jz'>30</span><span
-                                                    class="pct">%</span></td>
+                                            <td class="item-title">项目标价</td>
+                                            <td class="item-referee item-other">
+                                                <input type="text">
+                                                <span class="pct">%</span>
+                                            </td>
+                                            <td class="item-nurse">
+                                                <input class="nurse-qz" type="text">
+                                                <span class="pct">%</span>
+                                                /
+                                                <input class="nurse-jz" type="text">
+                                                <span class="pct">%</span>
+                                            </td>
+                                            <td class="item-cons-doc item-other">
+                                                <input type="text">
+                                                <span class="pct">%</span>
+                                            </td>
+                                            <td class="item-ref-doc item-other">
+                                                <input type="text">
+                                                <span class="pct">%</span>
+                                            </td>
+                                            <td class="item-saleman item-other">
+                                                <input type="text">
+                                                <span class="pct">%</span>
+                                            </td>
+                                            <td class="item-org item-other">
+                                                <input type="text">
+                                                <span class="pct">%</span>
+                                            </td>
+                                            <td class="item-platform">
+                                                <span class="pf-qz">30</span>
+                                                <span class="pct">%</span>
+                                                &nbsp;/&nbsp;
+                                                <span class='pf-jz'>30</span>
+                                                <span class="pct">%</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="table hide" id="moneyTable">
+                                        <tr>
+                                            <th class="kbb-w10-1">分账项目</th>
+                                            <th class="kbb-w10-1 item-referee">推荐人</th>
+                                            <th class="kbb-w10-2 item-nurse">护士<br>全职/兼职 </th>
+                                            <th class="kbb-w10-1 item-cons-doc">咨询医生</th>
+                                            <th class="kbb-w10-1 item-ref-doc">推荐医生</th>
+                                            <th class="kbb-w10-1 item-saleman">业务员</th>
+                                            <th class="kbb-w10-1 item-org">机构</th>
+                                        </tr>
+                                        <tr class="add-item-list">
+                                            <td class="item-title">项目标价</td>
+                                            <td class="item-referee item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-nurse">
+                                                <input class="nurse-qz" type="text">
+                                                <span class="pct">元</span>
+                                                /
+                                                <input class="nurse-jz" type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-cons-doc item-other"><input type="text"><span
+                                                    class="pct">元</span></td>
+                                            <td class="item-ref-doc item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-saleman item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-org item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                        </tr>
+
+                                        <!--  -->
+                                        <tr class="add-item-list">
+                                            <td class="item-title">项目标价</td>
+                                            <td class="item-referee item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-nurse">
+                                                <input class="nurse-qz" type="text">
+                                                <span class="pct">元</span>
+                                                /
+                                                <input class="nurse-jz" type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-cons-doc item-other"><input type="text"><span
+                                                    class="pct">元</span></td>
+                                            <td class="item-ref-doc item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-saleman item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
+                                            <td class="item-org item-other">
+                                                <input type="text">
+                                                <span class="pct">元</span>
+                                            </td>
                                         </tr>
 
 
@@ -581,55 +685,87 @@
                                 <div class="form-group">
                                     <label for="">分账模式：</label>
                                     <input type="radio" checked>
-                                    <span id="accountType">按比例</span>
+                                    <span id="DetailaccountTypePct">按比例</span>
+                                    <span id="DetailaccountTypeMoney" class="hide">按金额</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
                                     <span for="">分账模式：</span>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkReferee" value="option1">
+                                        <input type="checkbox" class="checkReferee" value="推荐人">
                                         <span>推荐人</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkNurse" value="option2">
+                                        <input type="checkbox" class="checkNurse" value="护士">
                                         <span>护士</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkDoc" value="option3">
-                                        <span>医生</span>
+                                        <input type="checkbox" class="checkConsDoc" value="咨询医生">
+                                        <span>咨询医生</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkSaleman" value="option3">
+                                        <input type="checkbox" class="checkRefDoc" value="推荐医生">
+                                        <span>推荐医生</span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="checkSaleman" value="业务员">
                                         <span>业务员</span>
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" class="checkOrg" value="option3">
+                                        <input type="checkbox" class="checkOrg" value="机构">
                                         <span>机构</span>
                                     </label>
                                 </div>
-                                <div class="show-item-details">
-                                    <p for="">分账项目分成比例：</p>
-                                    <table class="table">
-                                        <tr>
-                                            <th class="kbb-w9-1">分账项目</th>
-                                            <th class="kbb-w9-1">推荐人</th>
-                                            <th class="kbb-w9-2">护士<br>全职/兼职 </th>
-                                            <th class="kbb-w9-1">医生</th>
-                                            <th class="kbb-w9-1">业务员</th>
-                                            <th class="kbb-w9-1">机构</th>
-                                            <th class="kbb-w9-2">平台</th>
-                                        </tr>
-                                        <tr>
-                                            <td class="itemTitle">项目标价</td>
-                                            <td class="item-referee">30%</td>
-                                            <td class="item-nurse">30% / 50%</td>
-                                            <td class="item-doctor">30%</td>
-                                            <td class="item-saleman">30%</td>
-                                            <td class="item-org">30%</td>
-                                            <td class="item-platform">30%&nbsp;/&nbsp;30%</td>
-                                        </tr>
-                                    </table>
-                                </div>
+                            </div>
+                            <div class="show-item-details">
+                                <p><span class="kbb-color-red">*</span>分账项目及比例：</p>
+                                <table class="table" id="propTable">
+                                    <tr>
+                                        <th class="kbb-w10-1">分账项目</th>
+                                        <th class="kbb-w10-1 item-referee">推荐人</th>
+                                        <th class="kbb-w10-2 item-nurse">护士<br>全职/兼职 </th>
+                                        <th class="kbb-w10-1 item-cons-doc">咨询医生</th>
+                                        <th class="kbb-w10-1 item-ref-doc">推荐医生</th>
+                                        <th class="kbb-w10-1 item-saleman">业务员</th>
+                                        <th class="kbb-w10-1 item-org">机构</th>
+                                        <th class="kbb-w10-2 item-platform">平台<br>全职/兼职</th>
+                                    </tr>
+                                    <tr class="add-item-list">
+                                        <td class="item-title">项目标价</td>
+                                        <td class="item-referee item-other">
+                                            <input type="text">
+                                            <span class="pct">%</span>
+                                        </td>
+                                        <td class="item-nurse">
+                                            <input class="nurse-qz" type="text">
+                                            <span class="pct">%</span>
+                                            /
+                                            <input class="nurse-jz" type="text">
+                                            <span class="pct">%</span>
+                                        </td>
+                                        <td class="item-cons-doc item-other"><input type="text"><span
+                                                class="pct">%</span></td>
+                                        <td class="item-ref-doc item-other">
+                                            <input type="text">
+                                            <span class="pct">%</span>
+                                        </td>
+                                        <td class="item-saleman item-other">
+                                            <input type="text">
+                                            <span class="pct">%</span>
+                                        </td>
+                                        <td class="item-org item-other">
+                                            <input type="text">
+                                            <span class="pct">%</span>
+                                        </td>
+                                        <td class="item-platform">
+                                            <span class="pf-qz">30</span>
+                                            <span class="pct">%</span>
+                                            &nbsp;/&nbsp;
+                                            <span class='pf-jz'>30</span>
+                                            <span class="pct">%</span>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </form>
                         <div class="model-body-foot">
@@ -659,8 +795,8 @@
     <script src="js/index.js"></script>
     <script>
         $(function () {
-            
-           
+
+
 
         })
     </script>
