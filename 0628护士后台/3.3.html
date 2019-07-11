@@ -388,7 +388,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-sm-8 col-xs-6">
                         <label for="selectCreatTime">创建时间：</label>
-                        <input type="text" id="selectCreatTime" class="form-control" placeholder="请输入">
+                        <input type="datetime-local" id="selectCreatTime" class="form-control" placeholder="请输入">
                     </div>
 
                     <div class="btnArea col-lg-2  col-md-2 col-sm-4 col-xs-12">
@@ -685,12 +685,12 @@
                                 <div class="form-group">
                                     <label for="">分账模式：</label>
                                     <input type="radio" checked>
-                                    <span id="DetailaccountTypePct">按比例</span>
-                                    <span id="DetailaccountTypeMoney" class="hide">按金额</span>
+                                    <span id="DetailTypePct">按比例</span>
+                                    <span id="DetailTypeMoney" class="hide">按金额</span>
                                     </label>
                                 </div>
-                                <div class="form-group">
-                                    <span for="">分账模式：</span>
+                                <div class="form-group add-account-role">
+                                    <span for="">分账角色：</span>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" class="checkReferee" value="推荐人">
                                         <span>推荐人</span>
@@ -718,7 +718,8 @@
                                 </div>
                             </div>
                             <div class="show-item-details">
-                                <p><span class="kbb-color-red">*</span>分账项目及比例：</p>
+                                <p>分账项目及比例：</p>
+                                <p class="hide">分账项目及金额：</p>
                                 <table class="table" id="propTable">
                                     <tr>
                                         <th class="kbb-w10-1">分账项目</th>

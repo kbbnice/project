@@ -225,12 +225,16 @@
 
     /* 确认框 */
 
-    #confirmDialog .remark {
+   .comfirm-dialog .remark {
       width: 80%;
       height: 100px;
       border-radius: 10px;
       margin: 0 auto;
       border: 1px solid #e4e4e4;
+    }
+
+    .comfirm-dialog .modal-dialog {
+      top: 200px;
     }
 
     .modal-body {
@@ -241,6 +245,10 @@
       text-align: center;
       word-spacing: 40px;
     }
+    #confirmSingle .modal-backdrop{
+        
+    }
+
   </style>
 </head>
 
@@ -291,21 +299,21 @@
           <th>操作</th>
         </tr>
         <tr>
-          <td>一些数据1</td>
-          <td>一些数据2</td>
-          <td>一些数据3</td>
-          <td>一些数据4</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
           <td class="operate-btns">
-            <span class="revise-btn" data-toggle="modal">修改价格</span>
+            <span id="reviseBtn" data-toggle="modal" data-target="#reviseSingle">修改价格</span>
           </td>
         </tr>
         <tr>
-          <td>一些数据11</td>
-          <td>一些数据2</td>
-          <td>一些数据3</td>
-          <td>一些数据4</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
+          <td>一些数据</td>
           <td class="operate-btns">
-            <span class="revise-btn" data-toggle="modal">修改价格</span>
+            <span id="reviseBtn" data-toggle="modal" data-target="#reviseSingle">修改价格</span>
           </td>
         </tr>
       </table>
@@ -320,8 +328,7 @@
 
 
   <!-- 模态框部分 -->
-
-
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviseSingle">修改价格</button> -->
   <!-- 修改单一价格 -->
   <div class="modal fade" id="reviseSingle" tabindex="-1" role="dialog" aria-labelledby="">
     <div class="modal-dialog" role="document">
@@ -349,7 +356,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="singleSaveBtn" class="btn btn-primary" data-toggle="modal">保存</button>
+          <button id=singleSaveBtn" class="btn btn-primary" data-toggle="modal" data-target="#confirmSingle">保存</button>
           <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
         </div>
       </div>
@@ -369,7 +376,7 @@
           <div class="revise-type">
             <span class="ftitle"> <span class="kbb-color-red">*</span> 修改类型：</span>
             <label class="radio-inline">
-              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked><span>涨价</span>
+              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"><span>涨价</span>
             </label>
             <label class="radio-inline">
               <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"><span>降价</span>
@@ -385,191 +392,143 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="batchSaveBtn" class="btn btn-primary" data-toggle="modal">保存</button>
+          <button id="batchSaveBtn" class="btn btn-primary" data-toggle="modal" data-target="#confirmBatch">保存</button>
           <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- 确认修改 -->
-  <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="">确认修改咨询价格?</h4>
-        </div>
-        <div class="modal-body">
-          <!-- <div class="remark" contenteditable="true">
-            请输入备注
-          </div> -->
-          是否修改价格?
-        </div>
-        <div class="modal-footer">
-          <button id="confirmBtn" class="btn btn-primary">保存</button>
-          <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
+
+
+    <!-- 确认修改 单一-->
+    <div class="modal fade" id="confirmSingle" tabindex="-1" role="dialog" aria-labelledby="11">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="">确认修改咨询价格?</h4>
+          </div>
+          <div class="modal-body">
+            <div class="remark" contenteditable="true">
+              请输入备注
+            </div>
+            <div class="btns">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="confirmSingleBtn" class="btn btn-primary">保存</button>
+            <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <!-- 确认 批量 -->
+    <div class="modal fade" class="comfirm-dialog" id="confirmBatch" tabindex="-1" role="dialog" aria-labelledby="11">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="">确认修改咨询价格?</h4>
+          </div>
+          <div class="modal-body">
+            <div class="remark" contenteditable="true">
+              请输入备注11
+            </div>
+            <div class="btns">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="confirmBatchBtn" class="btn btn-primary">保存</button>
+            <button class="btn btn-default cancel-btn" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-  <script>
-    $(function () {
+    <script>
+      $(function () {
 
 
-      // 渲染表格数据函数
-      function setPageTableData() {
+        // 渲染表格数据函数
+        function setPageTableData() {
 
-        // --------模拟数据--------
+          // --------模拟数据--------
 
-        var item = {
-          docNum: 1111,
-          docName: 1111,
-          price: 1111,
-          times: 1111
-        }
-        // ------------------------
+          var item = {
+            docNum: 1111,
+            docName: 1111,
+            price: 1111,
+            times: 1111
+          }
+          // ------------------------
 
-        var dataStr = `
+          var dataStr = `
             <tr>
               <td>${ item.docNum}</td>
               <td>${ item.docName}</td>
               <td>${ item.price}</td>
               <td>${ item.times}</td>
               <td class="operate-btns">
-                <span class="revise-btn" data-toggle="modal" data-target="#reviseSingle">修改价格</span>
+                <span id="reviseBtn" data-toggle="modal" data-target="#reviseSingle">修改价格</span>
               </td>
             </tr>
           `;
 
-        $('.page-table-area table>tbody').append(dataStr);
-      }
-      // 查询: 
-      $('#searchBtn').click(function () {
-
-        // 获取页面数据
-        var docNumber = $('#docNumber').val();
-        var docName = $('#docName').val();
-
-        var docData = { docNumber, docName };
-
-        $.ajax({
-
-          // 传入docData 获取数据
-        })
-
-        // success: 渲染表格
-        setPageTableData();
-
-        // 取消默认事件
-        return false;
-      })
-
-      // 重置
-      $('resetBtn').click(function () {
-
-        // 清空input框
-        $('#docNumber').val('');
-        $('#docName').val('');
-
-        return false;
-      })
-
-      // ----------------------华丽丽分割线----< 表格 模块>----------------------------------
-
-
-
-
-
-      // ----------------------华丽丽分割线----< 模态框 模块>----------------------------------
-      // 储存修改值:
-      var chageData;
-
-
-      // 修改事件:
-      $('body').on('click', '.revise-btn', function () {
-
-        // 获取当前点击事件td的兄弟元素来获取数据
-        var pageTd = $(this).parent().siblings('td');
-
-        $('#reviseSingle').modal('show');
-
-      })
-
-      $('#singleSaveBtn').click(function () {
-
-        // 显示确认框
-        $('#reviseSingle').modal('hide');
-        $('#confirmDialog').modal('show');
-
-
-      })
-
-
-
-      // 批量修改
-
-      $('#batchSaveBtn').click(function () {
-        var priseStatus;  // 涨价降价
-
-        // 显示确认框:
-        $('#reviseBatch').modal('hide');
-        $('#confirmDialog').modal('show');
-
-        // 涨价/降价
-        if ($('#inlineRadio1').prop('check')) {
-          priseStatus = 1;  // 涨价
-        } else {
-          priseStatus = 0; // 降价
+          $('.page-table-area table>tbody').append(dataStr);
         }
+        // 查询: 
+        $('#searchBtn').click(function () {
 
+          // 获取页面数据
+          var docNumber = $('#docNumber').val();
+          var docName = $('#docName').val();
 
+          var docData = { docNumber, docName };
 
-      })
+          $.ajax({
 
-      // 确认框:
-      $('#confirmBtn').click(function () {
-        changeData = $('#reviseSingle #consultPrice').val();
-        console.log(changeData);
+            // 传入docData 获取数据
+          })
 
-        $.ajax({
+          // success: 渲染表格
+          setPageTableData();
 
-          success: function () {
-
-            // 清空input框
-            $('#reviseSingle #consultPrice').val('');
-            $('#reviseBatch #changePrice').val('');
-            $('#reviseBatch #inlineRadio1').prop('checked', true);
-            $('#reviseBatch #inlineRadio2').removeProp('checked');
-            $('#confirmDialog').modal('hide');
-            $('#reviseBatch').modal('hide');
-          }
+          // 取消默认事件
+          return false;
         })
 
+        // 重置
+        $('resetBtn').click(function () {
+
+          // 清空input框
+          $('#docNumber').val('');
+          $('#docName').val('');
+
+          return false;
+        })
+
+        // ----------------------华丽丽分割线----< 表格 模块>----------------------------------
+
+
+
+
+        // ----------------------华丽丽分割线----< 表格 模块>----------------------------------
+
+
+
+
+
+        // ----------------------华丽丽分割线----< 表格 模块>----------------------------------
+
+
+
+
+
       })
-
-      // 取消按钮: 
-      $('body').on('click', '.cancel-btn', function () {
-
-        // 清空页面所有弹框数据: 
-        $('#reviseSingle #consultPrice').val('');
-        $('#reviseBatch #changePrice').val('');
-
-      })
-
-
-
-      // ----------------------华丽丽分割线----< 表格 模块>----------------------------------
-
-
-
-
-
-    })
-  </script>
+    </script>
 </body>
 
 </html>
