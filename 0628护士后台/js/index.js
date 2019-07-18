@@ -302,8 +302,8 @@ $(function () {
         }
       }
 
-      totalQz = parseInt($(this).parents(obj).find('.nurse-jz').val()) + otherTotal;
-      totalJz = parseInt($(this).parents(obj).find('.nurse-qz').val()) + otherTotal;
+      totalQz = parseInt($(this).parents(obj).find('.nurse-qz').val()) + otherTotal;
+      totalJz = parseInt($(this).parents(obj).find('.nurse-jz').val()) + otherTotal;
 
       // 平台分成: 
       $(this).parent().siblings('.item-platform').children('.pf-qz').html(100 - totalQz);
