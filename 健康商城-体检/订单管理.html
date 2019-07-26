@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <title>加油傻狗子</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        th {
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        body {
+            font-size: 12px;
+            background-color: #f4f4f4;
+
+        }
+
+        /* 公共样式 start */
+        .margin10 {
+            margin: 10px;
+        }
+
+        .bg-f4 {
+            background-color: #f4f4f4;
+        }
+
+        /* 公共样式 end */
+
+
+        /* 页面默认样式修改 start*/
+
+        .btnArea {
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .btn {
+            font-size: 12px;
+            padding: 5px 15px;
+
+        }
+
+        .btn-primary {
+            background-color: #108ee9;
+        }
+
+        .btn-primary:focus {
+            background-color: #108ee9;
+            outline: none;
+        }
+
+        .showMore {
+            display: inline-block;
+            font-size: 12px;
+            margin-left: 10px;
+            color: blue;
+            cursor: pointer;
+        }
+
+        /* 页面默认样式修改  end*/
+
+
+        /* -----头部样式 start----- */
+        header {
+            padding-top: 10px;
+            margin: 10px auto;
+            border-radius: 10px;
+            width: 98%;
+            background-color: white;
+        }
+
+        header::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .form-inline {
+            width: 100%;
+        }
+
+        /* 表单元素通用 */
+        .form-inline .form-group {
+            display: flex;
+            display: -webkit-flex;
+            flex-flow: row;
+        }
+
+        .form-group label {
+            width: 80px;
+            font-weight: normal;
+            line-height: 30px;
+            white-space: nowrap;
+        }
+
+        .form-group .form-control {
+            width: 100%;
+            height: 30px;
+            flex: 1 1 auto;
+        }
+
+        /* 修改input中placeholder样式 */
+        .form-control::-webkit-input-placeholder {
+            font-size: 12px;
+        }
+
+        .form-control::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            font-size: 12px;
+        }
+
+        .form-control:-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            font-size: 12px;
+        }
+
+        .form-control:-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            font-size: 12px;
+        }
+
+        .form-group select {
+            width: 100%;
+            height: 30px;
+            flex: 1 1 auto;
+            border-radius: 3px;
+        }
+
+        /* -----头部样式 end -----*/
+
+        /* 表格样式 start */
+        .content {
+            width: 98%;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+
+        .content .top-btn {
+            margin-left: 1%;
+        }
+
+        .content table {
+            width: 98%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .content table th {
+            text-align: center;
+        }
+
+
+
+        /* 表格样式 end */
+    </style>
+</head>
+
+<body>
+    <div id="orderPage">
+
+        <header>
+            <form action="">
+                <div class="form-inline">
+                    <!-- i nput -->
+                    <div :class="['form-group', colItem.headCol] " v-for="item in inputItems">
+                        <label :for="item.id" v-html="item.label + '：'"></label>
+                        <input type="text" class="form-control" v-model="item.value" :placeholder="item.placeholder">
+                    </div>
+
+                    <!-- option -->
+                    <div :class="['form-group', colItem.headCol] " v-for="item in optionItems">
+                        <label v-html="item.label + '：'"></label>
+                        <select name="" v-model="item.value" :id="item.id">
+                            <option v-for="option in item.options" :value="option" v-html="option">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 按钮 -->
+            <div :class="['btnArea', colItem.headCol]">
+                <button type="button" id="searchAllBtn" class="btn btn-primary" @click="searchAllItem">查询</button>
+                <button type="button" id="clearAllBtn" class="btn btn-default" @click="clearAllItem">清空</button>
+                <span class="showMore" @click="ifShowMore = !ifShowMore" onselectstart="return false">
+                    <span v-show="ifShowMore">展开</span>
+                    <span v-show="!ifShowMore">收起</span>
+                </span>
+            </div>
+        </header>
+
+        <!-- 表格部分 -->
+        <div class="content">
+            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">导出</button>
+            <table class="table table-hover">
+                <tr class="bg-f4">
+                    <th v-for="item in tableTitles" v-html="item"></th>
+                </tr>
+                <tr v-for="item in tableData">
+                    <td v-for="list in item" v-html="list"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+
+    <script>
+        // ----------------------------华丽丽的分割线---------------vue 部分---------------------
+        let orderPage = new Vue({
+            el: '#orderPage',
+            data: {
+                colItem: { // 
+                    headCol: 'col-lg-2 col-md-3 col-sm-4 col-xs-6',
+                },
+                inputItems: [
+                    {
+                        label: '订单号',
+                        id: 'orderID',
+                        placeholder: '请输入',
+                        value: ''
+                    },
+                    {
+                        label: '患者姓名',
+                        id: 'patientName',
+                        placeholder: '请输入',
+                        value: ''
+                    }
+                ],
+                optionItems: [  // 头部下拉框
+                    {
+                        label: '订单状态',
+                        id: 'orderStatus',
+                        options: [
+                            '全部',
+                            '待平台确认(PET-CT)',
+                            '待平台确认(团体)',
+                            '等待支付',
+                            '待护士出发',
+                            '待平台确认',
+                            '待护士确认',
+                            '护士正在路上',
+                            '待开始体检',
+                            '正在体检',
+                            '待支付额外费用',
+                            '体检已完成',
+                            '体检已取消'
+                        ],
+                        value: '全部'
+                    },
+                    {
+                        label: '是否团体体检',
+                        id: 'ifGroup',
+                        options: [
+                            '全部',
+                            '是',
+                            '否'
+                        ],
+                        value: '全部'
+                    },
+                    {
+                        label: '订单类型',
+                        id: 'orderType',
+                        options: [
+                            '全部',
+                            '检验',
+                            '体检',
+                            'PET-CT'
+                        ],
+                        value: '全部'
+                    }
+                ],
+                ifShowMore: true,    // 展开收起
+                tableTitles: [
+                    '体检类型',
+                    '体检项目',
+                    '实付金额',
+                    '会员账号',
+                    '患者姓名',
+                    '是否团体体检',
+                    '团体确认码',
+                    '创建时间',
+                    '预约时间',
+                    '操  作'
+                ],
+                tableData: [
+                    {
+                        type: 'xx',
+                        item: 'xx',
+                        payment: 'xx',
+                        account: 'xx',
+                        patientName: 'xx',
+                        ifGroup: 'xx',
+                        confirmNum: 'xx',
+                        creatTime: 'xx',
+                        orderTime: 'xx',
+                        operate: 'xx'
+                    },
+                    {
+                        type: 'xx',
+                        item: 'xx',
+                        payment: 'xx',
+                        account: 'xx',
+                        patientName: 'xx',
+                        ifGroup: 'xx',
+                        confirmNum: 'xx',
+                        creatTime: 'xx',
+                        orderTime: 'xx',
+                        operate: 'xx'
+                    },
+                ]
+            },
+            methods: {
+                searchAllItem() {
+                    // 获取input数据：
+                    let queryInput = {}
+                    this.inputItems.forEach(element => {
+                        queryInput[element.id] = element.value
+                    })
+                    this.optionItems.forEach(element => {
+                        queryInput[element.id] = element.value
+                    })
+
+                    let queryInputData = JSON.stringify(queryInput)
+                    // ajax请求
+                    console.log('axios',axios)
+                    axios.get('test.php',{
+                        params: {
+                            queryInputData
+                        },
+                    }).then((result) => {
+                        console.log(result)
+                    })
+                    // axios.post('我是url地址',{
+                    //     '':'我是一只小毛驴~',
+                    //     'params1':'我默认用json的形式发送参数，'+
+                    //     '如果要用键值对的形式发送要把我用qs.stringify({})处理一下再传'
+                    // }).then((result)=>{
+                    //     console.log('我是一个回调函数，我会告诉你后台返回了什么，还有请求状态码等等信息')
+                    // }).cath((err)=>{
+                    //     console.log('肥肥是又可爱又美丽的小胖纸')
+                    //     console.log('我是请求错误的回调函数')
+                    //     console.log('朕走了~')
+                    //     console.log('朕又来了~')
+                    // })
+
+
+                },
+                clearAllItem() {
+
+                    // 初始化头部
+                    this.inputItems.forEach(element => {
+                        element.value = ''
+                    })
+                    this.optionItems.forEach(element => {
+                        element.value = '全部'
+                    })
+                }
+            },
+        })
+// {order:this.optionItems[0].value}
+// let query={}
+// for(let i=0;i<optionItems.length;i++){
+//     query[this.optionItems[i].id]=this.optionItems[i].value
+// }
+
+        // ----------------------------华丽丽的分割线---------------jQuery 部分------------------
+
+        // $(function () {
+
+
+
+        // })
+
+
+
+
+    </script>
+</body>
+
+</html>
