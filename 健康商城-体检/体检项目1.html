@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-    <title>订单管理</title>
+    <title>体检项目</title>
 
     <style>
         * {
@@ -17,7 +17,7 @@
 
         th {
             font-weight: normal;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         body {
@@ -43,6 +43,12 @@
             cursor: pointer;
         }
 
+        .clear {
+            content: ' ';
+            display: block;
+            clear: both;
+        }
+        
         /* 公共样式 end */
 
 
@@ -185,7 +191,7 @@
         <header>
             <form action="">
                 <div class="form-inline">
-                    <!-- i nput -->
+                    <!-- input -->
                     <div :class="['form-group', colItem.headCol] " v-for="item in inputItems">
                         <label :for="item.id" v-html="item.label + '：'"></label>
                         <input type="text" class="form-control" v-model="item.value" :placeholder="item.placeholder">
@@ -204,7 +210,7 @@
             </form>
 
             <!-- 按钮 -->
-            <div :class="['btnArea', colItem.headCol]">
+            <div :class="['btnArea', colItem.headCol, 'center']">
                 <button type="button" id="searchAllBtn" class="btn btn-primary" @click="searchAllItem">查询</button>
                 <button type="button" id="clearAllBtn" class="btn btn-default" @click="clearAllItem">清空</button>
                 <span class="showMore blue" @click="ifShowMore = !ifShowMore" onselectstart="return false">
@@ -216,13 +222,13 @@
 
         <!-- 表格部分 -->
         <div class="content">
-            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">导出</button>
+            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">新增产品</button>
             <table class="table table-hover">
                 <tr class="bg-f4">
                     <th v-for="item in tableTitles" v-html="item"></th>
                 </tr>
                 <tr v-for="item in tableData">
-                    <td v-for="list in item" v-html="list"></td>
+                    <td v-for="list in item.data" v-html="list"></td>
                     <td>
                         <span class="blue point-hand detail-btn">详情</span>
                         <span style="color:#EBEBEB;"> | </span>
@@ -241,14 +247,14 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        <h4 class="modal-title" id="myModalLabel">健康体检订单详情</h4>
                     </div>
                     <div class="modal-body">
-                        ...
+                        xx
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary">新增</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
@@ -271,52 +277,22 @@
                 },
                 inputItems: [
                     {
-                        label: '订单号',
-                        id: 'orderID',
+                        label: '产品编号',
+                        id: 'productNum',
                         placeholder: '请输入',
                         value: ''
                     },
                     {
-                        label: '患者姓名',
-                        id: 'patientName',
+                        label: '产品名称',
+                        id: 'productName',
                         placeholder: '请输入',
                         value: ''
                     }
                 ],
                 optionItems: [  // 头部下拉框
                     {
-                        label: '订单状态',
-                        id: 'orderStatus',
-                        options: [
-                            '全部',
-                            '待平台确认(PET-CT)',
-                            '待平台确认(团体)',
-                            '等待支付',
-                            '待护士出发',
-                            '待平台确认',
-                            '待护士确认',
-                            '护士正在路上',
-                            '待开始体检',
-                            '正在体检',
-                            '待支付额外费用',
-                            '体检已完成',
-                            '体检已取消'
-                        ],
-                        value: '全部'
-                    },
-                    {
-                        label: '是否团体体检',
-                        id: 'ifGroup',
-                        options: [
-                            '全部',
-                            '是',
-                            '否'
-                        ],
-                        value: '全部'
-                    },
-                    {
-                        label: '订单类型',
-                        id: 'orderType',
+                        label: '体检类型',
+                        id: 'checkType',
                         options: [
                             '全部',
                             '检验',
@@ -324,19 +300,42 @@
                             'PET-CT'
                         ],
                         value: '全部'
+                    },
+                    {
+                        label: '所属机构',
+                        id: 'subordinate',
+                        options: [
+                            '全部',
+                            '机构1',
+                            '机构2',
+                            '机构3'
+                        ],
+                        value: '全部'
+                    },
+                    {
+                        label: '产品状态',
+                        id: 'productStatus',
+                        options: [
+                            '全部',
+                            '上架中',
+                            '下架中'
+                        ],
+                        value: '全部'
                     }
                 ],
                 ifShowMore: true,    // 展开收起
                 tableTitles: [
+                    '产品编号',
+                    '产品名称',
                     '体检类型',
-                    '体检项目',
-                    '实付金额',
-                    '会员账号',
-                    '患者姓名',
-                    '是否团体体检',
-                    '团体确认码',
+                    '产品价格 ',
+                    '折扣模板',
+                    '分账模板',
+                    '所属机构',
+                    '所属分类',
+                    '销量',
+                    '产品状态',
                     '创建时间',
-                    '预约时间',
                     '操  作'
                 ],
                 tableData: [
@@ -351,7 +350,7 @@
                         creatTime: 'xx',
                         orderTime: 'xx'
                     },
-                ]
+                ],
             },
             methods: {
                 searchAllItem() {
@@ -368,7 +367,7 @@
 
                     // ajax请求
                     console.log('axios', axios)
-                    axios.get('test.php', {
+                    axios.get('testitem.json', {
                         params: {
                             queryInputData
                         },
@@ -412,11 +411,12 @@
                 // console.log(this.tableData)
                 axios({
                     method: 'get',
-                    url: 'test.json'
+                    url: 'testitem.json'
 
                 }).then((result) => {
                     console.log(result.data)
                     this.tableData = result.data
+                    console.log(1)
                 })
 
             },
@@ -426,12 +426,13 @@
 
         $(function () {
 
+
+
             // 模态框弹出
-            $('body').on('click', '.detail-btn', function() {
+            $('body').on('click', '.detail-btn', function () {
                 $('#DetailModal').modal('show')
+                console.log(orderPage.tableData)
             })
-
-
         })
 
 

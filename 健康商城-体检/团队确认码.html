@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-    <title>订单管理</title>
+    <title>团队确认码</title>
 
     <style>
         * {
@@ -17,7 +17,7 @@
 
         th {
             font-weight: normal;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         body {
@@ -31,6 +31,18 @@
             margin: 10px;
         }
 
+        .margin-t20 {
+            margin-top: 20px;
+        }
+
+        .margin-t30 {
+            margin-top: 30px;
+        }
+
+        .margin-t40 {
+            margin-top: 40px;
+        }
+
         .bg-f4 {
             background-color: #f4f4f4;
         }
@@ -41,6 +53,19 @@
 
         .point-hand {
             cursor: pointer;
+        }
+
+        .clear {
+            content: ' ';
+            display: block;
+            clear: both;
+        }
+
+        .red {
+            color: red;
+        }
+        .center {
+            text-align: center;
         }
 
         /* 公共样式 end */
@@ -176,16 +201,22 @@
 
 
         /* 表格样式 end */
+
+        /* 模态框样式 */
+        .modal-footer {
+            text-align: center;
+            word-spacing: 40px;
+        }
     </style>
 </head>
 
 <body>
-    <div id="orderPage">
+    <div id="groupCodePage">
 
         <header>
             <form action="">
                 <div class="form-inline">
-                    <!-- i nput -->
+                    <!-- input -->
                     <div :class="['form-group', colItem.headCol] " v-for="item in inputItems">
                         <label :for="item.id" v-html="item.label + '：'"></label>
                         <input type="text" class="form-control" v-model="item.value" :placeholder="item.placeholder">
@@ -204,7 +235,7 @@
             </form>
 
             <!-- 按钮 -->
-            <div :class="['btnArea', colItem.headCol]">
+            <div :class="['btnArea', colItem.headCol, 'center']">
                 <button type="button" id="searchAllBtn" class="btn btn-primary" @click="searchAllItem">查询</button>
                 <button type="button" id="clearAllBtn" class="btn btn-default" @click="clearAllItem">清空</button>
                 <span class="showMore blue" @click="ifShowMore = !ifShowMore" onselectstart="return false">
@@ -216,17 +247,20 @@
 
         <!-- 表格部分 -->
         <div class="content">
-            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">导出</button>
+            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">新增机构</button>
             <table class="table table-hover">
                 <tr class="bg-f4">
                     <th v-for="item in tableTitles" v-html="item"></th>
                 </tr>
-                <tr v-for="item in tableData">
-                    <td v-for="list in item" v-html="list"></td>
+                <tr v-for="(item, index) in tableData" :key="item.id">
+                    <td v-for="list in item.data" v-html="list" ::key="list.confirmCode"></td>
                     <td>
-                        <span class="blue point-hand detail-btn">详情</span>
+                        <span class="blue point-hand start-btn" @click="ifForbidChange(index)">
+                            <span v-if="item.ifForbid">启用</span>
+                            <span v-if="!item.ifForbid">禁用</span>
+                        </span>
                         <span style="color:#EBEBEB;"> | </span>
-                        <span class="blue point-hand confirm-btn">确认</span>
+                        <span class="blue point-hand confirm-btn" @click="deleteData(index)">删除</span>
                     </td>
                 </tr>
             </table>
@@ -235,25 +269,29 @@
 
         <!-- 模板弹出部分 -->
         <!-- Modal -->
-        <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        <h4 class="modal-title" id="myModalLabel">新增机构</h4>
                     </div>
-                    <div class="modal-body">
-                        ...
+                    <div class="modal-body form-inline">
+                        <div class="margin10"><span class="red">*</span>团体体检码 <span v-text="addGroupCode"></span></div>
+                        <div class="margin10 form-group margin-t30">
+                            <label for=""><span class="red">*</span>团队名称 </label>
+                            <input type="text" class="form-control" v-model="addGroupName" placeholder="请输入">
+                        </div>
+                        <div class="confrimInfo red center" v-if="ifEmpty">请输入正确团体名称!</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary btn-save">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
         </div>
-
 
     </div>
     <script src="js/jquery-1.12.4.js"></script>
@@ -263,8 +301,8 @@
 
     <script>
         // ----------------------------华丽丽的分割线---------------vue 部分---------------------
-        let orderPage = new Vue({
-            el: '#orderPage',
+        let groupCodePage = new Vue({
+            el: '#groupCodePage',
             data: {
                 colItem: { // 
                     headCol: 'col-lg-2 col-md-3 col-sm-4 col-xs-6',
@@ -289,69 +327,41 @@
                         id: 'orderStatus',
                         options: [
                             '全部',
-                            '待平台确认(PET-CT)',
-                            '待平台确认(团体)',
-                            '等待支付',
-                            '待护士出发',
-                            '待平台确认',
-                            '待护士确认',
-                            '护士正在路上',
-                            '待开始体检',
-                            '正在体检',
-                            '待支付额外费用',
-                            '体检已完成',
-                            '体检已取消'
-                        ],
-                        value: '全部'
-                    },
-                    {
-                        label: '是否团体体检',
-                        id: 'ifGroup',
-                        options: [
-                            '全部',
-                            '是',
-                            '否'
-                        ],
-                        value: '全部'
-                    },
-                    {
-                        label: '订单类型',
-                        id: 'orderType',
-                        options: [
-                            '全部',
-                            '检验',
-                            '体检',
-                            'PET-CT'
+                            '启用',
+                            '禁用'
                         ],
                         value: '全部'
                     }
                 ],
                 ifShowMore: true,    // 展开收起
-                tableTitles: [
-                    '体检类型',
-                    '体检项目',
-                    '实付金额',
-                    '会员账号',
-                    '患者姓名',
-                    '是否团体体检',
-                    '团体确认码',
-                    '创建时间',
-                    '预约时间',
+                tableTitles: [  // 表格标题
+                    '团体名称',
+                    '确认码',
+                    '码状态',
+                    '生成时间',
+                    '失效时间',
+                    '关联订单数',
+                    '关联完成订单数',
                     '操  作'
                 ],
-                tableData: [
+                tableData: [    // 表格数据
                     {
-                        type: 'xx',
-                        item: 'xx',
-                        payment: 'xx',
-                        account: 'xx',
-                        patientName: 'xx',
-                        ifGroup: 'xx',
-                        confirmNum: 'xx',
-                        creatTime: 'xx',
-                        orderTime: 'xx'
-                    },
-                ]
+                        data: {
+                            groupName: 'xx',
+                            confirmCode: 'xx',
+                            codeStatus: 'xx',
+                            creatTime: 'xx',
+                            failureTime: 'xx',
+                            connectORder: 'xx',
+                            completeOrder: 'xx'
+                        },
+                        ifForbid: true
+
+                    }
+                ],
+                addGroupCode: 1111111,  // 团体体检码
+                addGroupName: '',
+                ifEmpty: false
             },
             methods: {
                 searchAllItem() {
@@ -368,32 +378,19 @@
 
                     // ajax请求
                     console.log('axios', axios)
-                    axios.get('test.php', {
+                    axios.get('testgroup.json', {
                         params: {
                             queryInputData
                         },
                     }).then((result) => {
-                        console.log(result)
+                        console.log(result.data)
 
+                        // 设定tableData值为返回的值:
+                        tableData = result.data
 
                     }).catch((error) => {
                         console.log(error)
                     })
-
-                    // axios.post('我是url地址',{
-                    //     '':'我是一只小毛驴~',
-                    //     'params1':'我默认用json的形式发送参数，'+
-                    //     '如果要用键值对的形式发送要把我用qs.stringify({})处理一下再传'
-                    // }).then((result)=>{
-                    //     console.log('我是一个回调函数，我会告诉你后台返回了什么，还有请求状态码等等信息')
-                    // }).cath((err)=>{
-                    //     console.log('肥肥是又可爱又美丽的小胖纸')
-                    //     console.log('我是请求错误的回调函数')
-                    //     console.log('朕走了~')
-                    //     console.log('朕又来了~')
-                    // })
-
-
                 },
                 clearAllItem() {
 
@@ -404,6 +401,30 @@
                     this.optionItems.forEach(element => {
                         element.value = '全部'
                     })
+                },
+                // 添加模块保存按钮
+                // saveAddInfo() {
+                //     let addGroupCode = this.addGroupCode
+                //     let addGroupName = this.addGroupName
+                //     axios({
+                //         method: 'get',
+                //         url: 'testgroup.json',
+                //         params: { addGroupCode, addGroupName }    // 解构赋值
+                //     }).then(result => {
+                //         console.log(result)
+                //     }).catch(error => {
+                //         console.log(error);
+
+                //     })
+                // }
+                deleteData(index) {
+                    console.log(index)
+                    this.tableData.splice(this.tableData.indexOf(index), 1)
+                },
+                ifForbidChange(index) {
+
+                    // 根据当前索引取得当前元素并改变元素:
+                    this.tableData[index].ifForbid = !this.tableData[index].ifForbid
                 }
             },
 
@@ -412,7 +433,7 @@
                 // console.log(this.tableData)
                 axios({
                     method: 'get',
-                    url: 'test.json'
+                    url: 'testgroup.json'
 
                 }).then((result) => {
                     console.log(result.data)
@@ -426,12 +447,35 @@
 
         $(function () {
 
-            // 模态框弹出
-            $('body').on('click', '.detail-btn', function() {
-                $('#DetailModal').modal('show')
+            // 新增模态框弹出
+            $('body').on('click', '.top-btn', function () {
+                console.log(1)
+                $('#addModal').modal('show')
             })
 
+            // 保存按钮
+            $('body').on('click', '.btn-save', function () {
+                let addGroupCode = groupCodePage.addGroupCode
+                let addGroupName = groupCodePage.addGroupName
+                if (addGroupName == '') {
+                    console.log()
+                    groupCodePage.ifEmpty = true
+                } else {
+                    groupCodePage.ifEmpty = false
 
+                    $.ajax({
+                        data: { addGroupCode, addGroupName },
+                        success() {
+                            console.log(22)
+                            $('#addModal').modal('hide')
+
+                            // 关闭后清空模态框内容
+                            groupCodePage.addGroupCode = '11'
+                            groupCodePage.addGroupName = ''
+                        }
+                    })
+                }
+            })
         })
 
 

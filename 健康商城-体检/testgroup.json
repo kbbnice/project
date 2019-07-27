@@ -1,0 +1,28 @@
+[
+    {
+        "id": "1",
+        "data": {
+            "groupName": "xx",
+            "confirmCode": "xx",
+            "codeStatus": "xx",
+            "creatTime": "xx",
+            "failureTime": "xx",
+            "connectORder": "xx",
+            "completeOrder": "xx"
+        },
+        "ifForbid": true
+    },
+    {
+        "id": "2",
+        "data": {
+            "groupName": "xx",
+            "confirmCode": "xx",
+            "codeStatus": "xx",
+            "creatTime": "xx",
+            "failureTime": "xx",
+            "connectORder": "xx",
+            "completeOrder": "xx"
+        },
+        "ifForbid": false
+    }
+]
