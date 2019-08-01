@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <script src='js/vue.js'></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <div v-for="item in arr">
+            <!-- <div v-for="(list,key) in item" v-if="key !== 'value'"> -->
+            <div v-for="(list,key) in item" v-if="guolv(key)">
+                {{list}}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        var vm = new Vue({
+            el: '#app',
+            data: {
+               arr: [
+                   {name: '小明', value: '我是value', test: '2232', ifforbid: true},
+                   {name: '小明', value: '我是value', test: '2232', ifforbid: true},
+                   {name: '小明', value: '我是value', test: '2232', ifforbid: true},
+                   {name: '小明', value: '我是value', test: '2232', ifforbid: true}
+               ], 
+               
+              
+            },
+            methods: {
+                guolv:function(key) {
+                    return key !== 'value' && key !== 'name' && key !== 'test'
+               }
+            },
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <title>会员信息管理</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        th {
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        body {
+            font-size: 12px;
+            background-color: #f4f4f4;
+
+        }
+
+        /* 公共样式 start */
+        .margin10 {
+            margin: 10px;
+        }
+
+        .bg-f4 {
+            background-color: #f4f4f4;
+        }
+
+        .blue {
+            color: #108DE9;
+        }
+
+        .point-hand {
+            cursor: pointer;
+        }
+
+        .clear {
+            content: ' ';
+            display: block;
+            clear: both;
+        }
+
+        /* 公共样式 end */
+
+
+        /* 页面默认样式修改 start*/
+
+        .btnArea {
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .btn {
+            font-size: 12px;
+            padding: 5px 15px;
+
+        }
+
+        .btn-primary {
+            background-color: #108ee9;
+        }
+
+        .btn-primary:focus {
+            background-color: #108ee9;
+            outline: none;
+        }
+
+        .showMore {
+            display: inline-block;
+            font-size: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* 页面默认样式修改  end*/
+
+
+        /* -----头部样式 start----- */
+        header {
+            padding-top: 10px;
+            margin: 10px auto;
+            border-radius: 10px;
+            width: 98%;
+            background-color: white;
+        }
+
+        header::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .form-inline {
+            width: 100%;
+        }
+
+        /* 表单元素通用 */
+        .form-inline .form-group {
+            display: flex;
+            display: -webkit-flex;
+            flex-flow: row;
+        }
+
+        .form-group label {
+            width: 80px;
+            font-weight: normal;
+            line-height: 30px;
+            white-space: nowrap;
+        }
+
+        .form-group .form-control {
+            width: 100%;
+            height: 30px;
+            flex: 1 1 auto;
+        }
+
+        /* 修改input中placeholder样式 */
+        .form-control::-webkit-input-placeholder {
+            font-size: 12px;
+        }
+
+        .form-control::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            font-size: 12px;
+        }
+
+        .form-control:-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            font-size: 12px;
+        }
+
+        .form-control:-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            font-size: 12px;
+        }
+
+        .form-group select {
+            width: 100%;
+            height: 30px;
+            flex: 1 1 auto;
+            border-radius: 3px;
+        }
+
+        /* -----头部样式 end -----*/
+
+        /* 表格样式 start */
+        .content {
+            width: 98%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding-bottom: 100px;
+        }
+
+
+        .content .top-btn {
+            margin-left: 1%;
+            visibility: hidden;
+        }
+
+        .content table {
+            width: 98%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .content table th {
+            text-align: center;
+        }
+
+        .content table tr:last-child {
+            border-bottom: 1px solid #ddd
+        }
+
+        /* 表格样式 end */
+    </style>
+</head>
+
+<body>
+    <div id="memberInfo">
+
+        <header>
+            <div class="row">
+                <div class="left col-lg-10 col-md-9 col-sm-8 col-xs-12">
+                    <form action="">
+                        <div class="form-inline">
+                            <!-- input -->
+                            <!-- <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                                <label for="memberID">会员账号</label>
+                                <input type="text" id="memberID" class="form-control" v-model='searchData.memberID'
+                                    placeholder="请输入">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6"  v-show="!ifShowMore">
+                                <label for="phoneNum">手机号</label>
+                                <input type="text" id="phoneNum" class="form-control" v-model='searchData.phoneNum'
+                                    placeholder="请输入">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                                <label for="patientName">患者姓名</label>
+                                <input type="text" id="patientName" class="form-control"
+                                    v-model='searchData.patientName' placeholder="请输入">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6" v-show="ifShowMore">
+                                <label for="IDcard">身份证</label>
+                                <input type="text" id="IDcard" class="form-control" v-model='searchData.IDcard'
+                                    placeholder="请输入">
+                            </div> -->
+
+                            <!-- option -->
+                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6" v-show="!ifShowMore">
+                                <label for="memberStatus">会员状态</label>
+                                <select name="memberStatus" id="memberStatus" v-model="searchData.memberStatus">
+                                    <option value="">全部</option>
+                                    <option value="1">正常</option>
+                                    <option value="2">冻结</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6" v-show="!ifShowMore">
+                                <label for="IDcard">身份证</label>
+                                <input type="text" id="IDcard" class="form-control" v-model='searchData.IDcard'
+                                    placeholder="请输入">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 按钮 -->
+                <div class="btnArea col-lg-2 col-md-3 col-sm-4 col-xs-12">
+                    <button type="button" id="searchAllBtn2" class="btn btn-primary" @click="searchAllItem">查询</button>
+                    <button type="button" id="clearAllBtn2" class="btn btn-default" @click="clearAllItem">清空</button>
+                    <span class="showMore blue" @click="ifShowMore = !ifShowMore" onselectstart="return false">
+                        <span v-show="ifShowMore">展开</span>
+                        <span v-show="!ifShowMore">收起</span>
+                    </span>
+                </div>
+            </div>
+
+        </header>
+    </div>
+
+    <!-- 表格部分 -->
+    <div class="content">
+        <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">导出</button>
+        <table class="table table-hover">
+            <tr class="bg-f4">
+                <th v-for="items in tableTitles">{{ items }}</th>
+                
+            </tr>
+            <tr v-for="item in tableData">
+                <td v-html="item.memberAccount"></td>
+                <td v-html="item.memberName"></td>
+                <td v-html="item.phoneNum"></td>
+                <td v-html="item.IDcardNum"></td>
+                <td v-html="item.realName"></td>
+                <td v-html="item.referee"></td>
+                <td v-html="item.menberGrade"></td>
+                <td v-html="item.isSalesman"></td>
+                <td v-html="item.memberStatus"></td>
+                <td v-html="item.registTime"></td>
+                <td>
+                    <span class="blue point-hand detail-btn">详情</span>
+                    <span style="color:#EBEBEB;"> | </span>
+                    <span class="blue point-hand detail-btn">编辑</span>
+                    <span style="color:#EBEBEB;"> | </span>
+                    <span class="blue point-hand confirm-btn">变更状态</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <!-- 模板弹出部分 -->
+    <!-- Modal -->
+
+
+    </div>
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+
+    <script>
+        // ----------------------------华丽丽的分割线---------------vue 部分---------------------
+        let memberInfo = new Vue({
+            el: '#memberInfo',
+            data: {
+                searchData: {   // 顶部查询参数
+                    memberID: '',
+                    patientName: '',
+                    IDcard: '',
+                    phoneNum: '',
+                    memberStatus: ''
+                },
+                ifShowMore: true,    // 展开收起
+                tableTitles: [
+                    '会员账号',
+                    '会员昵称',
+                    '手机号',
+                    '身份证号',
+                    '真实姓名',
+                    '推荐人账号',
+                    '会员等级',
+                    '是否为业务员',
+                    '会员状态',
+                    '注册时间',
+                    '操  作'
+                ],
+                tableData: [
+                    {
+                        memberAccount: 'xxxxx',
+                        memberName: 'xxxxxxxx',
+                        phoneNum: 'xx',
+                        IDcardNum: 'xx',
+                        realName: 'xx',
+                        referee: 'xx',
+                        menberGrade: 'xx',
+                        isSalesman: 'xx',
+                        memberStatus: 'xx',
+                        registTime: 'xx'
+                    },
+                ],
+            },
+            methods: {
+                searchAllItem() {
+                    // 获取input数据：
+                    // let searchData = this.searchData
+                    // var isEmpty = true
+
+                    // for (var key in this.searchData) {
+                    //     // 过滤验证：
+
+                    //     if (this.searchData[key] !== '') {
+                    //         isEmpty = false
+                    //         break
+                    //     }
+                    // }
+                    // if (isEmpty == true) {
+                    //     return
+                    // } else {
+                    //     console.log(11)
+
+                    // }
+                },
+                clearAllItem() {
+
+                    // 初始化头部内容
+                    for (let i in this.searchData) {
+                        this.searchData[i] = ''
+                    }
+                }
+            },
+
+            // 初始化渲染表格
+            created() {
+                // console.log(this.tableData)
+                axios({
+                    method: 'get',
+                    url: 'menberInfo.json'
+
+                }).then((result) => {
+                    console.log(result.data)
+                    this.tableData = result.data
+                })
+
+            },
+        })
+
+        // ----------------------------华丽丽的分割线---------------jQuery 部分------------------
+
+    </script>
+</body>
+
+</html>

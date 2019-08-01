@@ -31,10 +31,13 @@
   <input type="file" id="fileItem" accept="image/png, image/jpeg, image/gif, image/jpg">
   <div>
     <img id="show" src="" alt="">
+
+    <!-- 图片图裂不显示方式:不写alt属性 -->
   </div>
 
 
   <script type="text/javascript">
+function selectFilesKbb(inputID, imgID) {
 
     function selectFiles() {
       var fileInput = document.getElementById('fileItem');
@@ -53,7 +56,11 @@
       })
     }
 
-    document.querySelector("#fileItem").onchange = selectFiles;
+    document.querySelector("#" + inputID).onchange = selectFiles;
+  }
+
+
+  selectFilesKbb('fileItem', 'show')
   </script>
 
 

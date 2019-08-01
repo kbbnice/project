@@ -241,120 +241,7 @@
 
         <!-- 模板弹出部分 -->
         <!-- Modal -->
-        <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">健康体检订单详情</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="order-info" v-for="item in detailModalData">
-                            <p class="">订单信息</p>
-                            <p class="col-lg-1"></p>
-                            <div class="left col-lg-5">
-                                <div>
-                                    <span class="key">订单状态</span>:<span class="value">{{aaaa.orderStatus}}</span>
-                                </div>
-                                <div>
-                                    <span class="key">退款状态</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                            </div>
-                            <div class="left col-lg-5">
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="check-info">
-                            <p>体检信息</p>
-                            <p class="col-lg-1"></p>
-                            <div class="left col-lg-5">
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                            </div>
-                            <div class="left col-lg-5">
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="item-info">
-                            <p>项目信息</p>
-                            <p class="col-lg-1"></p>
-                            <div class="left col-lg-5">
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                            </div>
-                            <div class="left col-lg-5">
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                                <div>
-                                    <span class="key">xxx</span>:<span class="value">xxx</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="order-follow">
-                            <p>订单跟踪</p>
-                            <div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">确认订单</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">拒绝订单</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
 
     </div>
     <script src="js/jquery-1.12.4.js"></script>
@@ -453,28 +340,6 @@
                         orderTime: 'xx'
                     },
                 ],
-                aaaa:{
-                    orderStatus:"待平台确认",
-                    orderNo: '23461212155'
-                },
-                detailModalData: [
-                    {
-                        orderData: [
-                            {key: '', label: '订单状态', value: '待平台确认(团体)'},
-                            {key: '', label: '订单号', value: '66661234'},
-                            {key: '', label: '团体确认码', value: '100011234223'},
-                            {key: '', label: '退款状态', value: '退款申请中'},
-                            {key: '', label: '会员账号', value: '23421111'}
-                        ],
-                        checkData: [
-
-                        ],
-                        itemData: [
-
-                        ],
-
-                    }
-                ]
             },
             methods: {
                 searchAllItem() {
@@ -546,20 +411,6 @@
         })
 
         // ----------------------------华丽丽的分割线---------------jQuery 部分------------------
-
-        $(function () {
-
-
-
-            // 模态框弹出
-            $('body').on('click', '.detail-btn', function () {
-                $('#DetailModal').modal('show')
-                console.log(orderPage.tableData)
-            })
-        })
-
-
-
 
     </script>
 </body>

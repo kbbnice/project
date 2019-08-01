@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-    <title>团队确认码</title>
+    <title>体检项目</title>
 
     <style>
         * {
@@ -64,6 +64,7 @@
         .red {
             color: red;
         }
+
         .center {
             text-align: center;
         }
@@ -99,6 +100,10 @@
             font-size: 12px;
             margin-left: 10px;
             cursor: pointer;
+        }
+
+        .modal-dialog {
+            width: 50%;
         }
 
         /* 页面默认样式修改  end*/
@@ -207,11 +212,88 @@
             text-align: center;
             word-spacing: 40px;
         }
+
+        .add-item-part {
+            position: relative;
+            width: 100%;
+            margin: 10px 0 10px;
+            display: flex;
+            flex-flow: row;
+        }
+
+        .add-item-part .form-group {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .add-item-part .form-group:first-child {
+            padding-right: 20px;
+        }
+
+        .add-item-part .add-item-title {
+            display: inline-block;
+            width: 72px;
+            margin-right: 10px;
+        }
+
+        .cover-box {
+            background-color: #f2f2f2;
+            position: relative;
+            width: 88px;
+            height: 88px;
+            display: inline-block;
+            border: 1px dashed grey;
+            border-radius: 5px;
+        }
+
+        .cover-box .file-item {
+            position: absolute;
+            width: 88px;
+            height: 88px;
+            opacity: 0;
+            border: none;
+        }
+
+        .cover-box .show-img {
+            width: 88px;
+            height: 88px;
+        }
+
+        .add-icons {
+            position: relative;
+            display: inline-block;
+            width: 88px;
+            height: 88px;
+            text-align: center;
+            pointer-events: none;
+            color: #9e9e9e;
+        }
+
+        .add-icons span {
+            line-height: 50px;
+        }
+
+        .cover-info,
+        .add-item-info {
+            flex: 1 1 auto;
+        }
+
+        .cover-info p {
+            margin: 0;
+            padding: 0;
+            margin-left: 20px;
+            line-height: 18px;
+            color: #999999;
+        }
+
+        .text-part {
+            flex: 1 1 auto;
+        }
     </style>
 </head>
 
 <body>
-    <div id="groupCodePage">
+    <div id="checkItemPage">
 
         <header>
             <form action="">
@@ -222,7 +304,7 @@
                         <input type="text" class="form-control" v-model="item.value" :placeholder="item.placeholder">
                     </div>
 
-                    <!-- option -->
+                    <!-- op tion -->
                     <div :class="['form-group', colItem.headCol] " v-for="item in optionItems">
                         <label v-html="item.label + '：'"></label>
                         <select name="" v-model="item.value" :id="item.id">
@@ -247,20 +329,23 @@
 
         <!-- 表格部分 -->
         <div class="content">
-            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">新增机构</button>
+            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">新增项目</button>
             <table class="table table-hover">
                 <tr class="bg-f4">
                     <th v-for="item in tableTitles" v-html="item"></th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="item.id">
-                    <td v-for="list in item.data" v-html="list" ::key="list.confirmCode"></td>
+                    <td v-for="list in item.data" v-html="list" :key="list.confirmCode"></td>
                     <td>
-                        <span class="blue point-hand start-btn" @click="ifForbidChange(index)">
-                            <span v-if="item.ifForbid">启用</span>
-                            <span v-if="!item.ifForbid">禁用</span>
-                        </span>
+                        <span class="blue point-hand detail-btn">详情</span>
                         <span style="color:#EBEBEB;"> | </span>
-                        <span class="blue point-hand confirm-btn" @click="deleteData(index)">删除</span>
+                        <span class="blue point-hand slodout-btn" @click="slodoutData">下架 </span>
+                        <span style="color:#EBEBEB;">|</span>
+                        <span class="blue point-hand edit-btn" @click="editData"> 编辑 </span>
+                        <span style="color:#EBEBEB;">|</span>
+                        <span class="blue point-hand consumable-btn"> 耗材 </span>
+                        <span style="color:#EBEBEB;">|</span>
+                        <span class="blue point-hand delete-btn" @click="deleteData(index)">删除</span>
                     </td>
                 </tr>
             </table>
@@ -278,31 +363,132 @@
                         <h4 class="modal-title" id="myModalLabel">新增机构</h4>
                     </div>
                     <div class="modal-body form-inline">
-                        <div class="margin10"><span class="red">*</span>团体体检码 <span v-text="addGroupCode"></span></div>
-                        <div class="margin10 form-group margin-t30">
-                            <label for=""><span class="red">*</span>团队名称 </label>
-                            <input type="text" class="form-control" v-model="addGroupName" placeholder="请输入">
+                        <div class="add-item-part">
+                            <span class="add-item-title"><span class="red">*</span>产品封面：</span>
+                            <div id="coverBox" class="cover-box">
+                                <!-- 选择图片 -->
+                                <input type="file" id="fileItem" class="file-item">
+                                <div class="img">
+                                    <img :src="coverImgSrc" v-show="ifShowCover" id="showImg" class="show-img">
+                                </div>
+
+                                <!-- 若有图片则添加框隐藏 -->
+                                <span class="add-icons" v-if="!ifShowCover">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <p>上传</p>
+                                </span>
+                            </div>
+                            <div class="cover-info">
+                                <p>1. 封面必须上传示；</p>
+                                <p>2.只支持png，jpg，jpeg三种格式的图片；</p>
+                                <p>3. 建议上传1:1的图片，图片至少600*600，图片大小不超过1M。</p>
+                            </div>
                         </div>
-                        <div class="confrimInfo red center" v-if="ifEmpty">请输入正确团体名称!</div>
+                        <div class="add-item-part form-group">
+                            <label for="" class="add-item-title"><span class="red">*</span>产品名称：</label>
+                            <input type="text" class="form-control" placeholder="请输入" v-model="addData.name">
+                        </div>
+                        <div class="add-item-part">
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title"><span class="red">*</span>产品价格：</label>
+                                <input type="text" class="form-control" placeholder="请输入"
+                                    v-model="addData.productPrice">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                        class="red">*</span>市场价格：</label>
+                                <input type="text" class="form-control" placeholder="请输入" v-model="addData.marketPrice">
+                            </div>
+                        </div>
+                        <div class="add-item-part form-group">
+                            <label for="" class="add-item-title"><span class="red">*</span>产品简介：</label>
+                            <input type="text" class="form-control" placeholder="请输入" v-model="addData.description">
+                        </div>
+                        <div class="add-item-part form-inline selects-part">
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title"><span class="red">*</span>体检类型：</label>
+                                <select name="" id="" v-model="addData.checkType">
+                                    <option value="0">请选择</option>
+                                    <option value="1">检验</option>
+                                    <option value="2">体检</option>
+                                    <option value="3">PET-CT</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                        class="red">*</span>体检方式：</label>
+                                <select name="" id="" v-model="addData.checkWay">
+                                    <option value="0">请选择</option>
+                                    <option value="1">上门检验</option>
+                                    <option value="2">到店检验</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="add-item-part form-inline selects-part">
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;耗材包：</label>
+                                <select name="" id="" v-model="addData.consumable">
+                                    <option value="0">请选择</option>
+                                    <option value="1">xx</option>
+                                    <option value="2">xx</option>
+                                    <option value="3">xx</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title">&nbsp;&nbsp;图文报告费：</label>
+                                <input type="text" class="form-control" placeholder="请输入" v-model="addData.reportPrice">
+                                <span style="position: absolute;right: 10px; top: 7px;">元</span>
+                            </div>
+                        </div>
+                        <div class="add-item-part form-inline selects-part">
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title"><span class="red">*</span>分账模板：</label>
+                                <select name="" id="" v-model="addData.accountModel">
+                                    <option value="0">请选择</option>
+                                    <option value="1">xx</option>
+                                    <option value="2">xx</option>
+                                    <option value="3">xx</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="" class="add-item-title">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                        class="red">*</span>折扣模板：</label>
+                                <select name="" id="" v-model="addData.discountModel">
+                                    <option value="0">请选择</option>
+                                    <option value="1">xx</option>
+                                    <option value="2">xx</option>
+                                    <option value="3">xx</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="add-item-part">
+                            <span class="add-item-title"><span class="red">*</span>产品详情：</span>
+                            <div class="text-part">
+                                <!--  v-model="addData.details" -->
+                                xxxxxx
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-save">保存</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary btn-save" @click="addItemData();clearAddModal()">新增</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                            @click="clearAddModal();test()">取消</button>
                     </div>
                 </div>
             </div>
         </div>
 
+
     </div>
+    <script src="js/vue.js"></script>
     <script src="js/jquery-1.12.4.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
     <script src="js/axios.min.js"></script>
 
     <script>
         // ----------------------------华丽丽的分割线---------------vue 部分---------------------
-        let groupCodePage = new Vue({
-            el: '#groupCodePage',
+        let checkItemPage = new Vue({
+            el: '#checkItemPage',
             data: {
                 colItem: { // 
                     headCol: 'col-lg-2 col-md-3 col-sm-4 col-xs-6',
@@ -385,7 +571,23 @@
                 ],
                 addGroupCode: 1111111,  // 团体体检码
                 addGroupName: '',
-                ifEmpty: false
+                ifEmpty: false,
+                coverImgSrc: '',// 封面图片src
+                ifShowCover: false,
+                addData: {  // 添加模板信息
+                    name: '',
+                    productPrice: '',
+                    marketPrice: '',
+                    description: '',
+                    checkType: 0,
+                    checkWay: 0,
+                    consumable: 0,
+                    reportPrice: '',
+                    accountModel: 0,
+                    discountModel: 0,
+                    details: ''
+                }
+
             },
             methods: {
                 searchAllItem() {
@@ -426,29 +628,42 @@
                         element.value = '全部'
                     })
                 },
-                // 添加模块保存按钮
-                // saveAddInfo() {
-                //     let addGroupCode = this.addGroupCode
-                //     let addGroupName = this.addGroupName
-                //     axios({
-                //         method: 'get',
-                //         url: 'testgroup.json',
-                //         params: { addGroupCode, addGroupName }    // 解构赋值
-                //     }).then(result => {
-                //         console.log(result)
-                //     }).catch(error => {
-                //         console.log(error);
-
-                //     })
-                // }
                 deleteData(index) {
                     console.log(index)
                     this.tableData.splice(this.tableData.indexOf(index), 1)
                 },
-                ifForbidChange(index) {
+                slodoutData() {
+                    // 下架:
+                },
+                editData() {
+                    // 编辑
+                },
+                clearAddModal() {
 
-                    // 根据当前索引取得当前元素并改变元素:
-                    this.tableData[index].ifForbid = !this.tableData[index].ifForbid
+                },
+                clearAddModal() {
+                    this.coverImgSrc = ''
+                    this.ifShowCover = false
+                    this.addData = {  // 添加模板信息
+                        name: '',
+                        productPrice: '',
+                        marketPrice: '',
+                        description: '',
+                        checkType: 0,
+                        checkWay: 0,
+                        consumable: 0,
+                        reportPrice: '',
+                        accountModel: 0,
+                        discountModel: 0,
+                        details: ''
+                    }
+                },
+                test() {
+                    console.log('我是测试在同一个事件上绑定两个以上函数的测试')
+                },
+                // 新增按钮：
+                addItemData() {
+                    $('#addModal').modal('hide')
                 }
             },
 
@@ -463,11 +678,17 @@
                     console.log(result.data)
                     this.tableData = result.data
                 })
-
             },
         })
 
         // ----------------------------华丽丽的分割线---------------jQuery 部分------------------
+
+
+
+
+        // ----------------------------华丽丽的分割线---------------jQuery 部分------------------
+
+
 
         $(function () {
 
@@ -479,13 +700,13 @@
 
             // 保存按钮
             $('body').on('click', '.btn-save', function () {
-                let addGroupCode = groupCodePage.addGroupCode
-                let addGroupName = groupCodePage.addGroupName
+                let addGroupCode = checkItemPage.addGroupCode
+                let addGroupName = checkItemPage.addGroupName
                 if (addGroupName == '') {
                     console.log()
-                    groupCodePage.ifEmpty = true
+                    checkItemPage.ifEmpty = true
                 } else {
-                    groupCodePage.ifEmpty = false
+                    checkItemPage.ifEmpty = false
 
                     $.ajax({
                         data: { addGroupCode, addGroupName },
@@ -494,12 +715,53 @@
                             $('#addModal').modal('hide')
 
                             // 关闭后清空模态框内容
-                            groupCodePage.addGroupCode = '11'
-                            groupCodePage.addGroupName = ''
+                            checkItemPage.addGroupCode = '11'
+                            checkItemPage.addGroupName = ''
                         }
                     })
                 }
             })
+
+            // 选择图片
+            function selectFilesKbb(inputID, imgID) {
+
+                // 选取文件操作
+                function selectFile() {
+                    var fileInput = document.getElementById(inputID);
+
+                    // 获取文件对象
+                    var files = fileInput.files;
+                    var file = files.item(0);
+
+                    $.ajax({
+                        // url: 'test.json',
+                        // data: file,
+                        success: function (result) {
+
+                            // FileReader 构造函数：
+                            var reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.addEventListener('loadend', function (e) {
+
+                                // 渲染图片src:
+                                checkItemPage.coverImgSrc = e.target.result
+                                checkItemPage.ifShowCover = true
+                                // document.getElementById(imgID).src = e.target.result;
+                            })
+                        },
+                        error: function () {
+
+                        }
+                    })
+
+                }
+
+                document.querySelector("#" + inputID).onchange = selectFile;
+            }
+            selectFilesKbb('fileItem', 'showImg')
+
+            // 新增模块关闭按钮:
+
         })
 
 

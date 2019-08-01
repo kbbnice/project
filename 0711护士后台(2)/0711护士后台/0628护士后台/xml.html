@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 原生ajax请求
+        function kbbAjax(method, url, callback) {
+
+            var xmlhttp
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest()
+            } else {
+                xmlhttp = new ActiveXObject()
+            }
+
+            // 异步加载成功:
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    callback()
+                }
+            }
+
+            // 判断请求方式
+            if (method.toLowerCase() == 'get') {
+                // console.log(111)
+                xmlhttp.open('get', url + '?t=' + Math.random(), true)      // 加math.random为了避免使用缓存
+                xmlhttp.send()
+            } else if (method.toLowerCase() == 'post') {
+                xmlhttp.open('post', url, true)
+
+                // 如果是post要加上sendRequestHeader
+                xmlhttp.sendRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+                xmlhttp.send('fname=11&age=22')
+            } else {
+                console.log('根本就不是一个方法哎呀')
+            }
+        }
+
+        kbbAjax('get', 'test.json', function () {
+            console.log(1)
+        })
+    </script>
+</body>
+
+</html>
