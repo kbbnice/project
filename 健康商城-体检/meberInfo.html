@@ -26,6 +26,20 @@
 
         }
 
+        ul,
+        li {
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        label {
+            font-weight: 400;
+        }
+
         /* 公共样式 start */
         .margin10 {
             margin: 10px;
@@ -47,6 +61,29 @@
             content: ' ';
             display: block;
             clear: both;
+        }
+
+        .in-block {
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .block {
+            padding: 0 10px;
+        }
+
+        .editPadding {
+            padding: 4px;
+        }
+
+        .color-grey {
+            color: grey;
+            font-size: 12px;
+        }
+
+        .color-ffa733 {
+            color: #ffa733;
+            line-height: 14px;
         }
 
         /* 公共样式 end */
@@ -109,6 +146,7 @@
             display: flex;
             display: -webkit-flex;
             flex-flow: row;
+            margin: 5px 0;
         }
 
         .form-group label {
@@ -116,6 +154,7 @@
             font-weight: normal;
             line-height: 30px;
             white-space: nowrap;
+            text-align: right;
         }
 
         .form-group .form-control {
@@ -178,56 +217,187 @@
         }
 
         .content table tr:last-child {
-            border-bottom: 1px solid #ddd
+            border-bottom: 1px solid #ddd;
         }
 
         /* 表格样式 end */
+
+        /* 详情模态框 start */
+        .modal-dialog {
+            width: 60%;
+        }
+
+        #detailModal {
+            font-size: 12px;
+        }
+
+        .details-title {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .detail-info label {
+            width: 100px;
+            text-align: right;
+        }
+
+        .detail-info .head-img {
+            margin-bottom: 5px;
+        }
+
+        .detail-info .head-img img {
+            width: 60px;
+            height: 45px
+        }
+
+        .detail-info .info-item {
+            float: left;
+            width: 49%;
+            margin: 3px 0
+        }
+
+        .detail-info .info-group::after {
+            content: ' ';
+            display: block;
+            clear: both;
+        }
+
+        .other-group {
+            display: flex;
+            display: -webkit-flex;
+            flex-flow: row;
+            margin-top: 4px;
+        }
+
+        .other-group .other-group-list {
+            flex: 1 1 auto;
+        }
+
+        .other-group ul li {
+            list-style: decimal;
+            margin-left: 10px;
+        }
+
+        .other-group .other-group-list .name {
+            width: 70px;
+        }
+
+        .other-group .other-group-list .relation {
+            width: 60px;
+        }
+
+        .info-item {
+            height: 20px;
+        }
+
+        .info-item input {
+            height: 16px;
+            width: 100px;
+        }
+
+        .info-item input.IDcard-item {
+            width: 150px;
+        }
+
+        .info-item select {
+            margin: 0;
+            font-size: 12px;
+            height: 18px;
+            width: 100px;
+        }
+        
+        .edit-reason {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin: 0;
+            vertical-align: top;
+        }
+
+        /* 详情模态框 end */
+
+        /* 编辑模态框 start */
+        .edit-icon img {
+            width: 16px;
+            height: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            text-align: center;
+            word-spacing: 50px;
+        }
+
+        /* 变更状态模态框 */
+        #changeDetailModal .modal-dialog {
+            width: 30%;
+        }
+        #changeStatusModal .modal-dialog {
+            width: 30%;
+        }
+
+        .confirm-title {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* 编辑模态框 end */
     </style>
 </head>
 
 <body>
     <div id="memberInfo">
-
         <header>
             <div class="row">
                 <div class="left col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                    <form action="">
+                    <form>
                         <div class="form-inline">
                             <!-- input -->
-                            <!-- <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                                <label for="memberID">会员账号</label>
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label for="memberID">会员账号：</label>
                                 <input type="text" id="memberID" class="form-control" v-model='searchData.memberID'
                                     placeholder="请输入">
                             </div>
-                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6"  v-show="!ifShowMore">
-                                <label for="phoneNum">手机号</label>
-                                <input type="text" id="phoneNum" class="form-control" v-model='searchData.phoneNum'
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label for="menberName">会员姓名：</label>
+                                <input type="text" id="menberName" class="form-control" v-model='searchData.menberName'
                                     placeholder="请输入">
                             </div>
-                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                                <label for="patientName">患者姓名</label>
-                                <input type="text" id="patientName" class="form-control"
-                                    v-model='searchData.patientName' placeholder="请输入">
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label for="phoneNum">手机号：</label>
+                                <input type="text" id="phoneNum" class="form-control" maxlength="11"
+                                    v-model='searchData.phoneNum' @input="checkPhoneNum('searchData')"
+                                    placeholder="请输入">
                             </div>
-                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6" v-show="ifShowMore">
-                                <label for="IDcard">身份证</label>
+
+
+                            <!-- <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6" v-show="ifShowMore">
+                                <label for="IDcard">身份证：</label>
                                 <input type="text" id="IDcard" class="form-control" v-model='searchData.IDcard'
                                     placeholder="请输入">
                             </div> -->
-
-                            <!-- option -->
-                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6" v-show="!ifShowMore">
-                                <label for="memberStatus">会员状态</label>
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label for="memberStatus">会员状态：</label>
                                 <select name="memberStatus" id="memberStatus" v-model="searchData.memberStatus">
                                     <option value="">全部</option>
                                     <option value="1">正常</option>
                                     <option value="2">冻结</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6" v-show="!ifShowMore">
-                                <label for="IDcard">身份证</label>
-                                <input type="text" id="IDcard" class="form-control" v-model='searchData.IDcard'
-                                    placeholder="请输入">
+                            <!-- option -->
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6" v-show="!ifShowMore">
+                                <label for="IDcard">身份证：</label>
+                                <input type="text" id="IDcard" class="form-control" maxlength="18"
+                                    v-model='searchData.IDcard' placeholder="请输入" @input="checkIDNum('searchData')">
+                            </div>
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6" v-show="!ifShowMore">
+                                <label for="isSalesman">是否业务员：</label>
+                                <select name="isSalesman" id="memberStatus" v-model="searchData.isSalesman">
+                                    <option value="">全部</option>
+                                    <option value="1">智康一号店</option>
+                                    <option value="2">附属医院</option>
+                                </select>
                             </div>
                         </div>
                     </form>
@@ -236,52 +406,475 @@
                 <div class="btnArea col-lg-2 col-md-3 col-sm-4 col-xs-12">
                     <button type="button" id="searchAllBtn2" class="btn btn-primary" @click="searchAllItem">查询</button>
                     <button type="button" id="clearAllBtn2" class="btn btn-default" @click="clearAllItem">清空</button>
-                    <span class="showMore blue" @click="ifShowMore = !ifShowMore" onselectstart="return false">
+                    <span class="showMore blue" @click="ifShowMoreBtn" onselectstart="return false">
                         <span v-show="ifShowMore">展开</span>
                         <span v-show="!ifShowMore">收起</span>
                     </span>
                 </div>
             </div>
-
         </header>
+
+
+        <!-- 表格部分 -->
+        <div class="content">
+            <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">导出</button>
+            <table class="table table-hover">
+                <tr class="bg-f4">
+                    <th v-for="items in tableTitles">{{ items }}</th>
+
+                </tr>
+                <tr v-for="item in tableData">
+                    <td v-html="item.account"></td>
+                    <td v-html="item.nickname"></td>
+                    <td v-html="item.phoneNum"></td>
+                    <td v-html="item.IDcard"></td>
+                    <td v-html="item.realName"></td>
+                    <td v-html="item.referee"></td>
+                    <td v-html="item.grade"></td>
+                    <td v-html="item.isSalesman"></td>
+                    <td v-html="item.memberStatus"></td>
+                    <td v-html="item.registTime"></td>
+                    <td onselectstart="return false">
+                        <span class="blue point-hand detail-btn" @click="detailModalShow(item)">详情</span>
+                        <span style="color:#EBEBEB;"> | </span>
+                        <span class="blue point-hand edit-btn" @click="editModalShow(item)">编辑</span>
+                        <span style="color:#EBEBEB;"> | </span>
+                        <span class="blue point-hand changeStatus-btn" @click="changeStatusShow(item)">变更状态</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!-- 模板弹出部分 -->
+        <!-- 详情模板 -->
+        <div class="modal fade" id="detailModal" class="detail-modal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="memberInfoDetail">会员信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="details-title">基本信息</p>
+                        <!-- 基本信息 -->
+                        <div class="detail-info basic-info">
+                            <div class="head-img">
+                                <label>会员头像：</label>
+                                <img :src="tableModalItem.headImgSrc" alt="头像">
+                            </div>
+                            <div class="info-group basic-info-group">
+                                <div class="info-item basic-info-item">
+                                    <label>会员账号：</label>
+                                    <span v-text="tableModalItem.account"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>会员状态：</label>
+                                    <span v-text="tableModalItem.memberStatus"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>会员昵称：</label>
+                                    <span v-text="tableModalItem.nickname"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>手机号：</label>
+                                    <span v-text="tableModalItem.phoneNum"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>身份证号：</label>
+                                    <span v-text="tableModalItem.IDcard"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>真实姓名：</label>
+                                    <span v-text="tableModalItem.realName"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>性别：</label>
+                                    <span v-text="tableModalItem.gender"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>年龄：</label>
+                                    <span v-text="tableModalItem.age"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>等级：</label>
+                                    <span v-text="tableModalItem.grade"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="details-title">账户信息</p>
+                        <div class="detail-info account-info">
+                            <div class="info-group account-info-group">
+                                <div class="info-item account-info-item">
+                                    <label>现金余额(元)：</label>
+                                    <span v-text="tableModalItem.cashReserve"></span>
+                                </div>
+                                <div class="info-item account-info-item">
+                                    <label>推荐收益(元)：</label>
+                                    <span v-text="tableModalItem.recommendEarning"></span>
+                                </div>
+                                <div class="info-item account-info-item">
+                                    <label>当前积分(个)：</label>
+                                    <span v-text="tableModalItem.currentCredit"></span>
+                                </div>
+                                <div class="info-item account-info-item">
+                                    <label>总获得积分(个)：</label>
+                                    <span v-text="tableModalItem.totalCredit"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="details-title">其他信息</p>
+                        <div class="detail-info other-info">
+                            <div class="info-group other-info-group">
+                                <div class="info-item other-info-item">
+                                    <label>是否为业务员：</label>
+                                    <span v-text="tableModalItem.isSalesman"></span>
+                                </div>
+                                <div class="info-item other-info-item">
+                                    <label>我的推荐人账号：</label>
+                                    <span v-text="tableModalItem.refereeAccount"></span>
+                                </div>
+                                <div class="info-item other-info-item">
+                                    <label>是否为医生：</label>
+                                    <span v-text="tableModalItem.isDoctor"></span>
+                                </div>
+                                <div class="info-item other-info-item">
+                                    <label>是否为护士：</label>
+                                    <span v-text="tableModalItem.isNurse"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-info other-info">
+                            <div class="info-group other-info-group">
+                                <div class="other-group">
+                                    <label>患者管理：</label>
+                                    <div class="other-group-list">
+                                        <p>&nbsp;</p>
+                                        <ul>
+                                            <li v-for="item in patientSettings">
+                                                <div class="in-block name" v-text="item.name">咚咚咚</div>
+                                                <div class="in-block" v-text="item.relation">儿子</div>
+                                                <div class="in-block IDcard" v-text="item.IDcard">350350199910101010
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-info other-info">
+                            <div class="info-group other-info-group">
+                                <div class="other-group">
+                                    <label>地址管理：</label>
+                                    <div class="other-group-list">
+                                        <p>&nbsp;</p>
+                                        <ul>
+                                            <li v-for="item in addressSettings">
+                                                <div class="in-block name" v-text="item.name">咚咚咚</div>
+                                                <div class="in-block relation" v-text="item.phoneNum">13600000000</div>
+                                                <div class="block" v-text="item.address">我家住在东北的松花江上，那里有鲍鱼小龙虾，还有椒盐猪蹄膀子
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div> -->
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- 编辑模板 start -->
+        <div class="modal fade" id="editModal" class="edit-modal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="memberInfoEdit">会员信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="details-title">基本信息</p>
+                        <!-- 基本信息 -->
+                        <div class="detail-info basic-info">
+                            <div class="head-img">
+                                <label>会员头像：</label>
+                                <img :src="tableModalItem.headImgSrc" alt="头像">
+                            </div>
+                            <div class="info-group basic-info-group">
+                                <div class="info-item basic-info-item">
+                                    <label>会员账号：</label>
+                                    <span v-text="tableModalItem.account"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>会员状态：</label>
+                                    <span v-text="accountInfoItem.memberStatus"
+                                        v-show="!editableData.statusEditble"></span>
+                                    <select name="memberStatusSel" id="memberStatusSel"
+                                        v-model="accountInfoItem.memberStatus" v-show="editableData.statusEditble"
+                                        v-focus="!editableData.statusEditble" @blur="blurItem('statusEditble')"
+                                        @keyup.13="blurItem('statusEditble')">
+                                        <option value="正常">正常</option>
+                                        <option value="冻结">冻结</option>
+                                    </select>
+                                    <!-- <input type="text" v-model="tableModalItem.memberStatus"
+                                        v-show="editableData.statusEditble" v-focus="!editableData.statusEditble"
+                                        @blur="blurItem('statusEditble')" @keyup.13="blurItem('statusEditble')"> -->
+                                    <span class="edit-icon">
+                                        <img src="imgs/edit.png" alt="编辑" @click="editItem('statusEditble')"
+                                            v-show="!editableData.statusEditble">
+                                        <img src="imgs/finish.png" alt="编辑" @click="editItem('statusEditble')"
+                                            v-show="editableData.statusEditble">
+                                    </span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>会员昵称：</label>
+                                    <span v-text="tableModalItem.nickname"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>手机号：</label>
+                                    <span v-text="accountInfoItem.phoneNum" v-show="!editableData.phoneEditble"></span>
+                                    <input type="text" v-model="accountInfoItem.phoneNum" maxlength="11"
+                                        v-show="editableData.phoneEditble" v-focus="!editableData.phoneEditble"
+                                        @blur="blurItem('phoneEditble')" @keyup.13="blurItem('phoneEditble')"
+                                        @input="checkPhoneNum('accountInfoItem')">
+                                    <span class="edit-icon">
+                                        <img src="imgs/edit.png" alt="编辑" @click="editItem('phoneEditble')"
+                                            v-show="!editableData.phoneEditble">
+                                        <img src="imgs/finish.png" alt="编辑" @click="editItem('phoneEditble')"
+                                            v-show="editableData.phoneEditble">
+                                    </span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>身份证号：</label>
+                                    <span v-text="accountInfoItem.IDcard" v-show="!editableData.IDcardEditble"></span>
+                                    <input type="text" class="IDcard-item" v-model="accountInfoItem.IDcard"
+                                        maxlength="18" v-show="editableData.IDcardEditble"
+                                        v-focus="!editableData.IDcardEditble" @blur="blurItem('IDcardEditble')"
+                                        @keyup.13="blurItem('IDcardEditble')" @input="checkIDNum('accountInfoItem')">
+                                    <span class="edit-icon">
+                                        <img src="imgs/edit.png" alt="编辑" @click="editItem('IDcardEditble')"
+                                            v-show="!editableData.IDcardEditble">
+                                        <img src="imgs/finish.png" alt="编辑" @click="editItem('IDcardEditble')"
+                                            v-show="editableData.IDcardEditble">
+                                    </span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>真实姓名：</label>
+                                    <span v-text="tableModalItem.realName"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>性别：</label>
+                                    <span v-text="tableModalItem.gender"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>年龄：</label>
+                                    <span v-text="tableModalItem.age"></span>
+                                </div>
+                                <div class="info-item basic-info-item">
+                                    <label>等级：</label>
+                                    <span v-text="tableModalItem.grade"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 账户信息 -->
+                        <p class="details-title">账户信息</p>
+                        <div class="detail-info account-info">
+                            <div class="info-group account-info-group">
+                                <div class="info-item account-info-item">
+                                    <label>现金余额(元)：</label>
+                                    <span v-text="tableModalItem.cashReserve"></span>
+                                </div>
+                                <div class="info-item account-info-item">
+                                    <label>推荐收益(元)：</label>
+                                    <span v-text="tableModalItem.recommendEarning"></span>
+                                </div>
+                                <div class="info-item account-info-item">
+                                    <label>当前积分(个)：</label>
+                                    <span v-text="tableModalItem.currentCredit"></span>
+                                </div>
+                                <div class="info-item account-info-item">
+                                    <label>总获得积分(个)：</label>
+                                    <span v-text="tableModalItem.totalCredit"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 其他信息 -->
+                        <p class="details-title">其他信息</p>
+                        <div class="detail-info other-info">
+                            <div class="info-group other-info-group">
+                                <div class="info-item other-info-item">
+                                    <label>是否为业务员：</label>
+                                    <span v-text="accountInfoItem.isSalesman"
+                                        v-show="!editableData.isSalesmanEditble"></span>
+                                    <select name="isSalesmanSel" id="isSalesmanSel" v-model="accountInfoItem.isSalesman"
+                                        v-show="editableData.isSalesmanEditble"
+                                        v-focus="!editableData.isSalesmanEditble" @blur="blurItem('isSalesmanEditble')"
+                                        @keyup.13="blurItem('isSalesmanEditble')">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                    <!-- <input type="text" v-model="tableModalItem.isSalesman"
+                                        v-show="editableData.isSalesmanEditble"
+                                        v-focus="!editableData.isSalesmanEditble" @blur="blurItem('isSalesmanEditble')"
+                                        @keyup.13="blurItem('isSalesmanEditble')"> -->
+                                    <span class="edit-icon">
+                                        <img src="imgs/edit.png" alt="编辑" @click="editItem('isSalesmanEditble')"
+                                            v-show="!editableData.isSalesmanEditble">
+                                        <img src="imgs/finish.png" alt="编辑" @click="editItem('isSalesmanEditble')"
+                                            v-show="editableData.isSalesmanEditble">
+                                    </span>
+                                </div>
+                                <div class="info-item other-info-item">
+                                    <label>我的推荐人账号：</label>
+                                    <span v-text="accountInfoItem.refereeAccount"
+                                        v-show="!editableData.refereeAccountEditble"></span>
+                                    <input type="text" v-model="accountInfoItem.refereeAccount"
+                                        v-show="editableData.refereeAccountEditble"
+                                        v-focus="!editableData.refereeAccountEditble"
+                                        @blur="blurItem('refereeAccountEditble')"
+                                        @keyup.13="blurItem('refereeAccountEditble')">
+                                    <span class="edit-icon">
+                                        <img src="imgs/edit.png" alt="编辑" @click="editItem('refereeAccountEditble')"
+                                            v-show="!editableData.refereeAccountEditble">
+                                        <img src="imgs/finish.png" alt="编辑" @click="editItem('refereeAccountEditble')"
+                                            v-show="editableData.refereeAccountEditble">
+                                    </span>
+                                </div>
+                                <div class="info-item other-info-item">
+                                    <label>是否为医生：</label>
+                                    <span v-text="tableModalItem.isDoctor"></span>
+                                </div>
+                                <div class="info-item other-info-item">
+                                    <label>是否为护士：</label>
+                                    <span v-text="tableModalItem.isNurse"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-info other-info">
+                            <div class="info-group other-info-group">
+                                <div class="other-group">
+                                    <label>患者管理：</label>
+                                    <div class="other-group-list">
+                                        <p>&nbsp;</p>
+                                        <ul>
+                                            <li v-for="item in patientSettings">
+                                                <div class="in-block name" v-html="item.name"></div>
+                                                <div class="in-block" v-html="item.relation">儿子</div>
+                                                <div class="in-block IDcard" v-html="item.IDcard">350350199910101010
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-info other-info">
+                            <div class="info-group other-info-group">
+                                <div class="other-group">
+                                    <label>地址管理：</label>
+                                    <div class="other-group-list">
+                                        <p>&nbsp;</p>
+                                        <ul>
+                                            <li v-for="item in addressSettings">
+                                                <div class="in-block name" v-html="item.name"></div>
+                                                <div class="in-block relation" v-html="item.phoneNum">13600000000</div>
+                                                <div class="block" v-html="item.address">我家住在东北的松花江上，那里有鲍鱼小龙虾，还有椒盐猪蹄膀子
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- modal body end -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="comfirmModalShow">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 编辑模板 end -->
+
+        <!-- 编辑确认保存模板 start -->
+        <div class="modal fade" id="changeDetailModal" class="edit-modal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="changeDetail">确认修改会员信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="confirm-title " v-show="isNormal">
+                            <p><span class="glyphicon glyphicon-exclamation-sign color-ffa733"></span> 您确认要修改会员信息吗？</p>
+                            <input type="text" class="edit-reason" placeholder="请输入修改说明" v-model="editReason">
+                        </div>
+                    </div>
+                    <!-- modal body end -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="accountInfoSave">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 编辑确认保存模板 end -->
+
+        <!-- 变更状态模板 start -->
+        <div class="modal fade" id="changeStatusModal" class="edit-modal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="changeStatus">变更状态</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="confirm-title " v-show="isNormal">
+                            <p><span class="glyphicon glyphicon-exclamation-sign color-ffa733"></span> 您确认要冻结该会员吗？</p>
+                            <p class="color-grey">冻结后将无法登陆平台</p>
+                        </div>
+                        <div class="confirm-title " v-show="!isNormal">
+                            <p><span class="glyphicon glyphicon-exclamation-sign color-ffa733"></span> 您确认将该会员状态恢复正常吗？
+                            </p>
+                            <p class="color-grey">恢复后该会员可正常登陆平台</p>
+                        </div>
+
+                    </div>
+                    <!-- modal body end -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="changeStatusSave">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 变更状态模板 end -->
+
+
+
     </div>
 
-    <!-- 表格部分 -->
-    <div class="content">
-        <button type="button" id="outputBtn" class="btn btn-primary margin10 top-btn">导出</button>
-        <table class="table table-hover">
-            <tr class="bg-f4">
-                <th v-for="items in tableTitles">{{ items }}</th>
-                
-            </tr>
-            <tr v-for="item in tableData">
-                <td v-html="item.memberAccount"></td>
-                <td v-html="item.memberName"></td>
-                <td v-html="item.phoneNum"></td>
-                <td v-html="item.IDcardNum"></td>
-                <td v-html="item.realName"></td>
-                <td v-html="item.referee"></td>
-                <td v-html="item.menberGrade"></td>
-                <td v-html="item.isSalesman"></td>
-                <td v-html="item.memberStatus"></td>
-                <td v-html="item.registTime"></td>
-                <td>
-                    <span class="blue point-hand detail-btn">详情</span>
-                    <span style="color:#EBEBEB;"> | </span>
-                    <span class="blue point-hand detail-btn">编辑</span>
-                    <span style="color:#EBEBEB;"> | </span>
-                    <span class="blue point-hand confirm-btn">变更状态</span>
-                </td>
-            </tr>
-        </table>
-    </div>
 
-
-    <!-- 模板弹出部分 -->
-    <!-- Modal -->
-
-
-    </div>
     <script src="js/jquery-1.12.4.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/vue.js"></script>
@@ -289,15 +882,25 @@
 
     <script>
         // ----------------------------华丽丽的分割线---------------vue 部分---------------------
+        // 注册一个全局自定义指令 `v-focus`
+        Vue.directive('focus', {
+            // 当被绑定的元素更新……
+            update: function (el) {
+                // 聚焦元素
+                el.focus()
+            }
+        })
+
         let memberInfo = new Vue({
             el: '#memberInfo',
             data: {
                 searchData: {   // 顶部查询参数
                     memberID: '',
-                    patientName: '',
+                    menberName: '',
                     IDcard: '',
                     phoneNum: '',
-                    memberStatus: ''
+                    memberStatus: '',
+                    isSalesman: ''
                 },
                 ifShowMore: true,    // 展开收起
                 tableTitles: [
@@ -315,62 +918,233 @@
                 ],
                 tableData: [
                     {
-                        memberAccount: 'xxxxx',
-                        memberName: 'xxxxxxxx',
+                        account: 'xxxxx',
+                        nickname: 'xxxxxxxx',
                         phoneNum: 'xx',
-                        IDcardNum: 'xx',
+                        IDcard: 'xx',
                         realName: 'xx',
                         referee: 'xx',
-                        menberGrade: 'xx',
+                        grade: 'xx',
                         isSalesman: 'xx',
-                        memberStatus: 'xx',
-                        registTime: 'xx'
+                        memberStatus: '冻结',
+                        registTime: 'xx',
+                        age: 12,
+                        headImgSrc: 'imgs/head-icon.png',
+                        realName: 'xx',
+                        gender: 'xx',
+                        cashReserve: 'xxxxx',               // 现金余额
+                        recommendEarning: 'xxx',            // 推荐收益
+                        currentCredit: '当前积分',          // 当前积分
+                        totalCredit: 'xx',                  // 总积分
+                        isSalesman: '是',                  // 是否业务员
+                        refereeAccount: '13131313',         // 推荐人账号
+                        isDoctor: '是',                     // 是否医生
+                        isNurse: '是'                       // 是否护士
                     },
+                    {
+                        account: '423',
+                        nickname: '三狗子',
+                        phoneNum: '13055699880',
+                        IDcard: '350xxx19981003xxxx',
+                        realName: 'xx',
+                        referee: 'xx',
+                        grade: 'xx',
+                        isSalesman: 'xx',
+                        memberStatus: '冻结',
+                        registTime: 'xx',
+                        age: 12,
+                        headImgSrc: 'imgs/head-icon.png',
+                        realName: 'xx',
+                        gender: 'xx',
+                        cashReserve: 'xxxxx',               // 现金余额
+                        recommendEarning: 'xxx',            // 推荐收益
+                        currentCredit: '当前积分',          // 当前积分
+                        totalCredit: 'xx',                  // 总积分
+                        isSalesman: '是',                  // 是否业务员
+                        refereeAccount: '13131313',         // 推荐人账号
+                        isDoctor: '是',                     // 是否医生
+                        isNurse: '是'                       // 是否护士
+                    }
                 ],
+                editableData: { // 编辑状态判断
+                    statusEditble: false,
+                    phoneEditble: false,
+                    IDcardEditble: false,
+                    isSalesmanEditble: false,
+                    refereeAccountEditble: false
+                },
+                patientSettings: [
+                    { name: '小明', relation: '父亲', IDcard: '350322100000000000' },
+                    { name: '小明', relation: '父亲', IDcard: '350322100000000000' },
+                    { name: '小明', relation: '父亲', IDcard: '350322100000000000' },
+                    { name: '小明', relation: '父亲', IDcard: '350322100000000000' }
+                ],
+                addressSettings: [
+                    { name: '小明xx', phoneNum: 13600000000, address: '1我家住在东北的松花江上，那里有鲍鱼小龙虾，还有椒盐猪蹄膀子' },
+                    { name: '小明', phoneNum: 13600000000, address: '我家住在东北的松花江上，那里有鲍鱼小龙虾，还有椒盐猪蹄膀子' },
+                    { name: '小明', phoneNum: 13600000000, address: '我家住在东北的松花江上，那里有鲍鱼小龙虾，还有椒盐猪蹄膀子' },
+                    { name: '小明', phoneNum: 13600000000, address: '我家住在东北的松花江上，那里有鲍鱼小龙虾，还有椒盐猪蹄膀子' }
+                ],
+                editReason: '',     // 修改说明
+                isNormal: true,     // 会员状态是否正常或冻结
+                tableModalItem: {
+                    account: 'xxxxx',
+                    nickname: 'xxxxxxxx',
+                    phoneNum: 'xx',
+                    IDcard: 'xx',
+                    realName: 'xx',
+                    referee: 'xx',
+                    grade: 'xx',
+                    isSalesman: 'xx',
+                    memberStatus: '冻结',
+                    registTime: 'xx',
+                    age: 12,
+                    headImgSrc: 'imgs/head-icon.png',
+                    realName: 'xx',
+                    gender: 'xx',
+                    cashReserve: 'xxxxx',        // 现金余额
+                    recommendEarning: 'xxx',     // 推荐收益
+                    currentCredit: '当前积分',   // 当前积分
+                    totalCredit: 'xx',           // 总积分
+                    isSalesman: '是',                // 是否业务员
+                    refereeAccount: '13131313',      // 推荐人账号
+                    isDoctor: '是',                  // 是否医生
+                    isNurse: '是'                   // 是否护士
+
+                },
+                statusSaveItem: '',
+                accountInfoItem: {
+                    memberStatus: '',
+                    phoneNum: '',
+                    IDcard: '',
+                    isSalesman: '',
+                    refereeAccount: ''
+                }
             },
             methods: {
-                searchAllItem() {
-                    // 获取input数据：
-                    // let searchData = this.searchData
-                    // var isEmpty = true
 
-                    // for (var key in this.searchData) {
-                    //     // 过滤验证：
-
-                    //     if (this.searchData[key] !== '') {
-                    //         isEmpty = false
-                    //         break
-                    //     }
-                    // }
-                    // if (isEmpty == true) {
-                    //     return
-                    // } else {
-                    //     console.log(11)
-
-                    // }
+                // 验证手机号
+                checkPhoneNum(params) {
+                    let reg = /[^0-9]+/
+                    let str = this[params].phoneNum
+                    let phoneNum = str.replace(reg, '')
+                    this[params].phoneNum = phoneNum
                 },
+
+                // 验证身份证
+                checkIDNum(params) {
+                    let lastStr = ''
+                    if (this[params].IDcard.length <= 17) {
+                        let reg = /[^0-9]+/
+                        let str = this[params].IDcard
+                        preStr = str.replace(reg, '')
+                    }
+                    if (this[params].IDcard.length == 18) {
+                        let reg2 = /[^0-9,^X]/
+                        lastStr = this[params].IDcard.charAt(17).replace(reg2, 'X')
+                    }
+                    this[params].IDcard = preStr + lastStr
+                },
+
+                // 顶部展示、收起更多
+                ifShowMoreBtn() {
+                    this.ifShowMore = !this.ifShowMore
+                    if (this.ifShowMore == false) {
+                        this.searchData.IDcard = '',
+                            this.searchData.isSalesman = ''
+                    }
+                },
+
+                // 顶部查询按钮
+                searchAllItem() {
+                    console.log(this.searchData)
+                },
+
+                // 顶部重置按钮
                 clearAllItem() {
 
                     // 初始化头部内容
                     for (let i in this.searchData) {
                         this.searchData[i] = ''
                     }
+                },
+
+                // 详情模板
+                detailModalShow(params) {
+                    $('#detailModal').modal('show')
+                    this.tableModalItem = params
+                },
+
+                // 编辑模板
+                editModalShow(params) {
+                    $('#editModal').modal('show')
+                    this.tableModalItem = params
+                    for (let key in this.accountInfoItem) {
+                        this.accountInfoItem[key] = params[key]
+                    }
+                },
+
+                // 编辑功能：
+                editItem(params) {
+                    for (var key in this.editableData) {
+                        if (key !== params) {
+                            this.editableData[key] = false
+                        }
+                    }
+                    this.editableData[params] = !this.editableData[params]
+                },
+
+                // 编辑框失去焦点时完成编辑
+                blurItem(params) {
+                    this.editableData[params] = false
+                },
+
+                // 跳转保存按钮
+                comfirmModalShow() {
+                    $('#changeDetailModal').modal('show')
+                    $('#editModal').modal('hide')
+                },
+
+                // 账户信息保存
+                accountInfoSave() {
+                    for (let key in this.accountInfoItem) {
+                        this.tableModalItem[key] = this.accountInfoItem[key]
+                    }
+                    $('#changeDetailModal').modal('hide')
+                    console.log(1)
+                },
+                // 变更状态模板：
+                changeStatusShow(params) {
+                    this.statusSaveItem = params
+                    if (params.memberStatus == '正常') {
+                        this.isNormal = true
+                    } else {
+                        this.isNormal = false
+                    }
+                    $('#changeStatusModal').modal('show')
+                },
+                changeStatusSave() {
+                    this.statusSaveItem.memberStatus == '冻结' ? this.statusSaveItem.memberStatus = '正常' : this.statusSaveItem.memberStatus = '冻结'
+
+                    // ajax上传数据
+
+                    // 关闭模态框
+                    $('#changeStatusModal').modal('hide')
                 }
             },
 
-            // 初始化渲染表格
-            created() {
-                // console.log(this.tableData)
-                axios({
-                    method: 'get',
-                    url: 'menberInfo.json'
+            // 初始化页面表格
+            // created() {
+            //     console.log(this.tableData)
+            //     axios({
+            //         method: 'get',
+            //         url: 'menberInfo.json'
 
-                }).then((result) => {
-                    console.log(result.data)
-                    this.tableData = result.data
-                })
+            //     }).then((result) => {
+            //         this.tableData = result.data
+            //     })
 
-            },
+            // },
         })
 
         // ----------------------------华丽丽的分割线---------------jQuery 部分------------------
