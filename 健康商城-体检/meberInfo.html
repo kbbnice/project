@@ -305,7 +305,7 @@
             height: 18px;
             width: 100px;
         }
-        
+
         .edit-reason {
             width: 100%;
             height: 100px;
@@ -333,6 +333,7 @@
         #changeDetailModal .modal-dialog {
             width: 30%;
         }
+
         #changeStatusModal .modal-dialog {
             width: 30%;
         }
@@ -831,7 +832,8 @@
                     <!-- modal body end -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" @click="accountInfoSave">确定</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                            @click="backToEditModal">取消</button>
                     </div>
                 </div>
             </div>
@@ -1054,7 +1056,6 @@
                             this.searchData.isSalesman = ''
                     }
                 },
-
                 // 顶部查询按钮
                 searchAllItem() {
                     console.log(this.searchData)
@@ -1099,10 +1100,12 @@
                     this.editableData[params] = false
                 },
 
-                // 跳转保存按钮
+                // 确认修改框
                 comfirmModalShow() {
                     $('#changeDetailModal').modal('show')
-                    $('#editModal').modal('hide')
+                    // $('#editModal').modal('hide')
+
+
                 },
 
                 // 账户信息保存
@@ -1110,9 +1113,25 @@
                     for (let key in this.accountInfoItem) {
                         this.tableModalItem[key] = this.accountInfoItem[key]
                     }
+                    $('#editModal').modal('hide')
                     $('#changeDetailModal').modal('hide')
-                    console.log(1)
+                    $('#changeDetailModal').on('hidden.bs.modal', function () {
+                        document.getElementsByTagName('body')[0].className = 'modal-open'
+                    });
+
+                    this.editReason = ''
                 },
+
+                // 取消回到编辑模板
+                backToEditModal() {
+                    $('#editModal').modal('show')
+                    $('#changeDetailModal').on('hidden.bs.modal', function () {
+                        document.getElementsByTagName('body')[0].className = 'modal-open'
+                    })
+                    this.editReason = ''
+                },
+
+
                 // 变更状态模板：
                 changeStatusShow(params) {
                     this.statusSaveItem = params

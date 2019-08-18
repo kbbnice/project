@@ -1,0 +1,39 @@
+[
+    {
+        "memberAccount": "xx",
+        "memberName": "xx",
+        "phoneNum": "xx",
+        "IDcardNum": "xx",
+        "realName": "xx",
+        "referee": "xx",
+        "menberGrade": "xxxxxxx",
+        "isSalesman": "xx",
+        "memberStatus": "正常",
+        "registTime": "xx"
+        
+    },
+    {
+        "memberAccount": "xx",
+        "memberName": "xx",
+        "phoneNum": "xx",
+        "IDcardNum": "xx",
+        "realName": "xx",
+        "referee": "xx",
+        "menberGrade": "xx",
+        "isSalesman": "xx",
+        "memberStatus": "冻结",
+        "registTime": "xx"
+    },
+    {
+        "memberAccount": "xx",
+        "memberName": "xx",
+        "phoneNum": "xx",
+        "IDcardNum": "xx",
+        "realName": "xx",
+        "referee": "xx",
+        "menberGrade": "xx",
+        "isSalesman": "xx",
+        "memberStatus": "正常",
+        "registTime": "xx"
+    }
+]

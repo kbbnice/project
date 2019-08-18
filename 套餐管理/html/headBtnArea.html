@@ -1,0 +1,17 @@
+
+<!-- 查询按钮区域 -->
+<div class="btnArea col-lg-2 col-md-3 col-sm-4 col-xs-12">
+    <button type="button" id="searchAllBtn2" class="btn btn-primary" @click="searchAllItem">查询</button>
+    <button type="button" id="clearAllBtn2" class="btn btn-default" @click="clearAllItem">清空</button>
+    <span class="showMore blue" @click="ifShowMoreBtn" onselectstart="return false">
+        <span v-show="ifShowMore">展开</span>
+        <span v-show="!ifShowMore">收起</span>
+    </span>
+</div>
+
+<!-- input输入框 -->
+<div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-6">
+        <label for="">：</label>
+        <input type="text" id="" class="form-control" v-model='searchData.packageID'
+            placeholder="请输入">
+    </div>

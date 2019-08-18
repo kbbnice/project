@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var str = "a:1,b:2, c:3"
+        // 要求: 将这个字符串改成 "a:2, b:1"
+        // 扩展: 
+        // var str2 = "a:1, b:2, c:3, d:4"
+        // str2 = "a: 2, b: 3, c: 4, d: 1"
+        
+        var arr = str.split(',')
+        console.log(arr)
+
+        var keys = []
+        var values = []
+        var obj = {}
+
+        for(let i = 0; i < arr.length; i++) {
+            keys[keys.length] = arr[i].split(':')[0]
+            values[values.length] = arr[i].split(':')[1]
+        }
+
+        for(let i = 0; i < arr.length; i++) {
+            i < arr.length - 1 ? obj[keys[i]] = values[i + 1] : obj[keys[i]] = values[0]
+        }
+        console.log(obj)
+
+        var result = ''
+        for(let key in obj) {
+            result = result + key + ':' + obj[key] + ','
+        }
+        
+        console.log(result.substring(0, result.length - 1))
+
+
+        
+    </script>
+</body>
+</html>
